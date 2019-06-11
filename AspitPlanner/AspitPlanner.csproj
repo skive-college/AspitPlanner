@@ -81,7 +81,7 @@
     <Compile Include="GUI\TypeAdmin.xaml.cs">
       <DependentUpon>TypeAdmin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers2\DbCon.cs" />
+    <Compile Include="Helpers\DbCon.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
