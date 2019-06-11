@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace AspitPlanner.GUI
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for TypeAdmin.xaml
     /// </summary>
-    public partial class RegistreringsGui : UserControl
+    public partial class TypeAdmin : UserControl
     {
-        public UserControl1()
+        public TypeAdmin()
         {
             InitializeComponent();
         }
