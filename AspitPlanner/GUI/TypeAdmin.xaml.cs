@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AspitPlanner.Helpers;
+using AspitPlanner.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,44 @@ namespace AspitPlanner.GUI
         public TypeAdmin()
         {
             InitializeComponent();
+            load();
+        }
+
+        private void load()
+        {
+            Clear();
+            using (DBCon db = new DBCon())
+            {
+                CbType.DataContext = db.Categorys.ToList();
+            }
+            
+        }
+        private void Clear()
+        {
+            txtKatNavn.Text = "";
+            txtNavn.Text = "";
+            CbType.SelectedIndex = -1;
+        }
+        private void CmdOpretKategori_Click(object sender, RoutedEventArgs e)
+        {
+            if(txtKatNavn.Text != "")
+            {
+                Category c = new Category();
+                c.CategoryName = txtKatNavn.Text;
+
+                using(DBCon db = new DBCon())
+                {
+                    db.Categorys.Add(c);
+                    db.SaveChanges();
+                }
+            }
+            load();
+        }
+
+        private void CmdOpretType_Click(object sender, RoutedEventArgs e)
+        {
+            Models.Type t = new Models.Type();
+
         }
     }
 }

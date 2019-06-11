@@ -45,6 +45,10 @@ namespace AspitPlanner.GUI
                         cbTeam.SelectedItem = -1;
                     }
                 }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
         }
     }

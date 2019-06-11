@@ -14,16 +14,22 @@
         <!-- Left Panel -->
         <StackPanel Grid.Column="0">
             <Label Content="Type"/>
-            <ComboBox x:Name="CbType"/>
+            <ComboBox x:Name="CbType" ItemsSource="{Binding}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding CategoryName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Label Content="Navn"/>
             <TextBox x:Name="txtNavn"/>
-            <Button x:Name="CmdOpretType" Content="Ny Type"/>
+            <Button x:Name="CmdOpretType" Content="Ny Type" Click="CmdOpretType_Click"/>
         </StackPanel>
         <!-- right Panel -->
         <StackPanel Grid.Column="1">
             <Label Content="Navn"/>
             <TextBox x:Name="txtKatNavn"/>
-            <Button x:Name="CmdOpretKategori" Content="Ny Kategori"/>
+            <Button x:Name="CmdOpretKategori" Content="Ny Kategori" Click="CmdOpretKategori_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>
