@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspitPlanner.Helpers2
+namespace AspitPlanner.Helpers
 {
     public class DBCon : DbContext
     {
