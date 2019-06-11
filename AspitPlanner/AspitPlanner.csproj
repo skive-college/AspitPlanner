@@ -64,7 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="GUI\RegistreringsGui.xaml">
+    <Page Include="GUI\RegGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -86,6 +86,9 @@
     </Compile>
     <Compile Include="GUI\StudentAdmin.xaml.cs">
       <DependentUpon>StudentAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\RegGUI.xaml.cs">
+      <DependentUpon>RegGUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\TypeAdmin.xaml.cs">
       <DependentUpon>TypeAdmin.xaml</DependentUpon>

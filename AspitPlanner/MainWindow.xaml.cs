@@ -24,7 +24,7 @@ namespace AspitPlanner
         public MainWindow()
         {
             InitializeComponent();
-            MainContent.Children.Add(new RegistreringsGui());
+            MainContent.Children.Add(new RegGUI());
         }
     }
 }
