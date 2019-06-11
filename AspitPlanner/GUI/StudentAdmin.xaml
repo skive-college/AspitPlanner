@@ -15,14 +15,14 @@
             <Label Content="Elever"/>
             <ListView x:Name="lwStudent" Height="400" Width="300"/>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" HorizontalAlignment="Left">
             <Label Content="Navn"/>
-            <TextBox x:Name="txtName" Width="100"/>
+            <TextBox x:Name="txtName" Width="200"/>
             <Label Content="Hold"/>
-            <ComboBox x:Name="cbTeam" Width="100"/>
+            <ComboBox x:Name="cbTeam" Width="200"/>
             <Label Content="Nyt hold"/>
-            <TextBox x:Name="txtNewTeam" Width="100"/>
-            <Button x:Name="create" Content="Opret" Width="100"/>
+            <TextBox x:Name="txtNewTeam" Width="200"/>
+            <Button x:Name="create" Content="Opret" Width="100" Margin="100 10 0 0"/>
         </StackPanel>
             
     </Grid>
