@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AspitPlanner.GUI;
 
 namespace AspitPlanner
 {
@@ -23,6 +24,7 @@ namespace AspitPlanner
         public MainWindow()
         {
             InitializeComponent();
+            MainContent.Children.Add(new RegistreringsGui());
         }
     }
 }
