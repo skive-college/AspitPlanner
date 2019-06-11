@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AspitPlanner.Helpers;
+using AspitPlanner.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,27 @@ namespace AspitPlanner.GUI
         public StudentAdmin()
         {
             InitializeComponent();
+        }
+
+        private void cmbCreate_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtName.Text != "")
+            {
+                try
+                {
+                    using (DBCon db = new DBCon())
+                    {
+                        String Team = cbTeam.SelectedItem as String;
+                        Student s = new Student() { Name = txtName.Text};
+
+              
+                        db.Students.Add(s);
+                        db.SaveChanges();
+                        txtName.Text = "";
+                        cbTeam.SelectedItem = -1;
+                    }
+                }
+            }
         }
     }
 }
