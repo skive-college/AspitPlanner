@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AspitPlanner.GUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Blue">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
@@ -26,13 +26,18 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
-            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0">
+                <Label Content="modul 1"/>
+                <ComboBox x:Name="CBModul1"/>
+                <Label Content="modul 3"/>
+                <ComboBox x:Name="CBModul3"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Label Content="modul 2"/>
+                <ComboBox x:Name="cbModul2"/>
+                <Label Content="modul 4"/>
+                <ComboBox x:Name="CBModul4"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

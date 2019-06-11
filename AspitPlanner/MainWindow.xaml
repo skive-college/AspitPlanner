@@ -14,9 +14,9 @@
         </Grid.RowDefinitions>
         <Menu Height="25" Grid.Row="0">
             <MenuItem Header="Menu">
-                <MenuItem Header="registrer"/>
-                <MenuItem Header="Elev Administration"/>
-                <MenuItem Header="Type Administration"/>
+                <MenuItem Header="registrer" Click="RegGUI_Click"/>
+                <MenuItem Header="Elev Administration" Click="StudentAdmin_Click"/>
+                <MenuItem Header="Type Administration" Click="TypeAdmin_Click"/>
             </MenuItem>
         </Menu>
         <StackPanel x:Name="MainContent" Grid.Row="1"/>

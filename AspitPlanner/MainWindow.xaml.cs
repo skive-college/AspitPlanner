@@ -21,10 +21,32 @@ namespace AspitPlanner
     /// </summary>
     public partial class MainWindow : Window
     {
+        RegGUI rg = new RegGUI();
+        StudentAdmin sa = new StudentAdmin();
+        TypeAdmin ta = new TypeAdmin();
+
         public MainWindow()
         {
             InitializeComponent();
-            MainContent.Children.Add(new RegGUI());
+            MainContent.Children.Add(rg);
+        }
+
+        private void StudentAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            MainContent.Children.Add(sa);
+        }
+
+        private void TypeAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            MainContent.Children.Add(ta);
+        }
+
+        private void RegGUI_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            MainContent.Children.Add(rg);
         }
     }
 }
