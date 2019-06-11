@@ -19,7 +19,7 @@
                 <MenuItem Header="Type Administration"/>
             </MenuItem>
         </Menu>
-        <StackPanel x:Name="MainContent"/>
+        <StackPanel x:Name="MainContent" Grid.Row="1"/>
         <Label x:Name="lblStatus" Grid.Row="2" Content="Status"/>
     </Grid>
 </Window>
