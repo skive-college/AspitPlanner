@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="AspitPlanner.GUI.TypeAdmin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AspitPlanner.GUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Left Panel -->
+        <StackPanel Grid.Column="0">
+            <Label Content="Type"/>
+            <ComboBox x:Name="CbType"/>
+            <Label Content="Navn"/>
+            <TextBox x:Name="txtNavn"/>
+            <Button x:Name="CmdOpretType" Content="Ny Type"/>
+        </StackPanel>
+        <!-- right Panel -->
+        <StackPanel Grid.Column="1">
+            <Label Content="Navn"/>
+            <TextBox x:Name="txtKatNavn"/>
+            <Button x:Name="CmdOpretKategori" Content="Ny Kategori"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
