@@ -25,6 +25,8 @@ namespace AspitPlanner.GUI
         public StudentAdmin()
         {
             InitializeComponent();
+            load();
+            loadTeams();
         }
 
         private void cmbCreate_Click(object sender, RoutedEventArgs e)
@@ -35,8 +37,16 @@ namespace AspitPlanner.GUI
                 {
                     using (DBCon db = new DBCon())
                     {
-                        String Team = cbTeam.SelectedItem as String;
-                        Student s = new Student() { Name = txtName.Text};
+                        String Team;
+                        if (txtNewTeam.Text != "")
+                        {
+                            Team = txtNewTeam.Text;
+                        }
+                        else
+                        {
+                            Team = (cbTeam.SelectedValue as Student).Team;
+                        }
+                        Student s = new Student() { Name = txtName.Text, Team = Team};
 
               
                         db.Students.Add(s);
@@ -50,6 +60,35 @@ namespace AspitPlanner.GUI
                     Console.WriteLine(ex.ToString());
                 }
             }
+        }
+
+        public void load()
+        {
+            using (DBCon db = new DBCon())
+            {
+                lwStudent.DataContext = db.Students.ToList();
+            }
+        }
+        public void loadTeams()
+        {
+            using (DBCon db = new DBCon())
+            {
+                List<Student> liste = db.Students.ToList();
+                var Teams = liste.GroupBy(test => test.Team)
+                       .Select(grp => grp.First())
+                       .ToList();
+                cbTeam.DataContext = Teams;
+            }
+        }
+
+        private void LwStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            load();
+        }
+
+        private void CbTeam_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

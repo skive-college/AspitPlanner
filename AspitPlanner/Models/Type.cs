@@ -13,6 +13,6 @@ namespace AspitPlanner.Models
         public int ID { get; set; }
         [StringLength(50)]
         public string TypeName { get; set; }
-        public string CatID { get; set; }
+        public int CatID { get; set; }
     }
 }
