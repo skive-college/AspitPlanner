@@ -24,7 +24,7 @@ namespace AspitPlanner
         RegGUI rg = new RegGUI();
         StudentAdmin sa = new StudentAdmin();
         TypeAdmin ta = new TypeAdmin();
-
+        Appointment ap = new Appointment();
         public MainWindow()
         {
             InitializeComponent();
@@ -47,6 +47,12 @@ namespace AspitPlanner
         {
             MainContent.Children.RemoveAt(0);
             MainContent.Children.Add(rg);
+        }
+
+        private void Appointment_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            MainContent.Children.Add(ap);
         }
     }
 }

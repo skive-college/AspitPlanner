@@ -18,5 +18,9 @@
             <Setter Property="Margin" Value="0 0 0 10"/>
             <Setter Property="Height" Value="25"/>
         </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
     </Application.Resources>
 </Application>

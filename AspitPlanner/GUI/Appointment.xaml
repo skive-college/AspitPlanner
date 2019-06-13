@@ -12,26 +12,37 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <!-- Left panel -->
-        <StackPanel Grid.Column="0">
-            <Label Content="Fra"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+            <TextBlock Text="Fra"/>
             <DatePicker Name="dpFrom"/>
-            <Label Content="Til"/>
+            <TextBlock Text="Til"/>
             <DatePicker Name="dpTo"/>
-            <Label Content="Dag"/>
-            <CheckBox x:Name="Monday" Content="Mandag"/>
-            <CheckBox x:Name="Tuesday" Content="Tirsdag"/>
-            <CheckBox x:Name="Wednesday" Content="Ondsdag"/>
-            <CheckBox x:Name="Thursday" Content="Torsdag"/>
-            <CheckBox x:Name="Friday" Content="Fredag"/>
-            <Label Content="Modul"/>
-            <CheckBox x:Name="Modul1" Content="Modul1"/>
-            <CheckBox x:Name="Modul2" Content="Modul2"/>
-            <CheckBox x:Name="Modul3" Content="Modul3"/>
-            <CheckBox x:Name="Modul4" Content="Modul4"/>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Dag"/>
+                    <CheckBox x:Name="Monday" Content="Mandag"/>
+                    <CheckBox x:Name="Tuesday" Content="Tirsdag"/>
+                    <CheckBox x:Name="Wednesday" Content="Ondsdag"/>
+                    <CheckBox x:Name="Thursday" Content="Torsdag"/>
+                    <CheckBox x:Name="Friday" Content="Fredag"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Modul"/>
+                    <CheckBox x:Name="Modul1" Content="Modul1"/>
+                    <CheckBox x:Name="Modul2" Content="Modul2"/>
+                    <CheckBox x:Name="Modul3" Content="Modul3"/>
+                    <CheckBox x:Name="Modul4" Content="Modul4"/>
+                </StackPanel>
+            </Grid>
         </StackPanel>
         <!-- Right panel -->
-        <StackPanel Grid.Column="1">
-            <Label Content="Info"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
+            <TextBlock Text="Info"/>
             <TextBox x:Name="txtInfo" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
