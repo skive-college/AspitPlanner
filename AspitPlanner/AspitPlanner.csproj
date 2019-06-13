@@ -65,6 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="GUI\Appointment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\RegGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,6 +89,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\Appointment.xaml.cs">
+      <DependentUpon>Appointment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\StudentAdmin.xaml.cs">
       <DependentUpon>StudentAdmin.xaml</DependentUpon>
     </Compile>
@@ -94,6 +101,7 @@
     <Compile Include="GUI\TypeAdmin.xaml.cs">
       <DependentUpon>TypeAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AbsentType.cs" />
     <Compile Include="Helpers\DBCon.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
