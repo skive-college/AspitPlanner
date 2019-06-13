@@ -12,8 +12,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!-- Left Panel -->
-        <StackPanel Grid.Column="0">
-            <Label Content="Type"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+            <TextBlock Text="Type"/>
             <ComboBox x:Name="CbType" ItemsSource="{Binding}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -21,13 +21,13 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Content="Navn"/>
+            <TextBlock Text="Navn"/>
             <TextBox x:Name="txtNavn"/>
             <Button x:Name="CmdOpretType" Content="Ny Type" Click="CmdOpretType_Click"/>
         </StackPanel>
         <!-- right Panel -->
-        <StackPanel Grid.Column="1">
-            <Label Content="Navn"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
+            <TextBlock Text="Navn"/>
             <TextBox x:Name="txtKatNavn"/>
             <Button x:Name="CmdOpretKategori" Content="Ny Kategori" Click="CmdOpretKategori_Click"/>
         </StackPanel>

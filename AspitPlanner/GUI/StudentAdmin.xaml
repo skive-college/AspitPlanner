@@ -11,8 +11,8 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <Label Content="Elever"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+            <TextBlock Text="Elever"/>
             <ListView x:Name="lwStudent" Height="300" SelectionChanged="LwStudent_SelectionChanged" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView>
@@ -24,10 +24,10 @@
                     </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Left">
-            <Label Content="Navn"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1" HorizontalAlignment="Left">
+            <TextBlock Text="Navn"/>
             <TextBox x:Name="txtName" Width="200"/>
-            <Label Content="Hold"/>
+            <TextBlock Text="Hold"/>
             <ComboBox x:Name="cbTeam" Width="200" SelectionChanged="CbTeam_SelectionChanged" ItemsSource="{Binding}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -35,9 +35,9 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Content="Nyt hold"/>
+            <TextBlock Text="Nyt hold"/>
             <TextBox x:Name="txtNewTeam" Width="200"/>
-            <Button x:Name="create" Content="Opret" Width="100" Margin="100 10 0 0" Click="cmbCreate_Click"/>
+            <Button x:Name="create" Content="Opret" Width="100" HorizontalAlignment="Right" Click="cmbCreate_Click"/>
         </StackPanel>
             
     </Grid>

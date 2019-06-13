@@ -12,10 +12,10 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <!-- Left panel -->
-        <StackPanel Grid.Column="0">
-            <Label Content="Hold"/>
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+            <TextBlock Text="Hold"/>
             <ComboBox x:Name="CBHold"/>
-            <Label Content="Elever"/>
+            <TextBlock Text="Elever"/>
             <ListView x:Name="Elever" Height="250"/>
 
         </StackPanel>
@@ -26,16 +26,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label Content="modul 1"/>
+            <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+                <TextBlock Text="Modul 1"/>
                 <ComboBox x:Name="CBModul1"/>
-                <Label Content="modul 3"/>
+                <TextBlock Text="Modul 3"/>
                 <ComboBox x:Name="CBModul3"/>
             </StackPanel>
-            <StackPanel Grid.Column="1">
-                <Label Content="modul 2"/>
+            <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
+                <TextBlock Text="Modul 2"/>
                 <ComboBox x:Name="cbModul2"/>
-                <Label Content="modul 4"/>
+                <TextBlock Text="Modul 4"/>
                 <ComboBox x:Name="CBModul4"/>
             </StackPanel>
         </Grid>
