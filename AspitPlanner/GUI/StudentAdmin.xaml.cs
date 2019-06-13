@@ -51,5 +51,10 @@ namespace AspitPlanner.GUI
                 }
             }
         }
+
+        private void CbTeam_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
