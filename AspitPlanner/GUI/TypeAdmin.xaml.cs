@@ -61,7 +61,20 @@ namespace AspitPlanner.GUI
 
         private void CmdOpretType_Click(object sender, RoutedEventArgs e)
         {
-            Models.Type t = new Models.Type();
+
+            if (txtNavn.Text != "")
+            {
+                Models.Type t = new Models.Type();
+                t.TypeName= txtNavn.Text;
+                int cat = (CbType.SelectedValue as Category).ID;
+
+                t.CatID = cat;
+                using (DBCon db = new DBCon())
+                {
+                    db.Types.Add(t);
+                    db.SaveChanges();
+                }
+            }
 
         }
     }
