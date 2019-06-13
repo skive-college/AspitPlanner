@@ -22,13 +22,18 @@ namespace AspitPlanner.Helpers
         public DbSet<Models.Type> Types { get; set; }
 
                
-        public List<Category> 
+        public List<AbsentType> GetAbcentTypes() 
         {
-            var balance = (from a in DBCon.Types
-                           join c in context.Clients on a.UserID equals c.UserID
-                           where c.ClientID == yourDescriptionObject.ClientID
-                           select a.Balance)
-              .SingleOrDefault();
+            List<AbsentType> retur = new List<AbsentType>();
+            using (DBCon db = new DBCon())
+            {
+                var Abcent = (from a in db.Types
+                              join c in db.Categorys on a.CatID equals c.ID
+                              select new AbsentType { ID = a.ID, TypeName = a.TypeName, CatName = c.CategoryName })
+                               .ToList();
+                retur = Abcent;
+            }
+            return retur;
 
         }
     }    
