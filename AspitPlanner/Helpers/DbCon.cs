@@ -11,7 +11,7 @@ namespace AspitPlanner.Helpers
 {
     public class DBCon : DbContext
     {
-        public static readonly string con = "Local";
+        private static readonly string con = "Local";
 
         public DBCon() : base(ConfigurationManager.ConnectionStrings[con].ConnectionString) { }
         

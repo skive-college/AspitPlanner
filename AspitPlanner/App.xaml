@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:AspitPlanner"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style TargetType="Menu">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
     </Application.Resources>
 </Application>

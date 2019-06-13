@@ -16,7 +16,7 @@
             <Label Content="Hold"/>
             <ComboBox x:Name="CBHold"/>
             <Label Content="Elever"/>
-            <ListView x:Name="Elever" Height="300"/>
+            <ListView x:Name="Elever" Height="250"/>
 
         </StackPanel>
         <!-- Right panel -->
