@@ -94,6 +94,7 @@
     <Compile Include="GUI\TypeAdmin.xaml.cs">
       <DependentUpon>TypeAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AbsentType.cs" />
     <Compile Include="Helpers\DBCon.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
