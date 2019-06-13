@@ -6,20 +6,19 @@
         xmlns:local="clr-namespace:AspitPlanner"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="365"/>
-            <RowDefinition Height="25"/>
-        </Grid.RowDefinitions>
-        <Menu Height="25" Grid.Row="0">
-            <MenuItem Header="Menu">
-                <MenuItem Header="registrer" Click="RegGUI_Click"/>
-                <MenuItem Header="Elev Administration" Click="StudentAdmin_Click"/>
-                <MenuItem Header="Type Administration" Click="TypeAdmin_Click"/>
+    <DockPanel>
+        <Menu Height="25" DockPanel.Dock="Top">
+            <MenuItem Header="Menu" Height="25">
+                <MenuItem Header="Registrere" Click="RegGUI_Click"/>
+                <MenuItem Header="Elev administration" Click="StudentAdmin_Click"/>
+                <MenuItem Header="Type administration" Click="TypeAdmin_Click"/>
             </MenuItem>
         </Menu>
-        <StackPanel x:Name="MainContent" Grid.Row="1"/>
-        <Label x:Name="lblStatus" Grid.Row="2" Content="Status"/>
-    </Grid>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="lblStatus" />
+            </StatusBarItem>
+        </StatusBar>
+        <Grid x:Name="MainContent"/>
+    </DockPanel>
 </Window>
