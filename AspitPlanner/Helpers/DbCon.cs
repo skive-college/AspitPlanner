@@ -16,5 +16,15 @@ namespace AspitPlanner.Helpers
         public DbSet<Present> Presents { get; set; }
         public DbSet<Models.Type> Types { get; set; }
 
+               
+        public List<Category> 
+        {
+            var balance = (from a in DBCon.Types
+                           join c in context.Clients on a.UserID equals c.UserID
+                           where c.ClientID == yourDescriptionObject.ClientID
+                           select a.Balance)
+              .SingleOrDefault();
+
+        }
     }    
 }
