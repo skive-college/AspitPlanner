@@ -20,7 +20,19 @@
         </Style>
         <Style TargetType="DatePicker">
             <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0 0 0 10"/>
             <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style TargetType="RichTextBox">
+            <Setter Property="Margin" Value="0 0 0 10"/>
+        </Style>
+        <Style x:Key="standartButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
     </Application.Resources>
 </Application>

@@ -17,19 +17,19 @@
             <ComboBox x:Name="CbType" ItemsSource="{Binding}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding CategoryName}"/>
+                        <TextBlock Text="{Binding CategoryName}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="Navn"/>
             <TextBox x:Name="txtNavn"/>
-            <Button x:Name="CmdOpretType" Content="Ny Type" Click="CmdOpretType_Click"/>
+            <Button x:Name="CmdOpretType" Content="Ny Type" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdOpretType_Click"/>
         </StackPanel>
         <!-- right Panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
             <TextBlock Text="Navn"/>
             <TextBox x:Name="txtKatNavn"/>
-            <Button x:Name="CmdOpretKategori" Content="Ny Kategori" Click="CmdOpretKategori_Click"/>
+            <Button x:Name="CmdOpretKategori" Content="Ny Kategori" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdOpretKategori_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

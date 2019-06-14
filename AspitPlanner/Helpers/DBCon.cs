@@ -36,5 +36,19 @@ namespace AspitPlanner.Helpers
             return retur;
 
         }
+
+        public List<Student> GetHold()
+        {
+            List<Student> liste = new List<Student>();
+            using (DBCon db = new DBCon())
+            { 
+                liste = db.Students.ToList();
+                liste = liste.GroupBy(test => test.Team)
+                       .Select(grp => grp.First())
+                       .ToList();
+                
+            }
+            return liste;
+        }
     }    
 }

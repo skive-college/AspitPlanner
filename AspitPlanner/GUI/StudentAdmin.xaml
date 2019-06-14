@@ -31,13 +31,13 @@
             <ComboBox x:Name="cbTeam" Width="200" SelectionChanged="CbTeam_SelectionChanged" ItemsSource="{Binding}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Team}"/>
+                        <TextBlock Text="{Binding Team}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="Nyt hold"/>
             <TextBox x:Name="txtNewTeam" Width="200"/>
-            <Button x:Name="create" Content="Opret" Width="100" HorizontalAlignment="Right" Click="cmbCreate_Click"/>
+            <Button x:Name="create" Content="Opret" Width="100" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="cmbCreate_Click"/>
         </StackPanel>
             
     </Grid>

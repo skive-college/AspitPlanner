@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AspitPlanner.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,20 @@ namespace AspitPlanner.GUI
         public RegGUI()
         {
             InitializeComponent();
+            load();
+        }
+
+        public void load()
+        {
+            using (DBCon db = new DBCon())
+            {
+                CBHold.DataContext = db.GetHold();
+                CBModul1.DataContext = db.GetAbcentTypes();
+                CBModul2.DataContext = db.GetAbcentTypes();
+                CBModul3.DataContext = db.GetAbcentTypes();
+                CBModul4.DataContext = db.GetAbcentTypes();
+                Elever.DataContext = db.Students.ToList();
+            }
         }
     }
 }

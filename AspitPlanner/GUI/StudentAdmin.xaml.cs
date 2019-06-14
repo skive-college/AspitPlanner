@@ -52,8 +52,8 @@ namespace AspitPlanner.GUI
               
                         db.Students.Add(s);
                         db.SaveChanges();
-                        txtName.Text = "";
-                        cbTeam.SelectedItem = -1;
+                        clear();
+                        load();
                     }
                 }
                 catch(Exception ex)
@@ -70,6 +70,14 @@ namespace AspitPlanner.GUI
                 lwStudent.DataContext = db.Students.ToList();
             }
         }
+
+        private void clear()
+        {
+
+            txtName.Text = "";
+            txtNewTeam.Text = "";
+            cbTeam.SelectedIndex = -1;
+        }
         public void loadTeams()
         {
             using (DBCon db = new DBCon())
@@ -84,7 +92,7 @@ namespace AspitPlanner.GUI
 
         private void LwStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            load();
+            
         }
 
         private void CbTeam_SelectionChanged(object sender, SelectionChangedEventArgs e)

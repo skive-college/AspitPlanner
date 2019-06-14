@@ -35,6 +35,7 @@ namespace AspitPlanner
         {
             MainContent.Children.RemoveAt(0);
             MainContent.Children.Add(sa);
+            
         }
 
         private void TypeAdmin_Click(object sender, RoutedEventArgs e)
@@ -46,6 +47,7 @@ namespace AspitPlanner
         private void RegGUI_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
+            rg.load();
             MainContent.Children.Add(rg);
         }
 

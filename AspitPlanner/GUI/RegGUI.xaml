@@ -14,9 +14,24 @@
         <!-- Left panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
             <TextBlock Text="Hold"/>
-            <ComboBox x:Name="CBHold"/>
+            <ComboBox x:Name="CBHold" ItemsSource="{Binding}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                    <TextBlock Text="{Binding Team}"/>
+                </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <TextBlock Text="Elever"/>
-            <ListView x:Name="Elever" Height="250"/>
+            <ListView x:Name="Elever" Height="250" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Navn" 
+                                    Width="150" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Hold" 
+                                    Width="150" DisplayMemberBinding="{Binding Team}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
         </StackPanel>
         <!-- Right panel -->
@@ -28,15 +43,55 @@
             </Grid.ColumnDefinitions>
             <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
                 <TextBlock Text="Modul 1"/>
-                <ComboBox x:Name="CBModul1"/>
+                <ComboBox x:Name="CBModul1" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <TextBlock Text="Modul 3"/>
-                <ComboBox x:Name="CBModul3"/>
+                <ComboBox x:Name="CBModul3" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
             <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
                 <TextBlock Text="Modul 2"/>
-                <ComboBox x:Name="cbModul2"/>
+                <ComboBox x:Name="CBModul2" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <TextBlock Text="Modul 4"/>
-                <ComboBox x:Name="CBModul4"/>
+                <ComboBox x:Name="CBModul4" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
         </Grid>
     </Grid>

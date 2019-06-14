@@ -43,7 +43,8 @@
         <!-- Right panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
             <TextBlock Text="Info"/>
-            <TextBox x:Name="txtInfo" TextWrapping="Wrap"/>
+            <RichTextBox x:Name="txtInfo" Height="250"/>
+            <Button x:Name="CmdCreate" Content="Opret" Style="{StaticResource standartButton}" HorizontalAlignment="Right"/>
         </StackPanel>
     </Grid>
 </UserControl>
