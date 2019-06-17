@@ -84,7 +84,7 @@ namespace AspitPlanner.Helpers
         {
             int i = -1;
             var quary = from ty in GetAbcentTypes()
-                        where ty.TypeName.Equals("fri")
+                        where ty.TypeName.Equals("Fri")
                         select ty;
 
 

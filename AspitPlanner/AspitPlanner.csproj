@@ -112,14 +112,6 @@
     <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
       <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906170748582_too.cs" />
-    <Compile Include="Migrations\201906170748582_too.Designer.cs">
-      <DependentUpon>201906170748582_too.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906170751184_rof.cs" />
-    <Compile Include="Migrations\201906170751184_rof.Designer.cs">
-      <DependentUpon>201906170751184_rof.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201906171138169_fixed.cs" />
     <Compile Include="Migrations\201906171138169_fixed.Designer.cs">
       <DependentUpon>201906171138169_fixed.cs</DependentUpon>
