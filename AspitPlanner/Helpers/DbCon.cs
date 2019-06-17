@@ -65,5 +65,41 @@ namespace AspitPlanner.Helpers
             }
             return liste;
         }
+
+        public Present getPressent(DateTime today, int studentID)
+        {
+            Present p = null;
+
+            var quary = from pre in Presents
+                        where pre.StudentID.Equals(studentID) && pre.Date.Equals(today)
+                        select pre;
+            if(quary != null)
+            {
+                return quary.FirstOrDefault() as Present;
+            }
+            return p;            
+        }
+
+        public int GetAftaleFri()
+        {
+            int i = -1;
+            var quary = from ty in GetAbcentTypes()
+                        where ty.TypeName.Equals("fri")
+                        select ty;
+
+
+            for (int ind = 0; ind < GetAbcentTypes().Count; ind++)
+            {
+                if (GetAbcentTypes()[ind].ID == (quary.FirstOrDefault()).ID)
+                {
+                    i = ind;
+                    break;
+                }
+                    
+            }
+
+
+            return i;
+        }
     }    
 }
