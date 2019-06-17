@@ -126,7 +126,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Present.cs" />
     <Compile Include="Models\Student.cs" />
-    <Compile Include="Models\Type.cs" />
+    <Compile Include="Models\RegistrationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
