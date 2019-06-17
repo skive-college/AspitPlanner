@@ -75,14 +75,14 @@ namespace AspitPlanner.GUI
                 
                 using (DBCon db = new DBCon())
                 {
-                    loadApointments();
+                    
                     
 
                     DateTime today = getDateTime();
                     int studentID = (Elever.SelectedValue as Student).ID;
                     Present p = db.getPressent(today, studentID);
-
-                    if(p == null)
+                    
+                    if (p == null)
                     {
                         creatNew();
                     }
@@ -155,8 +155,57 @@ namespace AspitPlanner.GUI
             return d;
         }
 
-        private void loadApointments()
+        private void loadApointments(int ElevID)
         {
+            using (DBCon db = new DBCon())
+            {
+                DateTime today = getDateTime();
+                var quary = from a in db.Appointments
+                            where a.StudentID.Equals(ElevID) && (a.FromeDate <= today) && a.ToDate >= today
+                            select a;
+
+                foreach(Appointment a in quary.ToList())
+                {
+                    if(a.Day.Contains(today.DayOfWeek.ToString()))
+                    {
+                        string[] moduler = a.Modules.Split(',');
+
+                        int index = db.GetAftaleFri();
+                        foreach(string s in moduler)
+                        {
+                            if(s == "M1")
+                            {
+                                CBModul1.SelectedIndex= index;
+
+                            }
+                            if (s == "M2")
+                            {
+                                CBModul2.SelectedIndex = index;
+
+                            }
+                            if (s == "M3")
+                            {
+                                CBModul3.SelectedIndex = index;
+
+                            }
+                            if (s == "M4")
+                            {
+                                CBModul4.SelectedIndex = index;
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(Elever.SelectedIndex != -1)
+            {
+                int studentID = (Elever.SelectedValue as Student).ID;
+                loadApointments(studentID);
+            }
             
         }
     }

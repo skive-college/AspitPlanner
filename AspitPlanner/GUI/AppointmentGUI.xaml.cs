@@ -48,6 +48,9 @@ namespace AspitPlanner.GUI
                 //Insert modules here
                 TextRange textRange = new TextRange(txtInfo.Document.ContentStart, txtInfo.Document.ContentEnd);
                 a.Info = textRange.Text;
+                a.Day = getDays();
+                a.Modules = getModules();
+                
 
                 using (DBCon db = new DBCon())
                 {
@@ -61,6 +64,62 @@ namespace AspitPlanner.GUI
                 //Insert modules here
                 textRange.Text = "";
             }
+        }
+
+        private string getModules()
+        {
+            string modul = "";
+            if (Modul1.IsChecked == true)
+            {
+                modul += "M1,";
+            }
+            if (Modul2.IsChecked == true)
+            {
+                modul += "M2,";
+            }
+            if (Modul3.IsChecked == true)
+            {
+                modul += "M3,";
+            }
+            if (Modul4.IsChecked == true)
+            {
+                modul += "M4,";
+            }
+            if (modul.EndsWith(","))
+            {
+                modul = modul.Substring(0, modul.Length - 1);
+            }
+            return modul;
+        }
+
+        private string getDays()
+        {
+            string dage = "";
+            if (Monday.IsChecked == true)
+            {
+                dage += "Monday,";
+            }
+            if (Tuesday.IsChecked == true)
+            {
+                dage += "Tuesday,";
+            }
+            if (Wednesday.IsChecked == true)
+            {
+                dage += "Wednesday,";
+            }
+            if (Thursday.IsChecked == true)
+            {
+                dage += "Thursday,";
+            }
+            if (Friday.IsChecked == true)
+            {
+                dage += "Friday";
+            }
+            if (dage.EndsWith(","))
+            {
+                dage = dage.Substring(0, dage.Length - 1);
+            }
+            return dage;
         }
     }
 }
