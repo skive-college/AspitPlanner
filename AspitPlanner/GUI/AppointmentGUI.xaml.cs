@@ -28,7 +28,7 @@ namespace AspitPlanner.GUI
             Load();
         }
 
-        private void Load()
+        public void Load()
         {
             using (DBCon db = new DBCon())
             {
