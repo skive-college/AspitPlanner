@@ -14,17 +14,25 @@
         <!-- Left panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
             <TextBlock Text="Elev"/>
-            <ComboBox x:Name="CBStudent" ItemsSource="{Binding}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}"/>
-                            <TextBlock Text=" - "/>
-                            <TextBlock Text="{Binding Team}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>    
+            
+                <ComboBox x:Name="CBStudent" Grid.Column="0" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Team}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button x:Name="CMDShowAll" Grid.Column="1" Style="{StaticResource standartButton}" Content="Vis aftaler" Click="CMDShowAll_Click"/>
+            </Grid>
             <TextBlock Text="Fra"/>
             <DatePicker Name="dpFrom"/>
             <TextBlock Text="Til"/>

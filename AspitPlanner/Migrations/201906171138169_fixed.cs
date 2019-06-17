@@ -3,7 +3,7 @@ namespace AspitPlanner.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class fixedIntValues : DbMigration
+    public partial class _fixed : DbMigration
     {
         public override void Up()
         {

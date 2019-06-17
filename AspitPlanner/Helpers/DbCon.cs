@@ -65,5 +65,19 @@ namespace AspitPlanner.Helpers
             }
             return liste;
         }
+
+        public Present getPressent(DateTime today, int studentID)
+        {
+            Present p = null;
+
+            var quary = from pre in Presents
+                        where pre.StudentID.Equals(studentID) && pre.Date.Equals(today)
+                        select pre;
+            if(quary != null)
+            {
+                return quary.FirstOrDefault() as Present;
+            }
+            return p;            
+        }
     }    
 }
