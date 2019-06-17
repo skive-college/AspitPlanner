@@ -24,7 +24,7 @@ namespace AspitPlanner
         RegGUI rg = new RegGUI();
         StudentAdmin sa = new StudentAdmin();
         TypeAdmin ta = new TypeAdmin();
-        Appointment ap = new Appointment();
+        AppointmentGUI ap = new AppointmentGUI();
         String titel = "Aspit Planner";
         public MainWindow()
         {
