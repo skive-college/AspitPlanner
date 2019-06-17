@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AspitPlanner.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace AspitPlanner.GUI
         public Appointment()
         {
             InitializeComponent();
+            Load();
+        }
+
+        private void Load()
+        {
+            using (DBCon db = new DBCon())
+            {
+                CBStudent.DataContext = db.Students.ToList();
+            }
         }
     }
 }

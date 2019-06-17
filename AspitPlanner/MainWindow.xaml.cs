@@ -25,23 +25,32 @@ namespace AspitPlanner
         StudentAdmin sa = new StudentAdmin();
         TypeAdmin ta = new TypeAdmin();
         Appointment ap = new Appointment();
+        String titel = "Aspit Planner";
         public MainWindow()
         {
             InitializeComponent();
             MainContent.Children.Add(rg);
+            setTitle("Registrering");
+        }
+
+        private void setTitle(String page)
+        {
+
+            this.Title = $"{titel} - {page}";
         }
 
         private void StudentAdmin_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
             MainContent.Children.Add(sa);
-            
+            setTitle("Elev");
         }
 
         private void TypeAdmin_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
             MainContent.Children.Add(ta);
+            setTitle("Type admin");
         }
 
         private void RegGUI_Click(object sender, RoutedEventArgs e)
@@ -49,12 +58,14 @@ namespace AspitPlanner
             MainContent.Children.RemoveAt(0);
             rg.load();
             MainContent.Children.Add(rg);
+            setTitle("Registrering");
         }
 
         private void Appointment_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
             MainContent.Children.Add(ap);
+            setTitle("Aftaler");
         }
     }
 }

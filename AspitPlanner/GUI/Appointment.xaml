@@ -13,6 +13,18 @@
         </Grid.ColumnDefinitions>
         <!-- Left panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+            <TextBlock Text="Elev"/>
+            <ComboBox x:Name="CBStudent" ItemsSource="{Binding}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="-"/>
+                            <TextBlock Text="{Binding Team}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <TextBlock Text="Fra"/>
             <DatePicker Name="dpFrom"/>
             <TextBlock Text="Til"/>
@@ -43,8 +55,8 @@
         <!-- Right panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
             <TextBlock Text="Info"/>
-            <RichTextBox x:Name="txtInfo" Height="250"/>
-            <Button x:Name="CmdCreate" Content="Opret" Style="{StaticResource standartButton}" HorizontalAlignment="Right"/>
+            <RichTextBox x:Name="txtInfo" Height="300"/>
+            <Button x:Name="CmdCreate" Content="Opret" Style="{StaticResource standartButton}" HorizontalAlignment="Right" />
         </StackPanel>
     </Grid>
 </UserControl>
