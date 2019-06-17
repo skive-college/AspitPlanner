@@ -51,7 +51,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
                 <TextBlock Text="Modul 1"/>
-                <ComboBox x:Name="CBModul1" ItemsSource="{Binding}">
+                <ComboBox x:Name="CBModul1" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -63,7 +63,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock Text="Modul 3"/>
-                <ComboBox x:Name="CBModul3" ItemsSource="{Binding}">
+                <ComboBox x:Name="CBModul3" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -77,7 +77,7 @@
             </StackPanel>
             <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
                 <TextBlock Text="Modul 2"/>
-                <ComboBox x:Name="CBModul2" ItemsSource="{Binding}">
+                <ComboBox x:Name="CBModul2" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -89,7 +89,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock Text="Modul 4"/>
-                <ComboBox x:Name="CBModul4" ItemsSource="{Binding}">
+                <ComboBox x:Name="CBModul4" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

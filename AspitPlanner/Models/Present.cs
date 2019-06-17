@@ -16,10 +16,10 @@ namespace AspitPlanner.Models
         [Key]
         [Column(Order = 2)]
         public int StudentID { get; set; }
-        public string Model1 { get; set; }
-        public string Model2 { get; set; }
-        public string Model3 { get; set; }
-        public string Model4 { get; set; }
+        public int Model1 { get; set; }
+        public int Model2 { get; set; }
+        public int Model3 { get; set; }
+        public int Model4 { get; set; }
 
     }
 }
