@@ -24,10 +24,10 @@ namespace AspitPlanner.GUI
         public Appointment()
         {
             InitializeComponent();
-            Load();
+            load();
         }
 
-        private void Load()
+        public void load()
         {
             using (DBCon db = new DBCon())
             {
