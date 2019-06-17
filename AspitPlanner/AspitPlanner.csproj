@@ -108,6 +108,7 @@
     <Compile Include="GUI\TypeAdmin.xaml.cs">
       <DependentUpon>TypeAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppointmentStudent.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
       <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>

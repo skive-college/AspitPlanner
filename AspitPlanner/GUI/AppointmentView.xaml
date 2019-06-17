@@ -27,7 +27,7 @@
                 </ComboBox>
                 <Button x:Name="Btn" Grid.Column="1" Style="{StaticResource standartButton}" HorizontalAlignment="Left" Content="Ryd"/>
             </Grid>
-            <DataGrid Height="300">
+            <DataGrid x:Name="RegistrationsGrid" Height="300" ItemsSource="{Binding}">
             
             </DataGrid>
         </StackPanel>

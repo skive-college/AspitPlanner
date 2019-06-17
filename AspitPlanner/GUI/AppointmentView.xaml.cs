@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AspitPlanner.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,22 @@ namespace AspitPlanner.GUI
         public AppointmentView()
         {
             InitializeComponent();
+            RegistrationsGrid.AutoGeneratingColumn += RegistrationsGrid_AutoGeneratingColumn; 
+            load();
+        }
+
+        private void RegistrationsGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "ID" || e.Column.Header.ToString() == "StudentID")
+                e.Cancel = true;
+        }
+
+        private void load()
+        {
+            using(DBCon db = new DBCon())
+            {
+                RegistrationsGrid.DataContext = db.getAllPresents(-1);
+            }
         }
     }
 }
