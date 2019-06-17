@@ -16,8 +16,8 @@
             <TextBlock Text="Elev"/>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>    
             
                 <ComboBox x:Name="CBStudent" Grid.Column="0" ItemsSource="{Binding}">
@@ -31,7 +31,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="CMDShowAll" Grid.Column="1" Style="{StaticResource standartButton}" Content="Vis aftaler" Click="CMDShowAll_Click"/>
+                <Button x:Name="CMDShowAll" Grid.Column="1" Style="{StaticResource standartButton}" Content="Alle aftaler" Click="CMDShowAll_Click"/>
             </Grid>
             <TextBlock Text="Fra"/>
             <DatePicker Name="dpFrom"/>
