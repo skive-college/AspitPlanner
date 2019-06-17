@@ -65,7 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="GUI\Appointment.xaml">
+    <Page Include="GUI\AppointmentGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -89,8 +89,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\Appointment.xaml.cs">
-      <DependentUpon>Appointment.xaml</DependentUpon>
+    <Compile Include="GUI\AppointmentGUI.xaml.cs">
+      <DependentUpon>AppointmentGUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\StudentAdmin.xaml.cs">
       <DependentUpon>StudentAdmin.xaml</DependentUpon>
@@ -104,6 +104,14 @@
     <Compile Include="Migrations\201906170700189_Fixed_name.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
       <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906170748582_too.cs" />
+    <Compile Include="Migrations\201906170748582_too.Designer.cs">
+      <DependentUpon>201906170748582_too.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906170751184_rof.cs" />
+    <Compile Include="Migrations\201906170751184_rof.Designer.cs">
+      <DependentUpon>201906170751184_rof.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AbsentType.cs" />
     <Compile Include="Helpers\DBCon.cs" />
@@ -148,6 +156,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906170700189_Fixed_name.resx">
       <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906170748582_too.resx">
+      <DependentUpon>201906170748582_too.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906170751184_rof.resx">
+      <DependentUpon>201906170751184_rof.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
