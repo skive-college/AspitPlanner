@@ -65,7 +65,7 @@ namespace AspitPlanner.GUI
 
             if (txtNavn.Text != "")
             {
-                Models.Type t = new Models.Type();
+                Models.RegistrationType t = new Models.RegistrationType();
                 t.TypeName= txtNavn.Text;
                 int cat = (CbType.SelectedValue as Category).ID;
 

@@ -19,7 +19,7 @@ namespace AspitPlanner.Helpers
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Present> Presents { get; set; }
-        public DbSet<Models.Type> Types { get; set; }
+        public DbSet<Models.RegistrationType> Types { get; set; }
 
                
         public List<AbsentType> GetAbcentTypes() 
@@ -29,6 +29,7 @@ namespace AspitPlanner.Helpers
             {
                 var Abcent = (from a in db.Types
                               join c in db.Categorys on a.CatID equals c.ID
+                              orderby c.ID descending
                               select new AbsentType { ID = a.ID, TypeName = a.TypeName, CatName = c.CategoryName })
                                .ToList();
                 retur = Abcent;

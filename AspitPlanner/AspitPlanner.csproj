@@ -101,6 +101,10 @@
     <Compile Include="GUI\TypeAdmin.xaml.cs">
       <DependentUpon>TypeAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906170700189_Fixed_name.cs" />
+    <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
+      <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AbsentType.cs" />
     <Compile Include="Helpers\DBCon.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -141,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906120855201_navn.resx">
       <DependentUpon>201906120855201_navn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906170700189_Fixed_name.resx">
+      <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

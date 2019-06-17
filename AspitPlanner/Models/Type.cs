@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AspitPlanner.Models
 {
-    public class Type
+    public class RegistrationType
     {
         public int ID { get; set; }
         [StringLength(50)]
