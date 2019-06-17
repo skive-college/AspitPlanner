@@ -53,7 +53,7 @@ namespace AspitPlanner.GUI
                         db.Students.Add(s);
                         db.SaveChanges();
                         clear();
-                        load();
+                        load();                        
                     }
                 }
                 catch(Exception ex)
@@ -69,6 +69,7 @@ namespace AspitPlanner.GUI
             {
                 lwStudent.DataContext = db.Students.ToList();
             }
+            loadTeams();
         }
 
         private void clear()
