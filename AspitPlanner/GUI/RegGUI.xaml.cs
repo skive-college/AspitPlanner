@@ -1,4 +1,5 @@
 ﻿using AspitPlanner.Helpers;
+using AspitPlanner.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,33 @@ namespace AspitPlanner.GUI
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
                 Elever.DataContext = db.Students.ToList();
+                
             }
+        }
+
+        private void CBHold_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {           
+            if(CBHold.SelectedIndex != -1)
+            {                
+                string Team = (CBHold.SelectedValue as Student).Team;
+
+                using (DBCon db = new DBCon())
+                {
+                    Elever.DataContext = db.GetStundentsOnTeam(Team);
+                }
+            }
+            else
+            {
+                using (DBCon db = new DBCon())
+                {
+                    Elever.DataContext = db.Students.ToList();
+                }
+            }
+        }
+
+        private void CmdClear_Click(object sender, RoutedEventArgs e)
+        {
+            CBHold.SelectedIndex = -1;
         }
     }
 }

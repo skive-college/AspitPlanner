@@ -42,6 +42,7 @@ namespace AspitPlanner
         private void StudentAdmin_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
+            sa.load();
             MainContent.Children.Add(sa);
             setTitle("Elev");
         }
@@ -49,6 +50,7 @@ namespace AspitPlanner
         private void TypeAdmin_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
+            ta.load();
             MainContent.Children.Add(ta);
             setTitle("Type admin");
         }
@@ -64,7 +66,9 @@ namespace AspitPlanner
         private void Appointment_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
+            ap.load();
             MainContent.Children.Add(ap);
+            
             setTitle("Aftaler");
         }
     }

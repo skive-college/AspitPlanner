@@ -51,5 +51,19 @@ namespace AspitPlanner.Helpers
             }
             return liste;
         }
+
+        public List<Student> GetStundentsOnTeam(string Team)
+        {
+            List<Student> liste = new List<Student>();
+            using (DBCon db = new DBCon())
+            {
+                var quarry = from s in Students
+                             where s.Team == Team
+                             select s;
+
+                liste = quarry.ToList();
+            }
+            return liste;
+        }
     }    
 }
