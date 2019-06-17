@@ -7,13 +7,13 @@ namespace AspitPlanner.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class fixedIntValues : IMigrationMetadata
+    public sealed partial class _fixed : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fixedIntValues));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_fixed));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906170831418_fixedIntValues"; }
+            get { return "201906171138169_fixed"; }
         }
         
         string IMigrationMetadata.Source

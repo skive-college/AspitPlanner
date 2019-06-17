@@ -121,5 +121,11 @@ namespace AspitPlanner.GUI
             }
             return dage;
         }
+
+        private void CMDShowAll_Click(object sender, RoutedEventArgs e)
+        {
+            AppointmentView av = new AppointmentView();
+            av.ShowDialog();
+        }
     }
 }

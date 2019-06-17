@@ -1,0 +1,35 @@
+﻿<Window x:Class="AspitPlanner.GUI.AppointmentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AspitPlanner.GUI"
+        mc:Ignorable="d"
+        Title="AppointmentView" Height="450" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Style="{StaticResource StackPanel}">
+            <TextBlock Text="Elev"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="CBStudentApp" Grid.Column="0" Width="200" HorizontalAlignment="Left" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Team}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button x:Name="Btn" Grid.Column="1" Style="{StaticResource standartButton}" HorizontalAlignment="Left" Content="Ryd"/>
+            </Grid>
+            <DataGrid Height="300">
+            
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

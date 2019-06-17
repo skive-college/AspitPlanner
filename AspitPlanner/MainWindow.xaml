@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AspitPlanner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="470" Width="800">
+        Title="MainWindow" Height="470" Width="800" ResizeMode="NoResize">
     <DockPanel>
         <Menu Height="25" DockPanel.Dock="Top">
             <MenuItem Header="Menu" Height="25">
