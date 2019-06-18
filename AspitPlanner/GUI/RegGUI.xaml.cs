@@ -204,26 +204,46 @@ namespace AspitPlanner.GUI
             {
                 clear();                
                 int studentID = (Elever.SelectedValue as Student).ID;
-                using(DBCon db = new DBCon())
+                bool registered = false;
+                using (DBCon db = new DBCon())
                 {
                     Present p = db.getPressent(getDateTime(), studentID);
                     if(p != null)
                     {
+                        
                         for(int i = 0; i < db.GetAbcentTypes().Count; i++)
                         {
                             if (db.GetAbcentTypes()[i].ID == p.Model1)
+                            {
+                                registered = true;
                                 CBModul1.SelectedIndex = i;
+                            }
                             if (db.GetAbcentTypes()[i].ID == p.Model2)
+                            {
+                                registered = true;
                                 CBModul2.SelectedIndex = i;
+                            }
                             if (db.GetAbcentTypes()[i].ID == p.Model3)
+                            {
+                                registered = true;
                                 CBModul3.SelectedIndex = i;
+                            }
+                                
                             if (db.GetAbcentTypes()[i].ID == p.Model4)
+                            {
+                                registered = true;
                                 CBModul4.SelectedIndex = i;
+                            }
+                                
                         }
                     }
                     else
                     {
                         creatNew();
+                        
+                    }
+                    if(!registered)
+                    {
                         loadApointments(studentID);
                     }
                 }

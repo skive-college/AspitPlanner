@@ -38,6 +38,38 @@ namespace AspitPlanner.Helpers
 
         }
 
+        public List<AppointmentStudent> getAllPresents(int studentID)
+        {
+            /*
+                public int ID { get; set; }        
+                public int StudentID { get; set; }
+                public DateTime FromeDate { get; set; }
+                public DateTime ToDate { get; set; }
+                public string Day { get; set; }
+                public string Modules { get; set; }
+                public string Info { get; set; }
+            */
+            List<AppointmentStudent> retur = new List<AppointmentStudent>();
+            using (DBCon db = new DBCon())
+            {
+                var quary = (from a in db.Appointments
+                              join s in db.Students on a.StudentID equals s.ID
+                              select new AppointmentStudent { ID = a.ID, StudentID = s.ID, Name = s.Name,
+                                                            Team = s.Team, FromeDate = a.FromeDate,
+                                                            ToDate = a.ToDate, Day = a.Day, Modules = a.Modules,
+                                                            Info = a.Info
+                              })
+                               .ToList();
+
+                if(studentID != -1)
+                {
+                    quary = quary.Where(aps => aps.StudentID == studentID).ToList();
+                }
+                retur = quary;
+            }
+            return retur;
+        }
+
         public List<Student> GetHold()
         {
             List<Student> liste = new List<Student>();
@@ -84,7 +116,7 @@ namespace AspitPlanner.Helpers
         {
             int i = -1;
             var quary = from ty in GetAbcentTypes()
-                        where ty.TypeName.Equals("fri")
+                        where ty.TypeName.Equals("Fri")
                         select ty;
 
 
