@@ -80,6 +80,12 @@ namespace AspitPlanner.GUI
                     int studentID = (Elever.SelectedValue as Student).ID;
                     Present p = db.getPressent(today, studentID);
                     
+                    if ((CBModul1.SelectedValue as AbsentType).TypeName == "Syg")
+                    {
+                        CBModul2.SelectedIndex = CBModul1.SelectedIndex;
+                        CBModul3.SelectedIndex = CBModul1.SelectedIndex;
+                        CBModul4.SelectedIndex = CBModul1.SelectedIndex;
+                    }
                     if (p != null)
                     {
                         if (CBModul1.SelectedIndex != -1)

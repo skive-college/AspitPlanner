@@ -40,15 +40,6 @@ namespace AspitPlanner.Helpers
 
         public List<AppointmentStudent> getAllPresents(int studentID)
         {
-            /*
-                public int ID { get; set; }        
-                public int StudentID { get; set; }
-                public DateTime FromeDate { get; set; }
-                public DateTime ToDate { get; set; }
-                public string Day { get; set; }
-                public string Modules { get; set; }
-                public string Info { get; set; }
-            */
             List<AppointmentStudent> retur = new List<AppointmentStudent>();
             using (DBCon db = new DBCon())
             {
