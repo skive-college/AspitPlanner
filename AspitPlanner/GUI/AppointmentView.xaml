@@ -14,7 +14,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
-                <ComboBox x:Name="CBStudentApp" Grid.Column="0" Width="200" HorizontalAlignment="Left" ItemsSource="{Binding}">
+                <ComboBox x:Name="CBStudentApp" Grid.Column="0" Width="200" HorizontalAlignment="Left" ItemsSource="{Binding}" SelectionChanged="CBStudentApp_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -25,7 +25,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="Btn" Grid.Column="1" Style="{StaticResource standartButton}" HorizontalAlignment="Left" Content="Ryd"/>
+                <Button x:Name="Btn" Grid.Column="1" Style="{StaticResource standartButton}" HorizontalAlignment="Left" Content="Ryd" Click="Btn_Click"/>
             </Grid>
             <DataGrid x:Name="RegistrationsGrid" Height="300" ItemsSource="{Binding}">
             
