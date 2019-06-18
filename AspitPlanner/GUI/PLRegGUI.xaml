@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="AspitPlanner.GUI.PLRegGUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AspitPlanner.GUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Left panel -->
+        <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+            <TextBlock Text="Hold"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="CBHold" Grid.Column="0" ItemsSource="{Binding}" SelectionChanged="CBHold_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Team}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Grid.Column="1" Content="Alle" Click="CmdClear_Click"/>
+            </Grid>
+            <TextBlock Text="Elever"/>
+            <ListView x:Name="Elever" Height="250" ItemsSource="{Binding}" SelectionChanged="Elever_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Navn" 
+                                    Width="150" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Hold" 
+                                    Width="150" DisplayMemberBinding="{Binding Team}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+        </StackPanel>
+        <!-- Right panel -->
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
+                <TextBlock Text="Modul 1"/>
+                <ComboBox x:Name="CBModul1" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Modul 3"/>
+                <ComboBox x:Name="CBModul3" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
+                <TextBlock Text="Modul 2"/>
+                <ComboBox x:Name="CBModul2" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Modul 4"/>
+                <ComboBox x:Name="CBModul4" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CatName}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

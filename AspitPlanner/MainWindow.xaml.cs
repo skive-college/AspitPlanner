@@ -25,7 +25,9 @@ namespace AspitPlanner
         StudentAdmin sa = new StudentAdmin();
         TypeAdmin ta = new TypeAdmin();
         AppointmentGUI ap = new AppointmentGUI();
+        PLRegGUI pl = new PLRegGUI();
         String titel = "Aspit Planner";
+        statistic st = new statistic();
         public MainWindow()
         {
             InitializeComponent();
@@ -68,8 +70,23 @@ namespace AspitPlanner
             MainContent.Children.RemoveAt(0);
             ap.load();
             MainContent.Children.Add(ap);
-            
             setTitle("Aftaler");
+        }
+
+        private void PLRegGUI_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            pl.load();
+            MainContent.Children.Add(pl);
+            setTitle("Manglede elever");
+        }
+
+        private void StatisticGUI_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            //st.load();
+            MainContent.Children.Add(st);
+            setTitle("Statestik");
         }
     }
 }

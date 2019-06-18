@@ -13,6 +13,8 @@
                 <MenuItem Header="Elev administration" Click="StudentAdmin_Click"/>
                 <MenuItem Header="Type administration" Click="TypeAdmin_Click"/>
                 <MenuItem Header="Aftaler administration" Click="Appointment_Click"/>
+                <MenuItem Header="Manglede elever" Click="PLRegGUI_Click"/>
+                <MenuItem Header="Statestik" Click="StatisticGUI_Click"/>
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Background="LightGreen">

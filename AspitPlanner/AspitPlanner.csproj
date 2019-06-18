@@ -73,7 +73,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\PLRegGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\RegGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\StatisticGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -98,6 +106,12 @@
     </Compile>
     <Compile Include="GUI\AppointmentView.xaml.cs">
       <DependentUpon>AppointmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\PLRegGUI.xaml.cs">
+      <DependentUpon>PLRegGUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\StatisticGUI.xaml.cs">
+      <DependentUpon>StatisticGUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\StudentAdmin.xaml.cs">
       <DependentUpon>StudentAdmin.xaml</DependentUpon>
