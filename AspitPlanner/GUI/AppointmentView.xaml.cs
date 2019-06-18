@@ -1,4 +1,5 @@
 ﻿using AspitPlanner.Helpers;
+using AspitPlanner.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace AspitPlanner.GUI
             InitializeComponent();
             RegistrationsGrid.AutoGeneratingColumn += RegistrationsGrid_AutoGeneratingColumn; 
             load();
+            loadStudents();
         }
 
         private void RegistrationsGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -37,8 +39,34 @@ namespace AspitPlanner.GUI
         {
             using(DBCon db = new DBCon())
             {
+
                 RegistrationsGrid.DataContext = db.getAllPresents(-1);
             }
+        }
+
+        private void loadStudents()
+        {
+            using (DBCon db = new DBCon())
+            {
+                CBStudentApp.DataContext = db.Students.ToList();
+            }
+        }
+        private void CBStudentApp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(CBStudentApp.SelectedIndex != -1)
+            {
+                using (DBCon db = new DBCon())
+                {
+                    Student s = CBStudentApp.SelectedValue as Student;
+                    RegistrationsGrid.DataContext = db.getAllPresents(s.ID);
+                }
+            }
+        }
+
+        private void Btn_Click(object sender, RoutedEventArgs e)
+        {
+            CBStudentApp.SelectedIndex = -1;
+            load();
         }
     }
 }
