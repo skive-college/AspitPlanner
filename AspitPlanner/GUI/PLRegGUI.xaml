@@ -26,7 +26,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Grid.Column="1" Content="Alle" Click="CmdClear_Click"/>
+                <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Grid.Column="1" Content="Alle hold" Click="CmdClear_Click"/>
             </Grid>
             <TextBlock Text="Elever"/>
             <ListView x:Name="Elever" Height="250" ItemsSource="{Binding}" SelectionChanged="Elever_SelectionChanged">

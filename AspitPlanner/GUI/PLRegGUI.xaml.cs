@@ -80,11 +80,20 @@ namespace AspitPlanner.GUI
                     int studentID = (Elever.SelectedValue as Student).ID;
                     Present p = db.getPressent(today, studentID);
 
-                    if ((CBModul1.SelectedValue as AbsentType).TypeName == "Syg")
+                    if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
                     {
-                        CBModul2.SelectedIndex = CBModul1.SelectedIndex;
-                        CBModul3.SelectedIndex = CBModul1.SelectedIndex;
-                        CBModul4.SelectedIndex = CBModul1.SelectedIndex;
+                        if (CBModul2.SelectedIndex == -1)
+                        {
+                            CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                        if (CBModul3.SelectedIndex == -1)
+                        {
+                            CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                        if (CBModul4.SelectedIndex == -1)
+                        {
+                            CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
                     }
                     if (p != null)
                     {
