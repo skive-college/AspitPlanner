@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace AspitPlanner.Helpers
 {
@@ -59,6 +60,32 @@ namespace AspitPlanner.Helpers
                 retur = quary;
             }
             return retur;
+        }
+
+        public int SeekPresent(List<CheckBox> checkboxes, int studentID)
+        {
+            int fremøde = 100;
+
+            using(DBCon db = new DBCon())
+            {
+                var quary = from p in db.Presents
+                            where p.StudentID == studentID
+                            select p;
+
+
+                foreach(CheckBox c in checkboxes)
+                {
+                    var type = from t in db.Types
+                               where t.TypeName == c.Content.ToString()
+                               select t;
+                    int id = type.FirstOrDefault().ID;
+                    quary = quary.Where(t => t.Model1.Equals(id) || t.Model2.Equals(id) || t.Model3.Equals(id) || t.Model4.Equals(id));
+                }
+                List<Present> pre = quary.ToList();
+            }
+
+
+            return fremøde;
         }
 
         public List<Student> GetHold()

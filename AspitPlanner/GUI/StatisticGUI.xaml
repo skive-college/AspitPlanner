@@ -11,6 +11,10 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -18,12 +22,29 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Elev"/>
-                <ComboBox x:Name="cbSElev" Grid.Column="1"/>
+                <ComboBox x:Name="cbSElev" Grid.Column="1" ItemsSource="{Binding}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Team}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </StackPanel>
         <StackPanel x:Name="innerStack" Style="{StaticResource StackPanel}" Grid.Column="1">
-            
+            <Grid x:Name="PanelGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
         </StackPanel>
-
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <Button x:Name="cmdSeek" Content="Søg"  Style="{StaticResource standartButton}" Click="CmdSeek_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>
