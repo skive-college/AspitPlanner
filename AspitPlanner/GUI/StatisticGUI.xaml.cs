@@ -69,25 +69,38 @@ namespace AspitPlanner.GUI
 
         private void C_Checked(object sender, RoutedEventArgs e)
         {
-            CheckBox c = sender as CheckBox;
-
+            seek();
         }
 
-        private void CmdSeek_Click(object sender, RoutedEventArgs e)
+        private void seek()
         {
-            using(DBCon db = new DBCon())
+            if(cbSElev.SelectedIndex != -1)
             {
-                if(cbSElev.SelectedIndex != -1)
+                using (DBCon db = new DBCon())
                 {
-                    Student s = cbSElev.SelectedValue as Student;
+                    if (cbSElev.SelectedIndex != -1)
+                    {
+                        Student s = cbSElev.SelectedValue as Student;
 
 
-                    db.SeekPresent(checkboxes, s.ID);
+                        txtFremøde.Text = "" + db.SeekPresent(checkboxes, s.ID);
+                    }
                 }
             }
+        }
+        private void CmdSeek_Click(object sender, RoutedEventArgs e)
+        {
+            seek();
             
             
         }
 
+        private void CbSElev_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(cbSElev.SelectedIndex != -1)
+            {
+                seek();
+            }
+        }
     }
 }

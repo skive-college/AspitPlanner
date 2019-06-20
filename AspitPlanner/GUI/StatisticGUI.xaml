@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AspitPlanner.GUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Wheat">
+             d:DesignHeight="380" d:DesignWidth="800">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Elev"/>
-                <ComboBox x:Name="cbSElev" Grid.Column="1" ItemsSource="{Binding}">
+                <ComboBox x:Name="cbSElev" Grid.Column="1" ItemsSource="{Binding}" SelectionChanged="CbSElev_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -43,8 +43,18 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <Button x:Name="cmdSeek" Content="Søg"  Style="{StaticResource standartButton}" Click="CmdSeek_Click"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Style="{StaticResource StackPanel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="Info" Grid.Column="1" Text="Fremøde i procent"/>
+                <TextBox x:Name="txtFremøde" Grid.Column="2"/>
+            </Grid>
+            
+            <Button x:Name="cmdSeek" Content="Søg"  Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdSeek_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>
