@@ -46,11 +46,16 @@ namespace AspitPlanner.GUI
                 for (int i = 0; i < cats.Count; i++)
                 {
                     StackPanel p = new StackPanel();
+                    TextBlock text = new TextBlock();
+                    text.Text = cats[i].CategoryName;
+                    
                     
                     PanelGrid.Children.Add(p);
+                    p.Children.Add(text);
                     Grid.SetColumn(p, i);
                     int id = cats[i].ID;
                     var quary = from t in db.Types
+                                join c in db.Categorys on t.CatID equals c.ID
                                 where t.CatID == id
                                 select t;
 
@@ -59,6 +64,7 @@ namespace AspitPlanner.GUI
                     {
                         CheckBox c = new CheckBox();
                         c.Checked += C_Checked;
+                        c.Unchecked += C_Checked;
                         c.Content = typer[j].TypeName;
                         checkboxes.Add(c);
                         p.Children.Add(c);
@@ -83,23 +89,38 @@ namespace AspitPlanner.GUI
                         Student s = cbSElev.SelectedValue as Student;
 
 
-                        txtFremøde.Text = "" + db.SeekPresent(checkboxes, s.ID);
+                        txtFremøde.Text = "" + db.SeekPresent(checkboxes, s.ID, fraDato.SelectedDate, tilDato.SelectedDate);
                     }
                 }
             }
         }
-        private void CmdSeek_Click(object sender, RoutedEventArgs e)
-        {
-            seek();
-            
-            
-        }
 
         private void CbSElev_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(cbSElev.SelectedIndex != -1)
+            seek();            
+        }
+
+        private void FraDato_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            seek();
+        }
+
+        private void TilDato_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            seek();
+        }
+
+        private void CmdSeek_Click(object sender, RoutedEventArgs e)
+        {
+            using (DBCon db = new DBCon())
             {
-                seek();
+                if (cbSElev.SelectedIndex != -1)
+                {
+                    Student s = cbSElev.SelectedValue as Student;
+
+
+                    db.SeekPresentToPrint(checkboxes, s, fraDato.SelectedDate, tilDato.SelectedDate);
+                }
             }
         }
     }

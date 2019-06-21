@@ -21,7 +21,14 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
                 <TextBlock Text="Elev"/>
+                <TextBlock Text="Fra" Grid.Row="1"/>
+                <TextBlock Text="Til" Grid.Row="2"/>
                 <ComboBox x:Name="cbSElev" Grid.Column="1" ItemsSource="{Binding}" SelectionChanged="CbSElev_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -33,6 +40,9 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <DatePicker x:Name="fraDato" Grid.Column="1" Grid.Row="1" SelectedDateChanged="FraDato_SelectedDateChanged"/>
+                <DatePicker x:Name="tilDato" Grid.Column="1" Grid.Row="2" SelectedDateChanged="TilDato_SelectedDateChanged"/>
+               
             </Grid>
         </StackPanel>
         <StackPanel x:Name="innerStack" Style="{StaticResource StackPanel}" Grid.Column="1">
@@ -50,11 +60,11 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="Info" Grid.Column="1" Text="Fremøde i procent"/>
+                <TextBlock x:Name="Info" Grid.Column="1" Text="Fravær i procent"/>
                 <TextBox x:Name="txtFremøde" Grid.Column="2"/>
             </Grid>
             
-            <Button x:Name="cmdSeek" Content="Søg"  Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdSeek_Click"/>
+            <Button x:Name="cmdSeek" Content="Print"  Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdSeek_Click" />
         </StackPanel>
     </Grid>
 </UserControl>
