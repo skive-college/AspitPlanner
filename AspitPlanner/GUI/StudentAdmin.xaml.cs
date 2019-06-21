@@ -38,16 +38,24 @@ namespace AspitPlanner.GUI
                 {
                     using (DBCon db = new DBCon())
                     {
-                        String Team;
-                        if (txtNewTeam.Text != "")
+                        String team;
+
+                        if(cbTeam.SelectedIndex == -1)
                         {
-                            Team = txtNewTeam.Text;
+                            team = "A";
+                            if (DateTime.Now.Month < 7)
+                                team += "F";
+                            else
+                                team += "E";
+
+                            team += (DateTime.Now.Year % 100);
+
                         }
                         else
                         {
-                            Team = (cbTeam.SelectedValue as Student).Team;
+                            team = (cbTeam.SelectedValue as Student).Team;
                         }
-                        Student s = new Student() { Name = txtName.Text, Team = Team};
+                        Student s = new Student() { Name = txtName.Text, Team = team};
 
               
                         db.Students.Add(s);
@@ -76,7 +84,6 @@ namespace AspitPlanner.GUI
         {
 
             txtName.Text = "";
-            txtNewTeam.Text = "";
             cbTeam.SelectedIndex = -1;
         }
         public void loadTeams()

@@ -35,8 +35,6 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBlock Text="Nyt hold"/>
-            <TextBox x:Name="txtNewTeam" Width="200"/>
             <Button x:Name="create" Content="Opret" Width="100" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="cmbCreate_Click"/>
         </StackPanel>
             

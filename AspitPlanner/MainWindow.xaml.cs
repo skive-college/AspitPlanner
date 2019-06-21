@@ -78,7 +78,7 @@ namespace AspitPlanner
             MainContent.Children.RemoveAt(0);
             pl.load();
             MainContent.Children.Add(pl);
-            setTitle("Manglede elever");
+            setTitle("Manglende elever");
         }
 
         private void StatisticGUI_Click(object sender, RoutedEventArgs e)
