@@ -31,8 +31,15 @@ namespace AspitPlanner
         public MainWindow()
         {
             InitializeComponent();
+            LoginGUI Login = new LoginGUI();
+            Login.ShowDialog();
             MainContent.Children.Add(rg);
             setTitle("Registrering");
+            if (Login.DialogResult == true)
+            {
+                
+            }
+            
         }
 
         private void setTitle(String page)
@@ -78,7 +85,7 @@ namespace AspitPlanner
             MainContent.Children.RemoveAt(0);
             pl.load();
             MainContent.Children.Add(pl);
-            setTitle("Manglende elever");
+            setTitle("Manglede elever");
         }
 
         private void StatisticGUI_Click(object sender, RoutedEventArgs e)
