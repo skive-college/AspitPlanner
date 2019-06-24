@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AspitPlanner.GUI;
+using AspitPlanner.Models;
 
 namespace AspitPlanner
 {
@@ -28,6 +29,7 @@ namespace AspitPlanner
         PLRegGUI pl = new PLRegGUI();
         String titel = "Aspit Planner";
         statistic st = new statistic();
+        User current;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,7 +39,11 @@ namespace AspitPlanner
             setTitle("Registrering");
             if (Login.DialogResult == true)
             {
-                
+                current = Login.GetUser();
+            }
+            else if (Login.DialogResult == false)
+            {
+                this.Close();
             }
             
         }

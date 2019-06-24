@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AspitPlanner.Helpers;
+using AspitPlanner.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,49 @@ namespace AspitPlanner.GUI
     /// </summary>
     public partial class LoginGUI : Window
     {
+        User u = null;
+        
         public LoginGUI()
         {
             InitializeComponent();
+        }
+
+        private void validate()
+        {
+            using (DBCon db = new DBCon())
+            {
+                User us = new User();
+                if (txtName.Text != "" && txtPassword.Password != "")
+                {
+                    us.Usernane = txtName.Text;
+
+                    us.Password = txtPassword.Password;
+                }
+                u = (db.Users.Where(x => x.Usernane == us.Usernane && x.Password == us.Password)).FirstOrDefault();
+
+                if(u!= null)
+                {
+                    DialogResult = true;
+                }
+            }
+        }
+
+        public User GetUser()
+        {
+            return u;
+        }
+
+        private void CmdLogin(object sender, RoutedEventArgs e)
+        {
+            validate();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(DialogResult != true)
+            {
+                DialogResult = false;
+            }
         }
     }
 }
