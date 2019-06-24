@@ -139,6 +139,10 @@
     <Compile Include="Migrations\201906240837213_fixpass-added.Designer.cs">
       <DependentUpon>201906240837213_fixpass-added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906241106009_userrolls.cs" />
+    <Compile Include="Migrations\201906241106009_userrolls.Designer.cs">
+      <DependentUpon>201906241106009_userrolls.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AppointmentStudent.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
@@ -171,6 +175,7 @@
     <Compile Include="Models\Present.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\RegistrationType.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -201,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906240837213_fixpass-added.resx">
       <DependentUpon>201906240837213_fixpass-added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906241106009_userrolls.resx">
+      <DependentUpon>201906241106009_userrolls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

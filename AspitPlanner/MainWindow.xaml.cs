@@ -40,12 +40,51 @@ namespace AspitPlanner
             if (Login.DialogResult == true)
             {
                 current = Login.GetUser();
+                generateMenu();
             }
             else if (Login.DialogResult == false)
             {
                 this.Close();
             }
             
+        }
+
+        private void generateMenu()
+        {
+            MenuItem menu = new MenuItem();
+            menu.Header = "Menu";
+            menu.Height = 25;
+            MenuItem Reg = new MenuItem();
+            Reg.Header = "Registrere";
+            Reg.Click += RegGUI_Click;
+            menu.Items.Add(Reg);
+
+            MenuItem Elev = new MenuItem();
+            Elev.Header = "Elev administration";
+            Elev.Click += StudentAdmin_Click;
+            menu.Items.Add(Elev);
+
+            MenuItem Type = new MenuItem();
+            Type.Header = "Type administration";
+            Type.Click += TypeAdmin_Click;
+            menu.Items.Add(Type);
+
+            MenuItem Aftaler = new MenuItem();
+            Aftaler.Header = "Aftaler administration";
+            Aftaler.Click += Appointment_Click;
+            menu.Items.Add(Aftaler);
+
+            MenuItem Manglede = new MenuItem();
+            Manglede.Header = "Manglede elever";
+            Manglede.Click += PLRegGUI_Click;
+            menu.Items.Add(Manglede);
+
+            MenuItem Statestik = new MenuItem();
+            Statestik.Header = "Statestik";
+            Statestik.Click += StatisticGUI_Click;
+            menu.Items.Add(Statestik);
+
+            MainMenu.Items.Add(menu);
         }
 
         private void setTitle(String page)
