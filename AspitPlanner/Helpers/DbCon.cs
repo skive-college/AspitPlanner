@@ -21,6 +21,7 @@ namespace AspitPlanner.Helpers
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Present> Presents { get; set; }
         public DbSet<Models.RegistrationType> Types { get; set; }
+        public DbSet<User> Users { get; set; }
 
                
         public List<AbsentType> GetAbcentTypes() 

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AspitPlanner.GUI"
         mc:Ignorable="d"
         Title="LoginGUI" Height="150" Width="300">
+    <StackPanel Style="{StaticResource StackPanel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,4 +23,5 @@
         <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="txtPassword"/>
         <Button Grid.Column="1" Grid.Row="3" x:Name="cmdLogin" Style="{StaticResource standartButton}" Content="Log Ind"/>
     </Grid>
+    </StackPanel>
 </Window>
