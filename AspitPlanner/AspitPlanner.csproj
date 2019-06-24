@@ -73,6 +73,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\LoginGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\PLRegGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,6 +111,9 @@
     <Compile Include="GUI\AppointmentView.xaml.cs">
       <DependentUpon>AppointmentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\LoginGUI.xaml.cs">
+      <DependentUpon>LoginGUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\PLRegGUI.xaml.cs">
       <DependentUpon>PLRegGUI.xaml</DependentUpon>
     </Compile>
@@ -124,6 +131,14 @@
     </Compile>
     <Compile Include="GUI\TypeWhitCatName.cs" />
     <Compile Include="Helpers\FileHandler.cs" />
+    <Compile Include="Migrations\201906240834504_Ua-added.cs" />
+    <Compile Include="Migrations\201906240834504_Ua-added.Designer.cs">
+      <DependentUpon>201906240834504_Ua-added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906240837213_fixpass-added.cs" />
+    <Compile Include="Migrations\201906240837213_fixpass-added.Designer.cs">
+      <DependentUpon>201906240837213_fixpass-added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AppointmentStudent.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.cs" />
     <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
@@ -152,6 +167,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\Present.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\RegistrationType.cs" />
@@ -179,6 +195,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906171138169_fixed.resx">
       <DependentUpon>201906171138169_fixed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906240834504_Ua-added.resx">
+      <DependentUpon>201906240834504_Ua-added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906240837213_fixpass-added.resx">
+      <DependentUpon>201906240837213_fixpass-added.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
