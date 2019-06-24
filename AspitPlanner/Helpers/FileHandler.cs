@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AspitPlanner.Models;
 using Microsoft.Office.Interop.Excel;
-using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace AspitPlanner.Helpers
 {
@@ -35,40 +32,19 @@ namespace AspitPlanner.Helpers
             {
                 xlWorkSheet.Cells[row, 1] = p.Date.ToShortDateString();
                 xlWorkSheet.Cells[row, 2] = student.Name + " " + student.Team;
-
-                xlWorkSheet.Cells[row, 3] = getTypeName(typer, p.Model1);
-                xlWorkSheet.Cells[row, 4] = getTypeName(typer, p.Model2);
-                xlWorkSheet.Cells[row, 5] = getTypeName(typer, p.Model3);
-                xlWorkSheet.Cells[row, 6] = getTypeName(typer, p.Model4);
+                xlWorkSheet.Cells[row, 3] = (typer.Where(x => x.ID == p.Model1).FirstOrDefault()).TypeName;
+                xlWorkSheet.Cells[row, 4] = (typer.Where(x => x.ID == p.Model2).FirstOrDefault()).TypeName;
+                xlWorkSheet.Cells[row, 5] = (typer.Where(x => x.ID == p.Model3).FirstOrDefault()).TypeName;
+                xlWorkSheet.Cells[row, 6] = (typer.Where(x => x.ID == p.Model4).FirstOrDefault()).TypeName;
 
                 row++;
+
             }
 
-            string path = "";
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-           
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                path = dialog.FileName+ "\\";
-            }
-
-            string fileName = $"{student.Name}_{student.Team}_{DateTime.Now.ToShortDateString()}.xls";
-
-            xlWorkBook.SaveAs(path + fileName, XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+            xlWorkBook.SaveAs("c:\\temp\\csharp-Excel.xls", XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
             xlWorkBook.Close(true, misValue, misValue);
             xlApp.Quit();
-
-        }
-        private static string getTypeName(List<RegistrationType> typer, int i)
-        {
-            string name = "FEJL";
-
-            RegistrationType t = (typer.Where(x => x.ID == i).FirstOrDefault());
-            if (t != null)
-                name = t.TypeName;
-
-            return name;
+;
         }
     }
 }

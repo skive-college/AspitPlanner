@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <!-- Left Panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
-            <TextBlock Text="Kategori"/>
+            <TextBlock Text="Type"/>
             <ComboBox x:Name="CbType" ItemsSource="{Binding}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -21,15 +21,15 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBlock Text="Ny type navn"/>
+            <TextBlock Text="Navn"/>
             <TextBox x:Name="txtNavn"/>
-            <Button x:Name="CmdOpretType" Content="Opret type" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdOpretType_Click"/>
+            <Button x:Name="CmdOpretType" Content="Ny Type" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdOpretType_Click"/>
         </StackPanel>
         <!-- right Panel -->
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1">
-            <TextBlock Text="Ny kategori navn"/>
+            <TextBlock Text="Navn"/>
             <TextBox x:Name="txtKatNavn"/>
-            <Button x:Name="CmdOpretKategori" Content="Opret kategori" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdOpretKategori_Click"/>
+            <Button x:Name="CmdOpretKategori" Content="Ny Kategori" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdOpretKategori_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>
