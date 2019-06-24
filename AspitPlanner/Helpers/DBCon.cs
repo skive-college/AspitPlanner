@@ -21,6 +21,7 @@ namespace AspitPlanner.Helpers
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Present> Presents { get; set; }
         public DbSet<Models.RegistrationType> Types { get; set; }
+        public DbSet<User> Users { get; set; }
 
                
         public List<AbsentType> GetAbcentTypes() 
@@ -122,8 +123,19 @@ namespace AspitPlanner.Helpers
                     til = getDateTime(til);
                     quary = quary.Where(x => x.Date <= til);
                 }
-                List<RegistrationType> typer = db.Types.ToList();
-                
+                List<RegistrationType> typer = new List<RegistrationType>();
+                foreach (CheckBox c in checkboxes)
+                {
+                    if (c.IsChecked == true)
+                    {
+                        var type = from t in db.Types
+                                   where t.TypeName == c.Content.ToString()
+                                   select t;
+
+                        typer.Add(type.FirstOrDefault());
+
+                    }
+                }
 
                 List<Present> pre = quary.ToList();
                 FileHandler.Print(pre, typer, student);

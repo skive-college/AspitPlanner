@@ -34,5 +34,9 @@
             <Setter Property="Margin" Value="0 0 0 10"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
     </Application.Resources>
 </Application>
