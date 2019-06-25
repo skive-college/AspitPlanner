@@ -7,15 +7,8 @@
         mc:Ignorable="d"
         Title="Aspit Planner" Height="470" Width="800" ResizeMode="NoResize">
     <DockPanel>
-        <Menu Height="25" DockPanel.Dock="Top" Background="LightGreen">
-            <MenuItem Header="Menu" Height="25">
-                <MenuItem Header="Registrere" Click="RegGUI_Click"/>
-                <MenuItem Header="Elev administration" Click="StudentAdmin_Click"/>
-                <MenuItem Header="Type administration" Click="TypeAdmin_Click"/>
-                <MenuItem Header="Aftaler administration" Click="Appointment_Click"/>
-                <MenuItem Header="Manglede elever" Click="PLRegGUI_Click"/>
-                <MenuItem Header="Statestik" Click="StatisticGUI_Click"/>
-            </MenuItem>
+        <Menu x:Name="MainMenu" Height="25" DockPanel.Dock="Top" Background="LightGreen">
+            
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Background="LightGreen">
             <StatusBarItem>

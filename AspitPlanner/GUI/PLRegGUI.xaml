@@ -26,8 +26,9 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Grid.Column="1" Content="Alle hold" Click="CmdClear_Click"/>
+                <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Grid.Column="1" Content="Mangler idag" Click="CmdClear_Click"/>
             </Grid>
+            <DatePicker x:Name="dpDag" SelectedDateChanged="DpDag_SelectedDateChanged"/>
             <TextBlock Text="Elever"/>
             <ListView x:Name="Elever" Height="250" ItemsSource="{Binding}" SelectionChanged="Elever_SelectionChanged">
                 <ListView.View>

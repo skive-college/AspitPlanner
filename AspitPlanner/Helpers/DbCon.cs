@@ -12,7 +12,8 @@ namespace AspitPlanner.Helpers
 {
     public class DBCon : DbContext
     {
-        private static readonly string con = "Local";
+        private static readonly string con = "DBCon";
+        //private static readonly string con = "Local";
 
         public DBCon() : base(ConfigurationManager.ConnectionStrings[con].ConnectionString) { }
         
@@ -22,8 +23,9 @@ namespace AspitPlanner.Helpers
         public DbSet<Present> Presents { get; set; }
         public DbSet<Models.RegistrationType> Types { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> Roles { get; set; }
 
-               
+
         public List<AbsentType> GetAbcentTypes() 
         {
             List<AbsentType> retur = new List<AbsentType>();
