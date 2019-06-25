@@ -48,8 +48,9 @@ namespace AspitPlanner.GUI
                 else
                 {
                     txtPassword.Password = "";
-                    txtWrong.Text = "Forket";
+                    txtWrong.Text = "Forket login";
                     txtName.SelectAll();
+                    txtName.Focus();
 
                 }
             }
