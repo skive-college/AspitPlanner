@@ -22,8 +22,9 @@ namespace AspitPlanner.Helpers
         public DbSet<Present> Presents { get; set; }
         public DbSet<Models.RegistrationType> Types { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> Roles { get; set; }
 
-               
+
         public List<AbsentType> GetAbcentTypes() 
         {
             List<AbsentType> retur = new List<AbsentType>();

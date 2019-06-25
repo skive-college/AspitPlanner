@@ -33,6 +33,7 @@ namespace AspitPlanner.GUI
         {
             using (DBCon db = new DBCon())
             {
+                dpDag.SelectedDate = DateTime.Now;
                 CBHold.DataContext = db.GetHold();
                 CBModul1.DataContext = db.GetAbcentTypes();
                 CBModul2.DataContext = db.GetAbcentTypes();
@@ -155,7 +156,7 @@ namespace AspitPlanner.GUI
 
         private DateTime getDateTime()
         {
-            DateTime d = DateTime.Now;
+            DateTime d = (DateTime)dpDag.SelectedDate;
 
             d = new DateTime(d.Year, d.Month, d.Day);
 
@@ -208,6 +209,7 @@ namespace AspitPlanner.GUI
 
         private void clear()
         {
+            dpDag.SelectedDate = DateTime.Now;
             CBModul1.SelectedIndex = -1;
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
@@ -264,6 +266,14 @@ namespace AspitPlanner.GUI
                 }
             }
 
+        }
+
+        private void DpDag_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (DBCon db = new DBCon())
+            {
+                Elever.DataContext = db.getNotPressent(getDateTime());
+            }
         }
     }
 }
