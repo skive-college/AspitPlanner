@@ -22,20 +22,20 @@ namespace AspitPlanner
     /// </summary>
     public partial class MainWindow : Window
     {
-        RegGUI rg = new RegGUI();
-        StudentAdmin sa = new StudentAdmin();
-        TypeAdmin ta = new TypeAdmin();
-        AppointmentGUI ap = new AppointmentGUI();
-        PLRegGUI pl = new PLRegGUI();
-        String titel = "Aspit Planner";
-        statistic st = new statistic();
+        RegGUI rg;
+        StudentAdmin sa;
+        TypeAdmin ta;
+        AppointmentGUI ap;
+        PLRegGUI pl;
+        String titel;
+        statistic st;
         User current;
         public MainWindow()
         {
             InitializeComponent();
             LoginGUI Login = new LoginGUI();
             Login.ShowDialog();
-            MainContent.Children.Add(rg);
+            
             setTitle("Registrering");
             if (Login.DialogResult == true)
             {
@@ -46,7 +46,21 @@ namespace AspitPlanner
             {
                 this.Close();
             }
-            
+            LoadContent();
+            setTitle("Registrering");
+            MainContent.Children.Add(rg);
+
+        }
+
+        private void LoadContent()
+        {
+            rg = new RegGUI();
+            sa = new StudentAdmin();
+            ta = new TypeAdmin();
+            ap = new AppointmentGUI();
+            pl = new PLRegGUI();
+            titel = "Aspit Planner";
+            st = new statistic();
         }
 
         private void generateMenu()
