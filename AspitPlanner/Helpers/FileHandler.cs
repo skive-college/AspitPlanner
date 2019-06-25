@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,5 +47,15 @@ namespace AspitPlanner.Helpers
             xlApp.Quit();
 ;
         }
+        public static void Error()
+        {
+            // Create a file to write to.
+            string fail = "";
+            string path = @"C:/Users/oliv6101/Source/Repos/AspitPlanner/test.txt";
+            string createText = DateTime.Now + fail + Environment.NewLine + Environment.NewLine;
+            File.AppendAllText(path, createText);
+        }
+
+
     }
 }
