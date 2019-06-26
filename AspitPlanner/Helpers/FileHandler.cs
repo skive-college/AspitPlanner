@@ -47,11 +47,11 @@ namespace AspitPlanner.Helpers
             xlApp.Quit();
 ;
         }
-        public static void Error()
+        public static void Error(Exception ex)
         {
             // Create a file to write to.
-            string fail = "";
-            string path = @"C:/Users/oliv6101/Source/Repos/AspitPlanner/test.txt";
+            string fail = ex.ToString();
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Log.txt";
             string createText = DateTime.Now + fail + Environment.NewLine + Environment.NewLine;
             File.AppendAllText(path, createText);
         }

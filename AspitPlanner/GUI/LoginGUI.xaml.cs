@@ -39,7 +39,15 @@ namespace AspitPlanner.GUI
 
                     us.Password = txtPassword.Password;
                 }
-                u = (db.Users.Where(x => x.Usernane == us.Usernane && x.Password == us.Password)).FirstOrDefault();
+                try
+                {
+                    u = (db.Users.Where(x => x.Usernane == us.Usernane && x.Password == us.Password)).FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+
+                    FileHandler.Error(ex);
+                }
 
                 if(u!= null)
                 {
