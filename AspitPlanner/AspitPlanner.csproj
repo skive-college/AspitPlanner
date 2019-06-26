@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="GUI\TypeWhitCatName.cs" />
     <Compile Include="Helpers\FileHandler.cs" />
+    <Compile Include="Helpers\MailSender.cs" />
     <Compile Include="Migrations\201906240834504_Ua-added.cs" />
     <Compile Include="Migrations\201906240834504_Ua-added.Designer.cs">
       <DependentUpon>201906240834504_Ua-added.cs</DependentUpon>
