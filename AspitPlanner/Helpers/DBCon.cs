@@ -125,22 +125,10 @@ namespace AspitPlanner.Helpers
                     til = getDateTime(til);
                     quary = quary.Where(x => x.Date <= til);
                 }
-                List<RegistrationType> typer = new List<RegistrationType>();
-                foreach (CheckBox c in checkboxes)
-                {
-                    if (c.IsChecked == true)
-                    {
-                        var type = from t in db.Types
-                                   where t.TypeName == c.Content.ToString()
-                                   select t;
-
-                        typer.Add(type.FirstOrDefault());
-
-                    }
-                }
+                
 
                 List<Present> pre = quary.ToList();
-                FileHandler.Print(pre, typer, student);
+                FileHandler.Print(pre, db.Types.ToList(), student);
             }
         }
 

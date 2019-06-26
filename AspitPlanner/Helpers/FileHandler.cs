@@ -33,19 +33,27 @@ namespace AspitPlanner.Helpers
             {
                 xlWorkSheet.Cells[row, 1] = p.Date.ToShortDateString();
                 xlWorkSheet.Cells[row, 2] = student.Name + " " + student.Team;
-                xlWorkSheet.Cells[row, 3] = (typer.Where(x => x.ID == p.Model1).FirstOrDefault()).TypeName;
-                xlWorkSheet.Cells[row, 4] = (typer.Where(x => x.ID == p.Model2).FirstOrDefault()).TypeName;
-                xlWorkSheet.Cells[row, 5] = (typer.Where(x => x.ID == p.Model3).FirstOrDefault()).TypeName;
-                xlWorkSheet.Cells[row, 6] = (typer.Where(x => x.ID == p.Model4).FirstOrDefault()).TypeName;
+                if(p.Model1 != 0)
+                    xlWorkSheet.Cells[row, 3] = (typer.Where(x => x.ID == p.Model1).FirstOrDefault()).TypeName;
+                if (p.Model2 != 0)
+                    xlWorkSheet.Cells[row, 4] = (typer.Where(x => x.ID == p.Model2).FirstOrDefault()).TypeName;
+                if (p.Model3 != 0)
+                    xlWorkSheet.Cells[row, 5] = (typer.Where(x => x.ID == p.Model3).FirstOrDefault()).TypeName;
+                if (p.Model4 != 0)
+                    xlWorkSheet.Cells[row, 6] = (typer.Where(x => x.ID == p.Model4).FirstOrDefault()).TypeName;
 
                 row++;
 
             }
 
-            xlWorkBook.SaveAs("c:\\temp\\csharp-Excel.xls", XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\reports\";
+            string fileName = student.Name + DateTime.Now.ToShortDateString() +  ".xls";
+            System.IO.Directory.CreateDirectory(path);
+            xlWorkBook.SaveAs(path+fileName, XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
             xlWorkBook.Close(true, misValue, misValue);
             xlApp.Quit();
-;
+            MainWindow.setStatus(path + fileName + " Er oprettet");
+
         }
         public static void Error(Exception ex)
         {

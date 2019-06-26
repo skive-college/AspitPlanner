@@ -22,6 +22,7 @@ namespace AspitPlanner
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static TextBox lbStatus;
         RegGUI rg;
         StudentAdmin sa;
         TypeAdmin ta;
@@ -33,6 +34,7 @@ namespace AspitPlanner
         public MainWindow()
         {
             InitializeComponent();
+            lbStatus = lblStatus; 
             LoginGUI Login = new LoginGUI();
             Login.ShowDialog();
             
@@ -153,6 +155,11 @@ namespace AspitPlanner
             //st.load();
             MainContent.Children.Add(st);
             setTitle("Statestik");
+        }
+
+        public static void setStatus(String msg)
+        {
+            lbStatus.Text = msg;
         }
     }
 }
