@@ -77,8 +77,9 @@ namespace AspitPlanner.GUI
                 using (DBCon db = new DBCon())
                 {
                     DateTime today = getDateTime();
-                    int studentID = (Elever.SelectedValue as Student).ID;
-                    Present p = db.getPressent(today, studentID);
+                    
+                    Student student = (Elever.SelectedValue as Student);
+                    Present p = db.getPressent(today, student.ID);
 
                     if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
                     {
@@ -113,8 +114,18 @@ namespace AspitPlanner.GUI
                         {
                             p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
                         }
-                        db.Presents.AddOrUpdate(p);
-                        db.SaveChanges();
+                        try
+                        {
+                            db.Presents.AddOrUpdate(p);
+                            db.SaveChanges();
+                            MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
+                        }
+                        catch (Exception ex)
+                        {
+                            FileHandler.Error(ex);
+                            FileHandler.Backup(p);
+                            MainWindow.setStatus("Noget gik galt Backup taget og mail sent til sys admin");
+                        }
                     }
                     
                 }

@@ -43,6 +43,7 @@ namespace AspitPlanner
             {
                 current = Login.GetUser();
                 generateMenu();
+                setStatus("velkommen " + current.Usernane);
             }
             else if (Login.DialogResult == false)
             {

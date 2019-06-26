@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AspitPlanner.Models;
@@ -64,6 +65,29 @@ namespace AspitPlanner.Helpers
             File.AppendAllText(path, createText);
         }
 
+        public static void Backup(Present p)
+        {
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Backup\";
+            string fileName = "Backup.txt";
+            System.IO.Directory.CreateDirectory(path);
+            string createText = getPropertiesCommaSep(p) + Environment.NewLine;
+            File.AppendAllText(path+fileName, createText);
+        }
 
+        private static string getPropertiesCommaSep(Present p)
+        {
+
+            PropertyInfo[] _PropertyInfos = p.GetType().GetProperties();
+
+            var sb = new StringBuilder();
+
+            foreach (var info in _PropertyInfos)
+            {
+                var value = info.GetValue(p, null) ?? "(null)";
+                sb.Append(value.ToString() + ",");
+            }
+            sb.Remove(sb.Length - 1,1);
+            return sb.ToString();
+        }
     }
 }
