@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AspitPlanner"
         mc:Ignorable="d"
         Title="Aspit Planner" Height="470" Width="800" ResizeMode="NoResize">
-    <DockPanel>
+    <DockPanel >
         <Menu x:Name="MainMenu" Height="25" DockPanel.Dock="Top" Background="LightGreen">
             
         </Menu>
