@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("AspitPlanner")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Aspit Midtjylland")]
 [assembly: AssemblyProduct("AspitPlanner")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
