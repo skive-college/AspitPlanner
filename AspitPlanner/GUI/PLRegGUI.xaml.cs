@@ -68,6 +68,7 @@ namespace AspitPlanner.GUI
         private void CmdClear_Click(object sender, RoutedEventArgs e)
         {
             clear();
+            dpDag.SelectedDate = DateTime.Now;
             CBHold.SelectedIndex = -1;
         }
 
@@ -209,7 +210,7 @@ namespace AspitPlanner.GUI
 
         private void clear()
         {
-            dpDag.SelectedDate = DateTime.Now;
+            
             CBModul1.SelectedIndex = -1;
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
@@ -272,6 +273,7 @@ namespace AspitPlanner.GUI
         {
             using (DBCon db = new DBCon())
             {
+                clear();
                 Elever.DataContext = db.getNotPressent(getDateTime());
             }
         }
