@@ -30,6 +30,7 @@ namespace AspitPlanner
         PLRegGUI pl;
         String titel;
         statistic st;
+        UserGUI ug;
         User current;
         public MainWindow()
         {
@@ -64,6 +65,7 @@ namespace AspitPlanner
             pl = new PLRegGUI();
             titel = "Aspit Planner";
             st = new statistic();
+            ug = new UserGUI();
         }
 
         private void generateMenu()
@@ -96,12 +98,25 @@ namespace AspitPlanner
             Manglede.Click += PLRegGUI_Click;
             menu.Items.Add(Manglede);
 
+            MenuItem users = new MenuItem();
+            users.Header = "Bruger administration";
+            users.Click += Users_Click;
+            menu.Items.Add(users);
+
             MenuItem Statestik = new MenuItem();
             Statestik.Header = "Statestik";
             Statestik.Click += StatisticGUI_Click;
             menu.Items.Add(Statestik);
 
             MainMenu.Items.Add(menu);
+        }
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            
+            MainContent.Children.Add(ug);
+            setTitle("Bruger administration");
         }
 
         private void setTitle(String page)

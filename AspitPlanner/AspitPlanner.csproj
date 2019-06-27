@@ -97,6 +97,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\UserGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -130,6 +134,9 @@
       <DependentUpon>TypeAdmin.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\TypeWhitCatName.cs" />
+    <Compile Include="GUI\UserGUI.xaml.cs">
+      <DependentUpon>UserGUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\FileHandler.cs" />
     <Compile Include="Helpers\MailSender.cs" />
     <Compile Include="Migrations\201906240834504_Ua-added.cs" />
