@@ -35,6 +35,7 @@ namespace AspitPlanner
         public MainWindow()
         {
             InitializeComponent();
+            
             lbStatus = lblStatus; 
             LoginGUI Login = new LoginGUI();
             Login.ShowDialog();

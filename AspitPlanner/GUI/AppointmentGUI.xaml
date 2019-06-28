@@ -42,6 +42,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Dag"/>
@@ -57,6 +58,12 @@
                     <CheckBox x:Name="Modul2" Content="Modul 2"/>
                     <CheckBox x:Name="Modul3" Content="Modul 3"/>
                     <CheckBox x:Name="Modul4" Content="Modul 4"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Type"/>
+                    <CheckBox x:Name="Fri" Content="Fri"/>
+                    <CheckBox x:Name="VFU" Content="VFU"/>
+
                 </StackPanel>
             </Grid>
         </StackPanel>

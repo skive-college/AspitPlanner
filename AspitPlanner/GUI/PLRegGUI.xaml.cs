@@ -179,7 +179,7 @@ namespace AspitPlanner.GUI
                     {
                         string[] moduler = a.Modules.Split(',');
 
-                        int index = db.GetAftaleFri();
+                        int index = db.GetAftaleFri(a.RegistrationTypeID);
                         foreach (string s in moduler)
                         {
                             if (s == "M1")

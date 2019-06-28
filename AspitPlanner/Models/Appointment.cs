@@ -17,5 +17,7 @@ namespace AspitPlanner.Models
         public string Day { get; set; }
         public string Modules { get; set; }
         public string Info { get; set; }
-}
+
+        public int RegistrationTypeID { get; set; }
+    }
 }

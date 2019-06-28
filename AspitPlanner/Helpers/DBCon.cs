@@ -225,11 +225,11 @@ namespace AspitPlanner.Helpers
             
         }
 
-        public int GetAftaleFri()
+        public int GetAftaleFri(int id)
         {
             int i = -1;
             var quary = from ty in GetAbcentTypes()
-                        where ty.TypeName.Equals("Fri")
+                        where ty.ID.Equals(id)
                         select ty;
 
 

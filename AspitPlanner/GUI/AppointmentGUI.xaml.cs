@@ -54,6 +54,12 @@ namespace AspitPlanner.GUI
 
                 using (DBCon db = new DBCon())
                 {
+                    string typenavn = "";
+                    if (Fri.IsChecked == true)
+                        typenavn = "fri";
+                    else if (VFU.IsChecked == true)
+                        typenavn = "vfu";
+                    a.RegistrationTypeID = db.Types.Where(x => x.TypeName == typenavn).FirstOrDefault().ID;
                     db.Appointments.Add(a);
                     db.SaveChanges();
                 }
