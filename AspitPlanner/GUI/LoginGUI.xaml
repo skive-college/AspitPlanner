@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AspitPlanner.GUI"
         mc:Ignorable="d"
+        Icon="C:\Users\kjel0737\source\repos\AspitPlanner\AspitPlanner\Resources\logo.jpg"
         Closing="Window_Closing"
-        Title="Login" Height="165" Width="300" ResizeMode="NoResize">
+        Title="Aspit Planner Login" Height="165" Width="300" ResizeMode="NoResize">
     <StackPanel Style="{StaticResource StackPanel}">
     <Grid>
         <Grid.ColumnDefinitions>
