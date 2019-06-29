@@ -60,14 +60,16 @@ namespace AspitPlanner.Helpers
         {
             // Create a file to write to.
             string fail = ex.ToString();
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Log.txt";
+            string path = @"C:\AspitPlanner\Logs\";
+            string fileName = "Log.txt";
+            System.IO.Directory.CreateDirectory(path);
             string createText = DateTime.Now + fail + Environment.NewLine + Environment.NewLine;
-            File.AppendAllText(path, createText);
+            File.AppendAllText(path+fileName, createText);
         }
 
         public static void Backup(Present p)
         {
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Backup\";
+            string path = @"C:\AspitPlanner\Backup\";
             string fileName = "Backup.txt";
             System.IO.Directory.CreateDirectory(path);
             string createText = getPropertiesCommaSep(p) + Environment.NewLine;

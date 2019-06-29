@@ -72,68 +72,93 @@ namespace AspitPlanner.GUI
 
         private void CBModul_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(Elever.SelectedIndex != -1 && (sender as ComboBox).SelectedIndex != -1)
+            if ((sender as ComboBox).SelectedIndex != -1)
+            {
+                if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
+                {
+                    if (CBModul2.SelectedIndex == -1)
+                    {
+                        CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
+                    if (CBModul3.SelectedIndex == -1)
+                    {
+                        CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
+                    if (CBModul4.SelectedIndex == -1)
+                    {
+                        CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
+                }            
+                updateStudent();
+            }
+
+        }
+
+        private void updateStudent()
+        {
+            if (Elever.SelectedIndex != -1)
             {
                 using (DBCon db = new DBCon())
                 {
                     DateTime today = getDateTime();
-                    
-                    Student student = (Elever.SelectedValue as Student);
-                    Present p = db.getPressent(today, student.ID);
 
-                    if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
+                    Student student = (Elever.SelectedValue as Student);
+                    try
                     {
-                        if (CBModul2.SelectedIndex == -1)
+                        Present p = db.getPressent(today, student.ID);
+                        if (p != null)
                         {
-                            CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
-                        if (CBModul3.SelectedIndex == -1)
-                        {
-                            CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
-                        if (CBModul4.SelectedIndex == -1)
-                        {
-                            CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                            if (CBModul1.SelectedIndex != -1)
+                            {
+                                p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
+                            }
+                            if (CBModul2.SelectedIndex != -1)
+                            {
+                                p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
+                            }
+                            if (CBModul3.SelectedIndex != -1)
+                            {
+                                p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
+                            }
+                            if (CBModul4.SelectedIndex != -1)
+                            {
+                                p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
+                            }
+                            try
+                            {
+                                if (txtNoteTilDag.Text != "")
+                                {
+                                    ModulNote mn = new ModulNote();
+                                    mn.Date = p.Date;
+                                    mn.StudentID = p.StudentID;
+                                    mn.Note = txtNoteTilDag.Text;
+                                    db.ModulNotes.AddOrUpdate(mn);
+                                    db.SaveChanges();
+
+                                }
+                                db.Presents.AddOrUpdate(p);
+                                db.SaveChanges();
+                                MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
+                            }
+                            catch (Exception ex)
+                            {
+                                FileHandler.Error(ex);
+                                FileHandler.Backup(p);
+                                MainWindow.setStatus("Noget gik galt Backup taget og mail sent til sys admin");
+                            }
                         }
                     }
-                    if (p != null)
+                    catch (Exception ex)
                     {
-                        if (CBModul1.SelectedIndex != -1)
-                        {
-                            p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
-                        }
-                        if (CBModul2.SelectedIndex != -1)
-                        {
-                            p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
-                        }
-                        if (CBModul3.SelectedIndex != -1)
-                        {
-                            p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
-                        }
-                        if (CBModul4.SelectedIndex != -1)
-                        {
-                            p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
-                        }
-                        try
-                        {
-                            db.Presents.AddOrUpdate(p);
-                            db.SaveChanges();
-                            MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
-                        }
-                        catch (Exception ex)
-                        {
-                            FileHandler.Error(ex);
-                            FileHandler.Backup(p);
-                            MainWindow.setStatus("Noget gik galt Backup taget og mail sent til sys admin");
-                        }
+                        FileHandler.Error(ex);
+                        MainWindow.setStatus("Noget gik galt");
                     }
-                    
+
                 }
 
 
             }
         }
-
         private void creatNew()
         {
             using (DBCon db = new DBCon())
@@ -223,6 +248,7 @@ namespace AspitPlanner.GUI
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
             CBModul4.SelectedIndex = -1;
+            txtNoteTilDag.Text = "";
         }
         private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -275,6 +301,11 @@ namespace AspitPlanner.GUI
                 }
             }
             
+        }
+
+        private void TxtNoteTilDag_LostFocus(object sender, RoutedEventArgs e)
+        {
+            updateStudent();
         }
     }
 }

@@ -100,6 +100,8 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <TextBlock Text="Note til Dagen"/>
+                <TextBox x:Name="txtNoteTilDag" LostFocus="TxtNoteTilDag_LostFocus"/>
             </StackPanel>
         </Grid>
     </Grid>
