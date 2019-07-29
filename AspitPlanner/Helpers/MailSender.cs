@@ -18,7 +18,8 @@ namespace AspitPlanner.Helpers
 
                 mail.From = new MailAddress("jenslyn608@gmail.com");
                 mail.To.Add("ke@skivecollege.dk");
-                mail.Subject = "Test Mail";
+                mail.To.Add("olfs@skivecollege.dk");
+                mail.Subject = "AspitPlanner Error!";
                 mail.Body = msg;
 
                 SmtpServer.Port = 587;

@@ -39,14 +39,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EDBC2463975445D2C63D2A274F8A0AE6"
-        "OwnerKey" = "8:_C81FA9E8FB814DAA8667CD6DD33A0B4D"
+        "MsmKey" = "8:_CDCE9FEF7B4141C98C6AE4F3346E3AA9"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5C3246FEDD1C5C37F6A0CB20EDC575B1"
+        "MsmKey" = "8:_EDBC2463975445D2C63D2A274F8A0AE6"
+        "OwnerKey" = "8:_C81FA9E8FB814DAA8667CD6DD33A0B4D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -67,6 +67,12 @@
         "OwnerKey" = "8:_6F2064D233630476E40E991AE97ECD2A"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5C3246FEDD1C5C37F6A0CB20EDC575B1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -85,6 +91,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -101,6 +123,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -192,6 +222,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CDCE9FEF7B4141C98C6AE4F3346E3AA9"
+            {
+            "SourcePath" = "8:..\\AspitPlanner\\Resources\\Icon.ico"
+            "TargetName" = "8:Icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_CBF9B8AB63374BACA3D81E3AED649063"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EDBC2463975445D2C63D2A274F8A0AE6"
             {
             "AssemblyRegister" = "3:1"
@@ -280,7 +330,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AspitPlanner_installer"
         "ProductCode" = "8:{C96D4329-61D5-4DB7-B2E2-46B62F04514F}"
-        "PackageCode" = "8:{238EE81F-76CA-4705-BD73-C6FB19BB1C8D}"
+        "PackageCode" = "8:{CE35F3F9-DB24-4FA1-A316-439DB230B899}"
         "UpgradeCode" = "8:{C21E0F43-E322-4BFC-9F5E-17FD2099C63E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -400,7 +450,21 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8A37DC0B7AEA47168F36E84CDDB123D7"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_55CE9437E4C84A74B47E25CF84DAD127"
+            {
+            "Name" = "8:Shortcut to Primary output from AspitPlanner (Active)"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_C81FA9E8FB814DAA8667CD6DD33A0B4D"
+            "Folder" = "8:_A5478DD9308144F392A198CF49FF8C0B"
+            "WorkingFolder" = "8:_CBF9B8AB63374BACA3D81E3AED649063"
+            "Icon" = "8:_CDCE9FEF7B4141C98C6AE4F3346E3AA9"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_DD34E538C423498A86C92A68431774B5"
             {
             "Name" = "8:Shortcut to Primary output from AspitPlanner (Active)"
             "Arguments" = "8:"
@@ -411,7 +475,7 @@
             "Target" = "8:_C81FA9E8FB814DAA8667CD6DD33A0B4D"
             "Folder" = "8:_DFAA49DD061A4275A20E6D5E82A243CD"
             "WorkingFolder" = "8:_CBF9B8AB63374BACA3D81E3AED649063"
-            "Icon" = "8:"
+            "Icon" = "8:_CDCE9FEF7B4141C98C6AE4F3346E3AA9"
             "Feature" = "8:"
             }
         }

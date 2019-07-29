@@ -24,7 +24,7 @@ namespace AspitPlanner.Helpers
         public DbSet<Models.RegistrationType> Types { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> Roles { get; set; }
-
+        public DbSet <ModulNote> ModulNotes { get; set; }
 
         public List<AbsentType> GetAbcentTypes() 
         {
@@ -210,14 +210,22 @@ namespace AspitPlanner.Helpers
             List<Student> retur = new List<Student>();
             var quary = from pre in Presents
                             join stu in Students on pre.StudentID equals stu.ID
-                            where pre.Date.Equals(today) && pre.Model1 == 0
-                            select stu;
+                            join ty in Types on pre.Model1 equals ty.ID
+                            where pre.Date.Equals(today) && ty.TypeName == "Udeblevet"
+                        select stu;
             var idag = from pre in Presents where pre.Date.Equals(today) select pre.StudentID;
             var quary2 = Students.Where(x => !idag.Contains(x.ID));
-                         
+            var quary3 = from pre in Presents
+                        join stu in Students on pre.StudentID equals stu.ID
+                        where pre.Date.Equals(today) && pre.Model1 == 0
+                        select stu;
 
-           retur = quary.ToList();
+            retur = quary.ToList();
             foreach(Student s in quary2)
+            {
+                retur.Add(s);
+            }
+            foreach (Student s in quary3)
             {
                 retur.Add(s);
             }

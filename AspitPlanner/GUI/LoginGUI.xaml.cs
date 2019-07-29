@@ -30,6 +30,7 @@ namespace AspitPlanner.GUI
 
         private void validate()
         {
+            
             using (DBCon db = new DBCon())
             {
                 User us = new User();
