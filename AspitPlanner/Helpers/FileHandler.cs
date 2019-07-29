@@ -47,7 +47,7 @@ namespace AspitPlanner.Helpers
 
             }
 
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\reports\";
+            string path = @"C:\AspitPlanner\reports\";
             string fileName = student.Name + DateTime.Now.ToShortDateString() +  ".xls";
             System.IO.Directory.CreateDirectory(path);
             xlWorkBook.SaveAs(path+fileName, XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);

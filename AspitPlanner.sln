@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspitPlanner", "AspitPlanner\AspitPlanner.csproj", "{F6B35E9F-1C79-4F75-92B3-704D852EF63E}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AspitPlanner_installer", "AspitPlanner_installer\AspitPlanner_installer.vdproj", "{A83DCBBC-059B-4999-92B4-CB6BC1F53629}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{D945EE03-471D-4711-AA96-C07835567BDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{F6B35E9F-1C79-4F75-92B3-704D852EF63E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6B35E9F-1C79-4F75-92B3-704D852EF63E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6B35E9F-1C79-4F75-92B3-704D852EF63E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A83DCBBC-059B-4999-92B4-CB6BC1F53629}.Debug|Any CPU.ActiveCfg = Debug
-		{A83DCBBC-059B-4999-92B4-CB6BC1F53629}.Release|Any CPU.ActiveCfg = Release
+		{D945EE03-471D-4711-AA96-C07835567BDB}.Debug|Any CPU.ActiveCfg = Debug
+		{D945EE03-471D-4711-AA96-C07835567BDB}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

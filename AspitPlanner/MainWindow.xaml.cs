@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AspitPlanner.GUI;
+using AspitPlanner.Helpers;
 using AspitPlanner.Models;
 
 namespace AspitPlanner
@@ -34,25 +35,33 @@ namespace AspitPlanner
         User current;
         public MainWindow()
         {
-            InitializeComponent();
-            lbStatus = lblStatus; 
-            LoginGUI Login = new LoginGUI();
-            Login.ShowDialog();
-            
-            setTitle("Registrering");
-            if (Login.DialogResult == true)
+            try
             {
-                current = Login.GetUser();
-                generateMenu();
-                setStatus("velkommen " + current.Usernane);
+                
+                InitializeComponent();
+                lbStatus = lblStatus;
+                LoginGUI Login = new LoginGUI();
+                Login.ShowDialog();
+
+                setTitle("Registrering");
+                if (Login.DialogResult == true)
+                {
+                    current = Login.GetUser();
+                    generateMenu();
+                    setStatus("velkommen " + current.Usernane);
+                }
+                else if (Login.DialogResult == false)
+                {
+                    this.Close();
+                }
+                LoadContent();
+                setTitle("Registrering");
+                MainContent.Children.Add(rg);
             }
-            else if (Login.DialogResult == false)
+            catch (Exception ex)
             {
-                this.Close();
+                FileHandler.Error(ex);
             }
-            LoadContent();
-            setTitle("Registrering");
-            MainContent.Children.Add(rg);
 
         }
 
@@ -73,6 +82,7 @@ namespace AspitPlanner
             MenuItem menu = new MenuItem();
             menu.Header = "Menu";
             menu.Height = 25;
+
             MenuItem Reg = new MenuItem();
             Reg.Header = "Registrere";
             Reg.Click += RegGUI_Click;
@@ -82,11 +92,6 @@ namespace AspitPlanner
             Elev.Header = "Elev administration";
             Elev.Click += StudentAdmin_Click;
             menu.Items.Add(Elev);
-
-            MenuItem Type = new MenuItem();
-            Type.Header = "Type administration";
-            Type.Click += TypeAdmin_Click;
-            menu.Items.Add(Type);
 
             MenuItem Aftaler = new MenuItem();
             Aftaler.Header = "Aftaler administration";
@@ -98,15 +103,23 @@ namespace AspitPlanner
             Manglede.Click += PLRegGUI_Click;
             menu.Items.Add(Manglede);
 
-            MenuItem users = new MenuItem();
-            users.Header = "Bruger administration";
-            users.Click += Users_Click;
-            menu.Items.Add(users);
-
             MenuItem Statestik = new MenuItem();
             Statestik.Header = "Statestik";
             Statestik.Click += StatisticGUI_Click;
             menu.Items.Add(Statestik);
+
+            if (current.UserRole == 1)
+            {
+                MenuItem Type = new MenuItem();
+                Type.Header = "Type administration";
+                Type.Click += TypeAdmin_Click;
+                menu.Items.Add(Type);
+
+                MenuItem users = new MenuItem();
+                users.Header = "Bruger administration";
+                users.Click += Users_Click;
+                menu.Items.Add(users);
+            }
 
             MainMenu.Items.Add(menu);
         }
@@ -168,7 +181,7 @@ namespace AspitPlanner
         private void StatisticGUI_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
-            //st.load();
+            st.Load();
             MainContent.Children.Add(st);
             setTitle("Statestik");
         }

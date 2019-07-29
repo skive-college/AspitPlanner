@@ -22,6 +22,7 @@ namespace AspitPlanner.GUI
     /// </summary>
     public partial class AppointmentGUI : UserControl
     {
+        
         public AppointmentGUI()
         {
             InitializeComponent();
@@ -44,8 +45,7 @@ namespace AspitPlanner.GUI
                 a.StudentID = (CBStudent.SelectedItem as Student).ID;
                 a.FromeDate = (DateTime)dpFrom.SelectedDate;
                 a.ToDate = (DateTime)dpTo.SelectedDate;
-                //Insert day here
-                //Insert modules here
+
                 TextRange textRange = new TextRange(txtInfo.Document.ContentStart, txtInfo.Document.ContentEnd);
                 a.Info = textRange.Text;
                 a.Day = getDays();
@@ -63,12 +63,8 @@ namespace AspitPlanner.GUI
                     db.Appointments.Add(a);
                     db.SaveChanges();
                 }
-                CBStudent.SelectedIndex = -1;
-                dpFrom.SelectedDate = null;
-                dpTo.SelectedDate = null;
-                //Insert day here
-                //Insert modules here
                 textRange.Text = "";
+                clear();
             }
         }
 
@@ -128,6 +124,23 @@ namespace AspitPlanner.GUI
             return dage;
         }
 
+        private void clear()
+        {
+            CBStudent.SelectedIndex = -1;
+            dpFrom.SelectedDate = null;
+            dpTo.SelectedDate = null;
+            Monday.IsChecked = false;
+            Tuesday.IsChecked = false;
+            Wednesday.IsChecked = false;
+            Thursday.IsChecked = false;
+            Friday.IsChecked = false;
+            Modul1.IsChecked = false;
+            Modul2.IsChecked = false;
+            Modul3.IsChecked = false;
+            Modul4.IsChecked = false;
+            Fri.IsChecked = false;
+            VFU.IsChecked = false;
+        }
         private void CMDShowAll_Click(object sender, RoutedEventArgs e)
         {
             AppointmentView av = new AppointmentView();

@@ -211,7 +211,7 @@ namespace AspitPlanner.Helpers
             var quary = from pre in Presents
                             join stu in Students on pre.StudentID equals stu.ID
                             join ty in Types on pre.Model1 equals ty.ID
-                            where pre.Date.Equals(today) && ty.TypeName == "Udeblevet"
+                            where pre.Date.Equals(today) && ty.TypeName == "Ikke set"
                         select stu;
             var idag = from pre in Presents where pre.Date.Equals(today) select pre.StudentID;
             var quary2 = Students.Where(x => !idag.Contains(x.ID));

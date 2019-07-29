@@ -30,6 +30,11 @@ namespace AspitPlanner.GUI
             CreateCheckBoxes();
         }
 
+        public void Load()
+        {
+            loadStudents();
+            CreateCheckBoxes();
+        }
         private void loadStudents()
         {
             using (DBCon db = new DBCon())
@@ -117,7 +122,6 @@ namespace AspitPlanner.GUI
                 if (cbSElev.SelectedIndex != -1)
                 {
                     Student s = cbSElev.SelectedValue as Student;
-
 
                     db.SeekPresentToPrint(checkboxes, s, fraDato.SelectedDate, tilDato.SelectedDate);
                 }
