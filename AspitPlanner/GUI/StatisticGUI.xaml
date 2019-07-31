@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AspitPlanner.GUI"
+             xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="800">
     <Grid>
@@ -12,7 +13,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="0">
@@ -42,7 +43,7 @@
                 </ComboBox>
                 <DatePicker x:Name="fraDato" Grid.Column="1" Grid.Row="1" SelectedDateChanged="FraDato_SelectedDateChanged"/>
                 <DatePicker x:Name="tilDato" Grid.Column="1" Grid.Row="2" SelectedDateChanged="TilDato_SelectedDateChanged"/>
-               
+
             </Grid>
         </StackPanel>
         <StackPanel x:Name="innerStack" Style="{StaticResource StackPanel}" Grid.Column="1">
@@ -53,18 +54,9 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Style="{StaticResource StackPanel}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="Info" Grid.Column="1" Text="Fravær i procent"/>
-                <TextBox x:Name="txtFremøde" Grid.Column="2"/>
-            </Grid>
-            
-            <Button x:Name="cmdSeek" Content="Print"  Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdSeek_Click" />
-        </StackPanel>
+        <WindowsFormsHost Grid.Column="0" Grid.ColumnSpan="2"  Grid.Row="1">
+            <rv:ReportViewer x:Name="_reportViewer"/>
+        </WindowsFormsHost>
+
     </Grid>
 </UserControl>

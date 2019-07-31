@@ -38,5 +38,8 @@
             <Setter Property="Margin" Value="0 0 0 10"/>
             <Setter Property="Height" Value="25"/>
         </Style>
+        <Style TargetType="WindowsFormsHost">
+            <Setter Property="Margin" Value="10 0 10 0"/>
+        </Style>
     </Application.Resources>
 </Application>

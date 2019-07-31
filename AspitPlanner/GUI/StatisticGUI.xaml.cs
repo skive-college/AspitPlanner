@@ -1,5 +1,6 @@
 ﻿using AspitPlanner.Helpers;
 using AspitPlanner.Models;
+using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +28,11 @@ namespace AspitPlanner.GUI
         {
             InitializeComponent();
             loadStudents();
-            CreateCheckBoxes();
         }
 
         public void Load()
         {
             loadStudents();
-            CreateCheckBoxes();
         }
         private void loadStudents()
         {
@@ -43,40 +42,7 @@ namespace AspitPlanner.GUI
             }
         }
 
-        private void CreateCheckBoxes()
-        {
-            using(DBCon db = new DBCon())
-            {
-                List<Category> cats = db.Categorys.ToList();
-                for (int i = 0; i < cats.Count; i++)
-                {
-                    StackPanel p = new StackPanel();
-                    TextBlock text = new TextBlock();
-                    text.Text = cats[i].CategoryName;
-                    
-                    
-                    PanelGrid.Children.Add(p);
-                    p.Children.Add(text);
-                    Grid.SetColumn(p, i);
-                    int id = cats[i].ID;
-                    var quary = from t in db.Types
-                                join c in db.Categorys on t.CatID equals c.ID
-                                where t.CatID == id
-                                select t;
-
-                    List<RegistrationType> typer = quary.ToList();
-                    for(int j = 0; j < typer.Count; j++)
-                    {
-                        CheckBox c = new CheckBox();
-                        c.Checked += C_Checked;
-                        c.Unchecked += C_Checked;
-                        c.Content = typer[j].TypeName;
-                        checkboxes.Add(c);
-                        p.Children.Add(c);
-                    }
-                }
-            }
-        }
+      
 
         private void C_Checked(object sender, RoutedEventArgs e)
         {
@@ -91,10 +57,23 @@ namespace AspitPlanner.GUI
                 {
                     if (cbSElev.SelectedIndex != -1)
                     {
-                        Student s = cbSElev.SelectedValue as Student;
+                        try
+                        {
+                            Student s = cbSElev.SelectedValue as Student;
 
+                            List<StudentStatistic> stats = db.getStatistics(s.ID, fraDato.SelectedDate, tilDato.SelectedDate);
 
-                        txtFremøde.Text = "" + db.SeekPresent(checkboxes, s.ID, fraDato.SelectedDate, tilDato.SelectedDate);
+                            ReportDataSource reportDataSource = new ReportDataSource("DataSet", stats);
+                            _reportViewer.LocalReport.DataSources.Add(reportDataSource);
+
+                            _reportViewer.LocalReport.ReportPath = "../../report.rdlc";
+                            
+                            _reportViewer.RefreshReport();
+                        }
+                        catch (Exception ex)
+                        {
+                            FileHandler.Error(ex);
+                        }
                     }
                 }
             }
@@ -126,6 +105,7 @@ namespace AspitPlanner.GUI
                     db.SeekPresentToPrint(checkboxes, s, fraDato.SelectedDate, tilDato.SelectedDate);
                 }
             }
+
         }
     }
 }

@@ -118,7 +118,6 @@ namespace AspitPlanner.GUI
                         db.Presents.AddOrUpdate(p);
                         db.SaveChanges();
                     }
-                    load();
 
                 }
 

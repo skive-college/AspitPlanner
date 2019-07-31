@@ -65,47 +65,18 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
-        public int SeekPresent(List<CheckBox> checkboxes, int studentID, DateTime? fra, DateTime? til)
+        public List<StudentStatistic> getStatistics(int iD, DateTime? selectedDate1, DateTime? selectedDate2)
         {
-            int fremøde = 100;
-
-            using(DBCon db = new DBCon())
-            {
-                var quary = from p in db.Presents
-                            where p.StudentID == studentID
-                            select p;
-
-                if(fra != null)
-                {
-                    fra = getDateTime(fra);
-                    quary = quary.Where(x => x.Date >= fra);
-                }
-                if(til != null)
-                {
-                    til = getDateTime(til);
-                    quary = quary.Where(x => x.Date <= til);
-                }
-                List<int> okIDS = new List<int>();
-                foreach (CheckBox c in checkboxes)
-                {
-                    if (c.IsChecked == true)
-                    {
-                        var type = from t in db.Types
-                                   where t.TypeName == c.Content.ToString()
-                                   select t;
-                        int id = type.FirstOrDefault().ID;
-                        okIDS.Add(id);
-                        //quary = quary.Where(t => !t.Model1.Equals(id) || !t.Model2.Equals(id) || !t.Model3.Equals(id) || !t.Model4.Equals(id));
-                    }
-                }
-                List<Present> pre = quary.ToList();
-
-                fremøde = CalcProcent(pre, okIDS);
-            }
             
+            List<StudentStatistic> retur = new List<StudentStatistic>();
+            //TODO hent datat fra db og lav StudentStatistic objekter
 
-            return fremøde;
+            retur.Add(new StudentStatistic() { StudentName = "test", Fremøde = 50, FremødeUdenAftale = 80 });
+            retur.Add(new StudentStatistic() { StudentName = "test2", Fremøde = 50, FremødeUdenAftale = 80 });
+
+            return retur;
         }
+
 
         public void SeekPresentToPrint(List<CheckBox> checkboxes, Student student, DateTime? fra, DateTime? til)
         {
@@ -208,6 +179,7 @@ namespace AspitPlanner.Helpers
         public List<Student> getNotPressent(DateTime today)
         {
             List<Student> retur = new List<Student>();
+
             var quary = from pre in Presents
                             join stu in Students on pre.StudentID equals stu.ID
                             join ty in Types on pre.Model1 equals ty.ID
