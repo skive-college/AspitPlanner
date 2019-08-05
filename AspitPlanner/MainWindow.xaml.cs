@@ -88,11 +88,6 @@ namespace AspitPlanner
             Reg.Click += RegGUI_Click;
             menu.Items.Add(Reg);
 
-            MenuItem Elev = new MenuItem();
-            Elev.Header = "Elev administration";
-            Elev.Click += StudentAdmin_Click;
-            menu.Items.Add(Elev);
-
             MenuItem Aftaler = new MenuItem();
             Aftaler.Header = "Aftaler administration";
             Aftaler.Click += Appointment_Click;
@@ -114,6 +109,11 @@ namespace AspitPlanner
                 Type.Header = "Type administration";
                 Type.Click += TypeAdmin_Click;
                 menu.Items.Add(Type);
+
+                MenuItem Elev = new MenuItem();
+                Elev.Header = "Elev administration";
+                Elev.Click += StudentAdmin_Click;
+                menu.Items.Add(Elev);
 
                 MenuItem users = new MenuItem();
                 users.Header = "Bruger administration";

@@ -15,5 +15,7 @@ namespace AspitPlanner.Models
         public string Name { get; set; }
 
         public string Team { get; set; }
+
+        public bool Aktiv { get; set; }
     }
 }

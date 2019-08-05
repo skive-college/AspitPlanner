@@ -47,7 +47,7 @@ namespace AspitPlanner.GUI
                         {
                             Team = (cbTeam.SelectedValue as Student).Team;
                         }
-                        Student s = new Student() { Name = txtName.Text, Team = Team};
+                        Student s = new Student() { Name = txtName.Text, Team = Team, Aktiv = true};
 
               
                         db.Students.Add(s);

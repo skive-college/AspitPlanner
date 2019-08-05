@@ -38,7 +38,7 @@ namespace AspitPlanner.GUI
                 CBModul2.DataContext = db.GetAbcentTypes();
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
-                Elever.DataContext = db.Students.ToList();
+                Elever.DataContext = db.Students.ToList().OrderBy(s => s.Name);
                 
             }
         }

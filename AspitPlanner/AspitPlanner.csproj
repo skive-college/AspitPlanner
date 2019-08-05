@@ -97,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Migrations\201908051124378_added_aktiv_elev.cs" />
+    <Compile Include="Migrations\201908051124378_added_aktiv_elev.Designer.cs">
+      <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\StudentStatistic.cs" />
     <Page Include="GUI\AppointmentGUI.xaml">
       <SubType>Designer</SubType>
@@ -265,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906280853399_moduleNoteAdded.resx">
       <DependentUpon>201906280853399_moduleNoteAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908051124378_added_aktiv_elev.resx">
+      <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="report.rdlc" />
     <EmbeddedResource Include="Properties\Resources.resx">

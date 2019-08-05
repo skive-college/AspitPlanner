@@ -48,7 +48,7 @@
                     <TextBlock Text="Dag"/>
                     <CheckBox x:Name="Monday" Content="Mandag"/>
                     <CheckBox x:Name="Tuesday" Content="Tirsdag"/>
-                    <CheckBox x:Name="Wednesday" Content="Ondsdag"/>
+                    <CheckBox x:Name="Wednesday" Content="Onsdag"/>
                     <CheckBox x:Name="Thursday" Content="Torsdag"/>
                     <CheckBox x:Name="Friday" Content="Fredag"/>
                 </StackPanel>
