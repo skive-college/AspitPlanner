@@ -65,15 +65,55 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
-        public List<StudentStatistic> getStatistics(int iD, DateTime? selectedDate1, DateTime? selectedDate2)
+        public List<StudentStatistic> getStatistics(Student student, DateTime? fra, DateTime? til)
         {
             
             List<StudentStatistic> retur = new List<StudentStatistic>();
             //TODO hent datat fra db og lav StudentStatistic objekter
+            using (DBCon db = new DBCon())
+            {
+                if(student != null)
+                {
+                    var quary = from p in db.Presents
+                                where p.StudentID == student.ID
+                                select p;
 
-            retur.Add(new StudentStatistic() { StudentName = "test", Fremøde = 50, FremødeUdenAftale = 80 });
-            retur.Add(new StudentStatistic() { StudentName = "test2", Fremøde = 50, FremødeUdenAftale = 80 });
+                    if (fra != null)
+                    {
+                        fra = getDateTime(fra);
+                        quary = quary.Where(x => x.Date >= fra);
+                    }
+                    if (til != null)
+                    {
+                        til = getDateTime(til);
+                        quary = quary.Where(x => x.Date <= til);
+                    }
+                    List<Present> pre = quary.ToList();
+                    var typeIDS = from t in db.Types
+                                  join c in db.Categorys
+                                  on t.CatID equals c.ID
+                                  where c.CategoryName == "fravær"
+                                  select t;
+                    List<int> typeID = new List<int>();
+                    foreach(RegistrationType rt in typeIDS.ToList())
+                    {
+                        typeID.Add(rt.ID);
+                    }
+                    int fremødt = CalcProcent(pre, typeID);
+                    var aftale = from t in db.Types
+                                 where t.TypeName == "fri"
+                                 select t;
+                    foreach(RegistrationType rt in aftale.ToList())
+                    {
+                        typeID.Add(rt.ID);
+                    }
+                    int fremødtMedAftale = CalcProcent(pre, typeID);
+                    retur.Add(new StudentStatistic() { StudentName = student.Name + " " +student.Team, Fremøde = fremødt, FremødeUdenAftale = fremødtMedAftale });
 
+                }
+                
+            }
+            
             return retur;
         }
 
@@ -106,28 +146,28 @@ namespace AspitPlanner.Helpers
         private int CalcProcent(List<Present> pre, List<int> TypeIDS)
         {
             double ialtRegistreret = pre.Count * 4;
-            double fravær = 0;
+            double fremødt = 0;
             foreach(Present p in pre)
             {
                 if(!TypeIDS.Contains(p.Model1))
                 {
-                    fravær++;
+                    fremødt++;
                 }
                 if (!TypeIDS.Contains(p.Model2))
                 {
-                    fravær++;
+                    fremødt++;
                 }
                 if (!TypeIDS.Contains(p.Model3))
                 {
-                    fravær++;
+                    fremødt++;
                 }
                 if (!TypeIDS.Contains(p.Model4))
                 {
-                    fravær++;
+                    fremødt++;
                 }
             }
 
-            return 100 - (int)((fravær / ialtRegistreret) * 100);
+            return (int)((fremødt / ialtRegistreret) * 100);
         }
 
         public List<Student> GetHold()

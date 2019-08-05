@@ -61,7 +61,7 @@ namespace AspitPlanner.GUI
                         {
                             Student s = cbSElev.SelectedValue as Student;
 
-                            List<StudentStatistic> stats = db.getStatistics(s.ID, fraDato.SelectedDate, tilDato.SelectedDate);
+                            List<StudentStatistic> stats = db.getStatistics(s, fraDato.SelectedDate, tilDato.SelectedDate);
 
                             ReportDataSource reportDataSource = new ReportDataSource("DataSet", stats);
                             _reportViewer.LocalReport.DataSources.Add(reportDataSource);
