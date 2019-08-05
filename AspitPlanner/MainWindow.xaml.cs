@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using AspitPlanner.GUI;
 using AspitPlanner.Helpers;
 using AspitPlanner.Models;
@@ -32,7 +34,9 @@ namespace AspitPlanner
         String titel;
         statistic st;
         UserGUI ug;
+        HolidayGUI hd;
         User current;
+        bool notHoliday = true;
         public MainWindow()
         {
             try
@@ -55,8 +59,17 @@ namespace AspitPlanner
                     this.Close();
                 }
                 LoadContent();
-                setTitle("Registrering");
-                MainContent.Children.Add(rg);
+                if(notHoliday)
+                {
+                    setTitle("Registrering");
+                    MainContent.Children.Add(rg);
+                }
+                else
+                {
+                    MainContent.Children.Add(st);
+                    setTitle("Statestik");
+                    setStatus("Eleverne har ferie så det er ikke muligt at registrere");
+                }
             }
             catch (Exception ex)
             {
@@ -65,6 +78,7 @@ namespace AspitPlanner
 
         }
 
+
         private void LoadContent()
         {
             rg = new RegGUI();
@@ -72,37 +86,44 @@ namespace AspitPlanner
             ta = new TypeAdmin();
             ap = new AppointmentGUI();
             pl = new PLRegGUI();
+            
             titel = "Aspit Planner";
             st = new statistic();
             ug = new UserGUI();
+            hd = new HolidayGUI();
         }
-
+       
+        
         private void generateMenu()
         {
             MenuItem menu = new MenuItem();
             menu.Header = "Menu";
             menu.Height = 25;
+            
+            if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday )
+            {
+                using (DBCon db = new DBCon())
+                {
+                    notHoliday = db.notHoliday();
+                    if (notHoliday)
+                    {
+                        MenuItem Reg = new MenuItem();
 
-            MenuItem Reg = new MenuItem();
-            Reg.Header = "Registrere";
-            Reg.Click += RegGUI_Click;
-            menu.Items.Add(Reg);
+                        Reg.Header = "Registrere";
+                        Reg.Click += RegGUI_Click;
+                        menu.Items.Add(Reg);
 
-            MenuItem Aftaler = new MenuItem();
-            Aftaler.Header = "Aftaler administration";
-            Aftaler.Click += Appointment_Click;
-            menu.Items.Add(Aftaler);
-
-            MenuItem Manglede = new MenuItem();
-            Manglede.Header = "Manglede elever";
-            Manglede.Click += PLRegGUI_Click;
-            menu.Items.Add(Manglede);
-
-            MenuItem Statestik = new MenuItem();
-            Statestik.Header = "Statestik";
-            Statestik.Click += StatisticGUI_Click;
-            menu.Items.Add(Statestik);
-
+                        MenuItem Manglede = new MenuItem();
+                        Manglede.Header = "Manglede elever";
+                        Manglede.Click += PLRegGUI_Click;
+                        menu.Items.Add(Manglede);
+                    }
+                    else
+                    {
+                        setStatus("Eleverne har fri eller ferie så det er ikke muligt at registrere");
+                    }
+                }
+            }
             if (current.UserRole == 1)
             {
                 MenuItem Type = new MenuItem();
@@ -119,7 +140,21 @@ namespace AspitPlanner
                 users.Header = "Bruger administration";
                 users.Click += Users_Click;
                 menu.Items.Add(users);
+
+                MenuItem holiday = new MenuItem();
+                holiday.Header = "Ferie administration";
+                holiday.Click += Holiday_Click;
+                menu.Items.Add(holiday);
             }
+            MenuItem Aftaler = new MenuItem();
+            Aftaler.Header = "Aftaler administration";
+            Aftaler.Click += Appointment_Click;
+            menu.Items.Add(Aftaler);
+
+            MenuItem Statestik = new MenuItem();
+            Statestik.Header = "Statestik";
+            Statestik.Click += StatisticGUI_Click;
+            menu.Items.Add(Statestik);
 
             MainMenu.Items.Add(menu);
         }
@@ -153,7 +188,13 @@ namespace AspitPlanner
             MainContent.Children.Add(ta);
             setTitle("Type admin");
         }
-
+        private void Holiday_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            hd.load();
+            MainContent.Children.Add(hd);
+            setTitle("ferie admin");
+        }
         private void RegGUI_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);

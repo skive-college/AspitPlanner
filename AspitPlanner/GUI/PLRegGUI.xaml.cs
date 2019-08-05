@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace AspitPlanner.GUI
 {
@@ -26,9 +28,20 @@ namespace AspitPlanner.GUI
         public PLRegGUI()
         {
             InitializeComponent();
-            load();
+           
+            
         }
+        private void ThreadProc()
+        {
 
+            Thread.Sleep(30000);
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+            {
+                load();
+
+            }));
+
+        }
         public void load()
         {
             using (DBCon db = new DBCon())
@@ -40,7 +53,9 @@ namespace AspitPlanner.GUI
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
                 Elever.DataContext = db.getNotPressent(getDateTime());
+                var t = new Thread(ThreadProc);
 
+                t.Start();
             }
         }
 
@@ -117,6 +132,7 @@ namespace AspitPlanner.GUI
                         }
                         db.Presents.AddOrUpdate(p);
                         db.SaveChanges();
+                        MainWindow.setStatus((Elever.SelectedValue as Student).Name + " opdateret");
                     }
 
                 }
