@@ -65,47 +65,58 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
-        public int SeekPresent(List<CheckBox> checkboxes, int studentID, DateTime? fra, DateTime? til)
+        public List<StudentStatistic> getStatistics(Student student, DateTime? fra, DateTime? til)
         {
-            int fremøde = 100;
-
-            using(DBCon db = new DBCon())
+            
+            List<StudentStatistic> retur = new List<StudentStatistic>();
+            //TODO hent datat fra db og lav StudentStatistic objekter
+            using (DBCon db = new DBCon())
             {
-                var quary = from p in db.Presents
-                            where p.StudentID == studentID
-                            select p;
+                if(student != null)
+                {
+                    var quary = from p in db.Presents
+                                where p.StudentID == student.ID
+                                select p;
 
-                if(fra != null)
-                {
-                    fra = getDateTime(fra);
-                    quary = quary.Where(x => x.Date >= fra);
-                }
-                if(til != null)
-                {
-                    til = getDateTime(til);
-                    quary = quary.Where(x => x.Date <= til);
-                }
-                List<int> okIDS = new List<int>();
-                foreach (CheckBox c in checkboxes)
-                {
-                    if (c.IsChecked == true)
+                    if (fra != null)
                     {
-                        var type = from t in db.Types
-                                   where t.TypeName == c.Content.ToString()
-                                   select t;
-                        int id = type.FirstOrDefault().ID;
-                        okIDS.Add(id);
-                        //quary = quary.Where(t => !t.Model1.Equals(id) || !t.Model2.Equals(id) || !t.Model3.Equals(id) || !t.Model4.Equals(id));
+                        fra = getDateTime(fra);
+                        quary = quary.Where(x => x.Date >= fra);
                     }
-                }
-                List<Present> pre = quary.ToList();
+                    if (til != null)
+                    {
+                        til = getDateTime(til);
+                        quary = quary.Where(x => x.Date <= til);
+                    }
+                    List<Present> pre = quary.ToList();
+                    var typeIDS = from t in db.Types
+                                  join c in db.Categorys
+                                  on t.CatID equals c.ID
+                                  where c.CategoryName == "fravær"
+                                  select t;
+                    List<int> typeID = new List<int>();
+                    foreach(RegistrationType rt in typeIDS.ToList())
+                    {
+                        typeID.Add(rt.ID);
+                    }
+                    int fremødt = CalcProcent(pre, typeID);
+                    var aftale = from t in db.Types
+                                 where t.TypeName == "fri"
+                                 select t;
+                    foreach(RegistrationType rt in aftale.ToList())
+                    {
+                        typeID.Add(rt.ID);
+                    }
+                    int fremødtMedAftale = CalcProcent(pre, typeID);
+                    retur.Add(new StudentStatistic() { StudentName = student.Name + " " +student.Team, Fremøde = fremødt, FremødeUdenAftale = fremødtMedAftale });
 
-                fremøde = CalcProcent(pre, okIDS);
+                }
+                
             }
             
-
-            return fremøde;
+            return retur;
         }
+
 
         public void SeekPresentToPrint(List<CheckBox> checkboxes, Student student, DateTime? fra, DateTime? til)
         {
@@ -135,28 +146,28 @@ namespace AspitPlanner.Helpers
         private int CalcProcent(List<Present> pre, List<int> TypeIDS)
         {
             double ialtRegistreret = pre.Count * 4;
-            double fravær = 0;
+            double fremødt = 0;
             foreach(Present p in pre)
             {
                 if(!TypeIDS.Contains(p.Model1))
                 {
-                    fravær++;
+                    fremødt++;
                 }
                 if (!TypeIDS.Contains(p.Model2))
                 {
-                    fravær++;
+                    fremødt++;
                 }
                 if (!TypeIDS.Contains(p.Model3))
                 {
-                    fravær++;
+                    fremødt++;
                 }
                 if (!TypeIDS.Contains(p.Model4))
                 {
-                    fravær++;
+                    fremødt++;
                 }
             }
 
-            return 100 - (int)((fravær / ialtRegistreret) * 100);
+            return (int)((fremødt / ialtRegistreret) * 100);
         }
 
         public List<Student> GetHold()
@@ -208,10 +219,11 @@ namespace AspitPlanner.Helpers
         public List<Student> getNotPressent(DateTime today)
         {
             List<Student> retur = new List<Student>();
+
             var quary = from pre in Presents
                             join stu in Students on pre.StudentID equals stu.ID
                             join ty in Types on pre.Model1 equals ty.ID
-                            where pre.Date.Equals(today) && ty.TypeName == "Udeblevet"
+                            where pre.Date.Equals(today) && ty.TypeName == "Ikke set"
                         select stu;
             var idag = from pre in Presents where pre.Date.Equals(today) select pre.StudentID;
             var quary2 = Students.Where(x => !idag.Contains(x.ID));
