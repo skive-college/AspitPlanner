@@ -26,6 +26,7 @@ namespace AspitPlanner.Helpers
         public DbSet<UserRole> Roles { get; set; }
         public DbSet <ModulNote> ModulNotes { get; set; }
 
+        public DbSet<Holiday> Holidays { get; set; }
         public List<AbsentType> GetAbcentTypes() 
         {
             List<AbsentType> retur = new List<AbsentType>();
@@ -65,11 +66,31 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
+        public bool notHoliday()
+        {
+            
+            bool retur = true;
+            using (DBCon db = new DBCon())
+            {
+                var quary = from h in db.Holidays select h;
+
+                foreach(Holiday h in quary.ToList())
+                {
+                    if(DateTime.Now >= h.From && DateTime.Now <= h.Too)
+                    {
+                        retur = false;
+                        break;
+                    }
+                }
+            }
+
+            return retur;
+        }
+
         public List<StudentStatistic> getStatistics(Student student, DateTime? fra, DateTime? til)
         {
             
             List<StudentStatistic> retur = new List<StudentStatistic>();
-            //TODO hent datat fra db og lav StudentStatistic objekter
             using (DBCon db = new DBCon())
             {
                 if(student != null)
@@ -103,13 +124,52 @@ namespace AspitPlanner.Helpers
                     var aftale = from t in db.Types
                                  where t.TypeName == "fri"
                                  select t;
-                    foreach(RegistrationType rt in aftale.ToList())
-                    {
-                        typeID.Add(rt.ID);
-                    }
+                    typeID.Remove(aftale.ToList()[0].ID);
+                    
                     int fremødtMedAftale = CalcProcent(pre, typeID);
                     retur.Add(new StudentStatistic() { StudentName = student.Name + " " +student.Team, Fremøde = fremødt, FremødeUdenAftale = fremødtMedAftale });
 
+                }
+                else
+                {
+                    var students = from S in db.Students select S;
+
+                    foreach(Student st in students.ToList())
+                    {
+                        var quary = from p in db.Presents
+                                    where p.StudentID == st.ID
+                                    select p;
+
+                        if (fra != null)
+                        {
+                            fra = getDateTime(fra);
+                            quary = quary.Where(x => x.Date >= fra);
+                        }
+                        if (til != null)
+                        {
+                            til = getDateTime(til);
+                            quary = quary.Where(x => x.Date <= til);
+                        }
+                        List<Present> pre = quary.ToList();
+                        var typeIDS = from t in db.Types
+                                      join c in db.Categorys
+                                      on t.CatID equals c.ID
+                                      where c.CategoryName == "fravær"
+                                      select t;
+                        List<int> typeID = new List<int>();
+                        foreach (RegistrationType rt in typeIDS.ToList())
+                        {
+                            typeID.Add(rt.ID);
+                        }
+                        int fremødt = CalcProcent(pre, typeID);
+                        var aftale = from t in db.Types
+                                     where t.TypeName == "fri"
+                                     select t;
+                        typeID.Remove(aftale.ToList()[0].ID);
+
+                        int fremødtMedAftale = CalcProcent(pre, typeID);
+                        retur.Add(new StudentStatistic() { StudentName = st.Name + " " + st.Team, Fremøde = fremødt, FremødeUdenAftale = fremødtMedAftale });
+                    }
                 }
                 
             }
