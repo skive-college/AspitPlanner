@@ -43,8 +43,9 @@
                 </ComboBox>
                 <DatePicker x:Name="fraDato" Grid.Column="1" Grid.Row="1" SelectedDateChanged="FraDato_SelectedDateChanged"/>
                 <DatePicker x:Name="tilDato" Grid.Column="1" Grid.Row="2" SelectedDateChanged="TilDato_SelectedDateChanged"/>
-
+                
             </Grid>
+            <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Content="Ryd" HorizontalAlignment="Right" Click="CmdClear_Click"/>
         </StackPanel>
         <StackPanel x:Name="innerStack" Style="{StaticResource StackPanel}" Grid.Column="1">
             <Grid x:Name="PanelGrid">

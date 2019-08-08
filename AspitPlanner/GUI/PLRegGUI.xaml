@@ -101,7 +101,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="cmdOpdater" Style="{StaticResource standartButton}" Content="Opdater" Click="CmdOpdater_Click"/>
+                <Button x:Name="cmdOpdater" Style="{StaticResource standartButton}" Content="Opdater" HorizontalAlignment="Right" Click="CmdOpdater_Click"/>
             </StackPanel>
         </Grid>
     </Grid>

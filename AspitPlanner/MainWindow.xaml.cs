@@ -100,7 +100,7 @@ namespace AspitPlanner
             menu.Header = "Menu";
             menu.Height = 25;
             
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday )
+            if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday && !Util.validerFredagLigeUge(DateTime.Now))
             {
                 using (DBCon db = new DBCon())
                 {

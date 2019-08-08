@@ -100,6 +100,7 @@
     <Compile Include="GUI\HolidayGUI.xaml.cs">
       <DependentUpon>HolidayGUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Util.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.Designer.cs">
       <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>

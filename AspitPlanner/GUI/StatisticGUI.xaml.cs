@@ -33,7 +33,12 @@ namespace AspitPlanner.GUI
         public void Load()
         {
             loadStudents();
-            
+            tilDato.Text = "";
+            fraDato.Text = "";
+            tilDato.SelectedDate = null;
+            fraDato.SelectedDate = null;
+
+
         }
         private void loadStudents()
         {
@@ -57,6 +62,7 @@ namespace AspitPlanner.GUI
             {
                 try
                 {
+                    
                     _reportViewer.Clear();
                     _reportViewer.LocalReport.DataSources.Clear();
                     List<StudentStatistic> stats = new List<StudentStatistic>();
@@ -113,6 +119,11 @@ namespace AspitPlanner.GUI
                 }
             }
 
+        }
+
+        private void CmdClear_Click(object sender, RoutedEventArgs e)
+        {
+            Load();
         }
     }
 }
