@@ -25,6 +25,7 @@ namespace AspitPlanner.GUI
     /// </summary>
     public partial class PLRegGUI : UserControl
     {
+        private bool done;
         public PLRegGUI()
         {
             InitializeComponent();
@@ -53,9 +54,10 @@ namespace AspitPlanner.GUI
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
                 Elever.DataContext = db.getNotPressent(getDateTime());
-                var t = new Thread(ThreadProc);
+                //var t = new Thread(ThreadProc);
 
-                t.Start();
+                //t.Start();
+                done = false;
             }
         }
 
@@ -98,6 +100,21 @@ namespace AspitPlanner.GUI
                     Present p = db.getPressent(today, studentID);
 
                     if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
+                    {
+                        if (CBModul2.SelectedIndex == -1)
+                        {
+                            CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                        if (CBModul3.SelectedIndex == -1)
+                        {
+                            CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                        if (CBModul4.SelectedIndex == -1)
+                        {
+                            CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                    }
+                    else if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Udeblevet")
                     {
                         if (CBModul2.SelectedIndex == -1)
                         {
@@ -231,6 +248,7 @@ namespace AspitPlanner.GUI
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
             CBModul4.SelectedIndex = -1;
+            
         }
         private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -293,5 +311,11 @@ namespace AspitPlanner.GUI
                 Elever.DataContext = db.getNotPressent(getDateTime());
             }
         }
+
+        private void CmdOpdater_Click(object sender, RoutedEventArgs e)
+        {
+            load();
+        }
+
     }
 }

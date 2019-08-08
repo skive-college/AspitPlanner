@@ -90,7 +90,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock Text="Modul 4"/>
-                <ComboBox x:Name="CBModul4" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged">
+                <ComboBox x:Name="CBModul4" ItemsSource="{Binding}" SelectionChanged="CBModul_SelectionChanged" >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -101,6 +101,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <Button x:Name="cmdOpdater" Style="{StaticResource standartButton}" Content="Opdater" Click="CmdOpdater_Click"/>
             </StackPanel>
         </Grid>
     </Grid>
