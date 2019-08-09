@@ -80,7 +80,7 @@ namespace AspitPlanner.GUI
                     
                     _reportViewer.LocalReport.DataSources.Add(reportDataSource);
 
-                    _reportViewer.LocalReport.ReportPath = "../../report.rdlc";
+                    _reportViewer.LocalReport.ReportPath = "report.rdlc";
 
                     _reportViewer.RefreshReport();
                 }
