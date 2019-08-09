@@ -62,6 +62,7 @@ namespace AspitPlanner.GUI
                     a.RegistrationTypeID = db.Types.Where(x => x.TypeName == typenavn).FirstOrDefault().ID;
                     db.Appointments.Add(a);
                     db.SaveChanges();
+                    MainWindow.setStatus("aftale på " + (CBStudent.SelectedItem as Student).Name + " oprettet");
                 }
                 textRange.Text = "";
                 clear();

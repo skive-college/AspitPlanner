@@ -41,5 +41,8 @@
         <Style TargetType="WindowsFormsHost">
             <Setter Property="Margin" Value="10 0 10 0"/>
         </Style>
+        <Style x:Key="ListViewStandart" TargetType="{x:Type ListView}">
+            <Setter Property="Margin" Value="0 0 0 10"/>
+        </Style>
     </Application.Resources>
 </Application>

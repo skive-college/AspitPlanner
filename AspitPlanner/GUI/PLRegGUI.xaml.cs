@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace AspitPlanner.GUI
 {
@@ -23,12 +25,24 @@ namespace AspitPlanner.GUI
     /// </summary>
     public partial class PLRegGUI : UserControl
     {
+        private bool done;
         public PLRegGUI()
         {
             InitializeComponent();
-            load();
+           
+            
         }
+        private void ThreadProc()
+        {
 
+            Thread.Sleep(30000);
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+            {
+                load();
+
+            }));
+
+        }
         public void load()
         {
             using (DBCon db = new DBCon())
@@ -40,7 +54,10 @@ namespace AspitPlanner.GUI
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
                 Elever.DataContext = db.getNotPressent(getDateTime());
+                //var t = new Thread(ThreadProc);
 
+                //t.Start();
+                done = false;
             }
         }
 
@@ -97,6 +114,21 @@ namespace AspitPlanner.GUI
                             CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
                         }
                     }
+                    else if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Udeblevet")
+                    {
+                        if (CBModul2.SelectedIndex == -1)
+                        {
+                            CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                        if (CBModul3.SelectedIndex == -1)
+                        {
+                            CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                        if (CBModul4.SelectedIndex == -1)
+                        {
+                            CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                        }
+                    }
                     if (p != null)
                     {
                         if (CBModul1.SelectedIndex != -1)
@@ -117,6 +149,7 @@ namespace AspitPlanner.GUI
                         }
                         db.Presents.AddOrUpdate(p);
                         db.SaveChanges();
+                        MainWindow.setStatus((Elever.SelectedValue as Student).Name + " opdateret");
                     }
 
                 }
@@ -215,6 +248,7 @@ namespace AspitPlanner.GUI
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
             CBModul4.SelectedIndex = -1;
+            
         }
         private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -277,5 +311,11 @@ namespace AspitPlanner.GUI
                 Elever.DataContext = db.getNotPressent(getDateTime());
             }
         }
+
+        private void CmdOpdater_Click(object sender, RoutedEventArgs e)
+        {
+            load();
+        }
+
     }
 }

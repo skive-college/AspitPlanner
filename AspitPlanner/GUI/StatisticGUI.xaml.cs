@@ -33,12 +33,19 @@ namespace AspitPlanner.GUI
         public void Load()
         {
             loadStudents();
+            tilDato.Text = "";
+            fraDato.Text = "";
+            tilDato.SelectedDate = null;
+            fraDato.SelectedDate = null;
+
+
         }
         private void loadStudents()
         {
             using (DBCon db = new DBCon())
             {
                 cbSElev.DataContext = db.Students.ToList();
+                seek();
             }
         }
 
@@ -51,32 +58,38 @@ namespace AspitPlanner.GUI
 
         private void seek()
         {
-            if(cbSElev.SelectedIndex != -1)
+            using (DBCon db = new DBCon())
             {
-                using (DBCon db = new DBCon())
+                try
                 {
+                    
+                    _reportViewer.Clear();
+                    _reportViewer.LocalReport.DataSources.Clear();
+                    List<StudentStatistic> stats = new List<StudentStatistic>();
                     if (cbSElev.SelectedIndex != -1)
                     {
-                        try
-                        {
-                            Student s = cbSElev.SelectedValue as Student;
-
-                            List<StudentStatistic> stats = db.getStatistics(s, fraDato.SelectedDate, tilDato.SelectedDate);
-
-                            ReportDataSource reportDataSource = new ReportDataSource("DataSet", stats);
-                            _reportViewer.LocalReport.DataSources.Add(reportDataSource);
-
-                            _reportViewer.LocalReport.ReportPath = "../../report.rdlc";
-                            
-                            _reportViewer.RefreshReport();
-                        }
-                        catch (Exception ex)
-                        {
-                            FileHandler.Error(ex);
-                        }
+                        Student s = cbSElev.SelectedValue as Student;
+                        stats = db.getStatistics(s, fraDato.SelectedDate, tilDato.SelectedDate);
                     }
+                    else
+                    {
+                        stats = db.getStatistics(null, fraDato.SelectedDate, tilDato.SelectedDate);
+                    }
+
+                    ReportDataSource reportDataSource = new ReportDataSource("DataSet", stats);
+                    
+                    _reportViewer.LocalReport.DataSources.Add(reportDataSource);
+
+                    _reportViewer.LocalReport.ReportPath = "../../report.rdlc";
+
+                    _reportViewer.RefreshReport();
+                }
+                catch (Exception ex)
+                {
+                    FileHandler.Error(ex);
                 }
             }
+            
         }
 
         private void CbSElev_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -106,6 +119,11 @@ namespace AspitPlanner.GUI
                 }
             }
 
+        }
+
+        private void CmdClear_Click(object sender, RoutedEventArgs e)
+        {
+            Load();
         }
     }
 }

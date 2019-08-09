@@ -97,16 +97,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GUI\HolidayGUI.xaml.cs">
+      <DependentUpon>HolidayGUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Util.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.Designer.cs">
       <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908051905194_add_holiday.cs" />
+    <Compile Include="Migrations\201908051905194_add_holiday.Designer.cs">
+      <DependentUpon>201908051905194_add_holiday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Holiday.cs" />
     <Compile Include="Models\StudentStatistic.cs" />
     <Page Include="GUI\AppointmentGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\AppointmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\HolidayGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -272,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908051124378_added_aktiv_elev.resx">
       <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908051905194_add_holiday.resx">
+      <DependentUpon>201908051905194_add_holiday.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="report.rdlc" />
     <EmbeddedResource Include="Properties\Resources.resx">
