@@ -103,10 +103,8 @@ namespace AspitPlanner.Helpers
                     var aftale = from t in db.Types
                                  where t.TypeName == "fri"
                                  select t;
-                    foreach(RegistrationType rt in aftale.ToList())
-                    {
-                        typeID.Add(rt.ID);
-                    }
+                    typeID.Remove(aftale.ToList()[0].ID);
+                    
                     int fremødtMedAftale = CalcProcent(pre, typeID);
                     retur.Add(new StudentStatistic() { StudentName = student.Name + " " +student.Team, Fremøde = fremødt, FremødeUdenAftale = fremødtMedAftale });
 

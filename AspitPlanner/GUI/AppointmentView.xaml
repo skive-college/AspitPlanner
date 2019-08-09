@@ -27,9 +27,10 @@
                 </ComboBox>
                 <Button x:Name="Btn" Grid.Column="1" Style="{StaticResource standartButton}" HorizontalAlignment="Left" Content="Ryd" Click="Btn_Click"/>
             </Grid>
-            <DataGrid x:Name="RegistrationsGrid" Height="300" ItemsSource="{Binding}">
+            <DataGrid x:Name="RegistrationsGrid" Height="300" ItemsSource="{Binding}" Margin="0 0 0 10">
             
             </DataGrid>
+            <Button x:Name="cmdSlet" Style="{StaticResource standartButton}" Content="slet" HorizontalAlignment="Right" Click="CmdSlet_Click"/>
         </StackPanel>
     </Grid>
 </Window>
