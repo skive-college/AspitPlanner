@@ -37,6 +37,7 @@ namespace AspitPlanner
         HolidayGUI hd;
         User current;
         bool notHoliday = true;
+        bool notFridayFri = true;
         public MainWindow()
         {
             try
@@ -59,7 +60,7 @@ namespace AspitPlanner
                     this.Close();
                 }
                 LoadContent();
-                if(notHoliday)
+                if(notHoliday && notFridayFri)
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
@@ -100,12 +101,14 @@ namespace AspitPlanner
             menu.Header = "Menu";
             menu.Height = 25;
             
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday && !Util.validerFredagLigeUge(DateTime.Now))
+            if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
                 using (DBCon db = new DBCon())
                 {
+
                     notHoliday = db.notHoliday();
-                    if (notHoliday)
+                    notFridayFri = !Util.validerFredagLigeUge(DateTime.Now);
+                    if (notHoliday && notFridayFri)
                     {
                         MenuItem Reg = new MenuItem();
 

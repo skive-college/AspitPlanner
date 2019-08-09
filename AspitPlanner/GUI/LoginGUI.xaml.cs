@@ -43,6 +43,16 @@ namespace AspitPlanner.GUI
                 try
                 {
                     u = (db.Users.Where(x => x.Usernane == us.Usernane && x.Password == us.Password)).FirstOrDefault();
+                    if(u != null && u.Password == "1234")
+                    {
+                        DialogPassword dialog = new DialogPassword();
+                        if (dialog.ShowDialog() == true)
+                        {
+                            var user = db.Users.SingleOrDefault(dbu => dbu.Usernane == u.Usernane);
+                            user.Password = dialog.Password; ;
+                            db.SaveChanges();
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

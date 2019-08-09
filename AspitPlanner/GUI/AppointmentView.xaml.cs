@@ -69,20 +69,6 @@ namespace AspitPlanner.GUI
             load();
         }
 
-        private void CmdSlet_Click(object sender, RoutedEventArgs e)
-        {
-            if(RegistrationsGrid.SelectedIndex != -1)
-            {
-                using(DBCon db = new DBCon())
-                {
-                    Appointment a = RegistrationsGrid.SelectedItem as Appointment;
-
-                    db.Appointments.Attach(a);
-                    db.Appointments.Remove(a);
-                    db.SaveChanges();
-                    load();
-                }
-            }
-        }
+        
     }
 }
