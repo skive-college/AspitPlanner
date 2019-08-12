@@ -22,7 +22,7 @@
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Kodeord :"/>
         <TextBlock x:Name="txtWrong" Grid.Column="0" Grid.Row="2" />
         <TextBox Grid.Column="1" Grid.Row="0" x:Name="txtName"/>
-        <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="txtPassword"/>
+        <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="txtPassword" KeyDown="TxtPassword_KeyDown"/>
         <Button Grid.Column="1" Grid.Row="3" x:Name="cmdLogin" Style="{StaticResource standartButton}" Content="Log Ind" Click="CmdLogin"/>
     </Grid>
     </StackPanel>

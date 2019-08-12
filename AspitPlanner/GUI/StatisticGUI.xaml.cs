@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -58,38 +59,31 @@ namespace AspitPlanner.GUI
 
         private void seek()
         {
-            using (DBCon db = new DBCon())
+            if (cbSElev.SelectedIndex != -1)
             {
-                try
+                int antalModulerIalt = 0;
+                Student student = (cbSElev.SelectedItem as Student);
+
+                
+                List<ChartValue> li = SQLDB.getData(student.ID,fraDato.SelectedDate,tilDato.SelectedDate);
+
+                List<ChartValue> fr = SQLDB.GetDifrences(student.ID, fraDato.SelectedDate, tilDato.SelectedDate);
+
+                foreach (ChartValue cv in li)
                 {
-                    
-                    _reportViewer.Clear();
-                    _reportViewer.LocalReport.DataSources.Clear();
-                    List<StudentStatistic> stats = new List<StudentStatistic>();
-                    if (cbSElev.SelectedIndex != -1)
-                    {
-                        Student s = cbSElev.SelectedValue as Student;
-                        stats = db.getStatistics(s, fraDato.SelectedDate, tilDato.SelectedDate);
-                    }
-                    else
-                    {
-                        stats = db.getStatistics(null, fraDato.SelectedDate, tilDato.SelectedDate);
-                    }
-
-                    ReportDataSource reportDataSource = new ReportDataSource("DataSet", stats);
-                    
-                    _reportViewer.LocalReport.DataSources.Add(reportDataSource);
-
-                    _reportViewer.LocalReport.ReportPath = "report.rdlc";
-
-                    _reportViewer.RefreshReport();
+                    antalModulerIalt += cv.Procent;
                 }
-                catch (Exception ex)
-                {
-                    FileHandler.Error(ex);
-                }
+
+
+                mcChart.Title = student.Name + " moduler ialt = " + antalModulerIalt;
+                mcChart.Palette = Util.MakePalette(li);
+                ((PieSeries)mcChart.Series[0]).ItemsSource = li;
+
+                frChart.Title = student.Name + " moduler ialt = " + antalModulerIalt;
+                ((ColumnSeries)frChart.Series[0]).ItemsSource = fr;
+
             }
-            
+
         }
 
         private void CbSElev_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -105,20 +99,6 @@ namespace AspitPlanner.GUI
         private void TilDato_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             seek();
-        }
-
-        private void CmdSeek_Click(object sender, RoutedEventArgs e)
-        {
-            using (DBCon db = new DBCon())
-            {
-                if (cbSElev.SelectedIndex != -1)
-                {
-                    Student s = cbSElev.SelectedValue as Student;
-
-                    db.SeekPresentToPrint(checkboxes, s, fraDato.SelectedDate, tilDato.SelectedDate);
-                }
-            }
-
         }
 
         private void CmdClear_Click(object sender, RoutedEventArgs e)

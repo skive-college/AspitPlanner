@@ -39,7 +39,7 @@ namespace AspitPlanner.GUI
 
         private void CmdCreate_Click(object sender, RoutedEventArgs e)
         {
-            if(CBStudent.SelectedIndex != -1)
+            if(CBStudent.SelectedIndex != -1 && (Fri.IsChecked == true || VFU.IsChecked == true))
             {
                 Appointment a = new Appointment();
                 a.StudentID = (CBStudent.SelectedItem as Student).ID;
@@ -66,6 +66,10 @@ namespace AspitPlanner.GUI
                 }
                 textRange.Text = "";
                 clear();
+            }
+            else
+            {
+                MessageBox.Show("udfyld elev og en type Fri eller VFU");
             }
         }
 

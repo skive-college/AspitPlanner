@@ -92,5 +92,13 @@ namespace AspitPlanner.GUI
                 DialogResult = false;
             }
         }
+
+        private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                validate();
+            }
+        }
     }
 }

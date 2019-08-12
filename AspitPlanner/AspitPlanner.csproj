@@ -76,6 +76,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Controls.DataVisualization.Toolkit.4.0.0.0\lib\net40-Client\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -103,6 +106,7 @@
     <Compile Include="GUI\HolidayGUI.xaml.cs">
       <DependentUpon>HolidayGUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SQLDB.cs" />
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.Designer.cs">
@@ -112,7 +116,9 @@
     <Compile Include="Migrations\201908051905194_add_holiday.Designer.cs">
       <DependentUpon>201908051905194_add_holiday.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChartValue.cs" />
     <Compile Include="Models\Holiday.cs" />
+    <Compile Include="Models\regType.cs" />
     <Compile Include="Models\StudentStatistic.cs" />
     <Page Include="GUI\AppointmentGUI.xaml">
       <SubType>Designer</SubType>
@@ -312,24 +318,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>8</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>9</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="VBIDE">
       <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>5</VersionMajor>
