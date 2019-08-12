@@ -38,7 +38,10 @@
                 <DatePicker x:Name="tilDato" Margin="0 0 10 0" SelectedDateChanged="TilDato_SelectedDateChanged"/>
                 
             </StackPanel>
-            <Button x:Name="cmdClear" Style="{StaticResource standartButton}" Content="Ryd" HorizontalAlignment="Right" Click="CmdClear_Click"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="cmdClear" Margin="0 0 10 10" Style="{StaticResource standartButton}"  Content="Ryd"  Click="CmdClear_Click"/>
+                <Button x:Name="cmdPrint" Style="{StaticResource standartButton}" Content="Print"  Click="CmdPrint_Click"/>
+            </StackPanel>
         </StackPanel>
         <StackPanel x:Name="innerStack" Style="{StaticResource StackPanel}" Grid.Column="1">
             <Grid x:Name="PanelGrid">

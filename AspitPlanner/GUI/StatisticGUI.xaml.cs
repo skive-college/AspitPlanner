@@ -3,6 +3,9 @@ using AspitPlanner.Models;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +28,10 @@ namespace AspitPlanner.GUI
     public partial class statistic : UserControl
     {
         List<CheckBox> checkboxes = new List<CheckBox>();
-        public statistic()
+        Window parrent;
+        public statistic(Window _parrent)
         {
+            parrent = _parrent;
             InitializeComponent();
             loadStudents();
         }
@@ -38,6 +43,11 @@ namespace AspitPlanner.GUI
             fraDato.Text = "";
             tilDato.SelectedDate = null;
             fraDato.SelectedDate = null;
+
+            mcChart.Title = "";
+            ((PieSeries)mcChart.Series[0]).ItemsSource = new List<ChartValue>();
+            frChart.Title = "";
+            ((ColumnSeries)frChart.Series[0]).ItemsSource = new List<ChartValue>();
 
 
         }
@@ -104,6 +114,46 @@ namespace AspitPlanner.GUI
         private void CmdClear_Click(object sender, RoutedEventArgs e)
         {
             Load();
+        }
+
+        private void CmdPrint_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbSElev.SelectedIndex != -1)
+            {
+
+                Student student = (cbSElev.SelectedItem as Student);
+                RenderTargetBitmap bmp = new RenderTargetBitmap((int)parrent.Width, (int)parrent.Height, 96, 96, PixelFormats.Pbgra32);
+                bmp.Render(this);
+
+                string PicPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Picture");
+                if (!Directory.Exists(PicPath))
+                    Directory.CreateDirectory(PicPath);
+
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bmp));
+
+                string alt = "alt";
+
+                if(fraDato.Text != "" && tilDato.Text != "")
+                {
+                    alt = fraDato.Text + " " + tilDato.Text;
+                }
+                else if(fraDato.Text != "")
+                {
+                    alt = fraDato.Text;
+                }
+                else if (tilDato.Text != "")
+                {
+                    alt = tilDato.Text;
+                }
+
+                string filePath = System.IO.Path.Combine(PicPath, string.Format("{0} {1}.png", (student.Name + " " + student.Team), alt));
+                using (Stream stream = File.Create(filePath))
+                {
+                    encoder.Save(stream);
+                }
+                MainWindow.setStatus("billede gemt sti : " + filePath);
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ namespace AspitPlanner
             pl = new PLRegGUI();
             
             titel = "Aspit Planner";
-            st = new statistic();
+            st = new statistic(this);
             ug = new UserGUI();
             hd = new HolidayGUI();
         }

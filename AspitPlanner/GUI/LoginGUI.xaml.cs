@@ -67,7 +67,7 @@ namespace AspitPlanner.GUI
                 else
                 {
                     txtPassword.Password = "";
-                    txtWrong.Text = "Forket login";
+                    txtWrong.Text = "Forkert login";
                     txtName.SelectAll();
                     txtName.Focus();
 
