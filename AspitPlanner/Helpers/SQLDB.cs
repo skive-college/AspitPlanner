@@ -89,6 +89,19 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
+        public static void deleteAppointment(int iD)
+        {
+            SqlConnection cnn = new SqlConnection(conString);
+            cnn.Open();
+
+            SqlCommand cmd;
+            String sql = "Delete From Appointments Where ID = @ID";
+           
+            cmd = new SqlCommand(sql, cnn);
+            cmd.Parameters.AddWithValue("ID", iD);
+            cmd.ExecuteNonQuery();
+        }
+
         public static List<ChartValue> getData(int sID, DateTime? fra, DateTime? til)
         {
             List<ChartValue> retur = new List<ChartValue>();

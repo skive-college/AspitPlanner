@@ -69,6 +69,20 @@ namespace AspitPlanner.GUI
             load();
         }
 
-        
+        private void CmdSlet_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("er du sikker på du vil slette denne aftale", "info", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            if(result == MessageBoxResult.OK)
+            {
+                if (RegistrationsGrid.SelectedIndex != -1)
+                {
+                    AppointmentStudent apstud = RegistrationsGrid.SelectedValue as AppointmentStudent;
+
+                    SQLDB.deleteAppointment(apstud.ID);
+                    load();
+                }
+            }
+            
+        }
     }
 }
