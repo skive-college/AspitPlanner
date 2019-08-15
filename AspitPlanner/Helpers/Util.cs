@@ -13,6 +13,14 @@ namespace AspitPlanner.Helpers
 {
     public class Util
     {
+        public static DateTime getDateTimeYesterday()
+        {
+            DateTime d = DateTime.Now.AddDays(-1);
+
+            d = new DateTime(d.Year, d.Month, d.Day);
+
+            return d;
+        }
         public static bool validerFredagLigeUge(DateTime time)
         {
             if(time.DayOfWeek == DayOfWeek.Friday && getWeek(time) % 2 == 0)

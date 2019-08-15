@@ -71,6 +71,17 @@ namespace AspitPlanner
                     setTitle("Statestik");
                     setStatus("Eleverne har ferie så det er ikke muligt at registrere");
                 }
+                List<string> manglerIGår = SQLDB.getNotPressent(Util.getDateTimeYesterday());
+                if(manglerIGår.Count > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string s in manglerIGår)
+                    {
+                        sb.AppendLine(s);
+                    }
+                    MessageBox.Show(sb.ToString());
+                }
+                
             }
             catch (Exception ex)
             {

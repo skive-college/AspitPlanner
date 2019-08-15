@@ -32,17 +32,7 @@ namespace AspitPlanner.GUI
            
             
         }
-        private void ThreadProc()
-        {
-
-            Thread.Sleep(30000);
-            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
-            {
-                load();
-
-            }));
-
-        }
+        
         public void load()
         {
             using (DBCon db = new DBCon())

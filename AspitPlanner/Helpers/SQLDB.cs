@@ -212,5 +212,36 @@ namespace AspitPlanner.Helpers
             }
             return retur;
         }
+
+        public static List<string> getNotPressent(DateTime _date)
+        {
+            List<string> retur = new List<string>();
+            SqlConnection cnn = new SqlConnection(conString);
+
+            cnn.Open();
+
+            SqlCommand cmd;
+            String sql = "select * from Presents p, students s where p.studentID = s.ID And (Model1 = 0 OR Model2 = 0 OR Model3 = 0 OR Model4 = 0 ) AND Date < @Date";
+
+            cmd = new SqlCommand(sql, cnn);
+            cmd.Parameters.AddWithValue("Date", _date);
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    string s = "";
+                    s += oReader["Name"].ToString() + " ";
+                    s += oReader["Team"].ToString() + " ";
+                    s += oReader["Date"].ToString() + " ";
+                    s += "m1 = " + oReader["Model1"].ToString();
+                    s += "m2 = " + oReader["Model2"].ToString();
+                    s += "m3 = " + oReader["Model3"].ToString();
+                    s += "m4 = " + oReader["Model4"].ToString();
+                    retur.Add(s);
+                }
+
+            }
+            return retur;
+        }
     }
 }
