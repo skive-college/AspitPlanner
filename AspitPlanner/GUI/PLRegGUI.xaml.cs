@@ -43,11 +43,15 @@ namespace AspitPlanner.GUI
                 CBModul2.DataContext = db.GetAbcentTypes();
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
+                List<Student> l = db.getNotPressent(getDateTime());
+                foreach(Student s in l)
+                {
+                    creatNew(s.ID);
+                    loadApointments(s.ID);
+                }
                 Elever.DataContext = db.getNotPressent(getDateTime());
-                //var t = new Thread(ThreadProc);
+                //load apointmens på alle elever
 
-                //t.Start();
-                done = false;
             }
         }
 
@@ -175,6 +179,42 @@ namespace AspitPlanner.GUI
                 }
                 db.Presents.Add(p);
                 db.SaveChanges();
+            }
+        }
+        private void creatNew(int sID)
+        {
+            using (DBCon db = new DBCon())
+            {
+                try
+                {
+                    Present p = new Present();
+                    p.Date = getDateTime();
+                    p.StudentID = sID;
+
+
+                    if (CBModul1.SelectedIndex != -1)
+                    {
+                        p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
+                    }
+                    if (CBModul2.SelectedIndex != -1)
+                    {
+                        p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
+                    }
+                    if (CBModul3.SelectedIndex != -1)
+                    {
+                        p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
+                    }
+                    if (CBModul4.SelectedIndex != -1)
+                    {
+                        p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
+                    }
+                    db.Presents.Add(p);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    
+                }
             }
         }
 
