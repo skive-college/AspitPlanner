@@ -43,12 +43,7 @@ namespace AspitPlanner.GUI
                 CBModul2.DataContext = db.GetAbcentTypes();
                 CBModul3.DataContext = db.GetAbcentTypes();
                 CBModul4.DataContext = db.GetAbcentTypes();
-                List<Student> l = db.getNotPressent(getDateTime());
-                foreach(Student s in l)
-                {
-                    creatNew(s.ID);
-                    loadApointments(s.ID);
-                }
+                
                 Elever.DataContext = db.getNotPressent(getDateTime());
                 //load apointmens på alle elever
 

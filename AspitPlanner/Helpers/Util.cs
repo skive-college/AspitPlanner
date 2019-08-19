@@ -13,6 +13,14 @@ namespace AspitPlanner.Helpers
 {
     public class Util
     {
+        public static DateTime getDateTime()
+        {
+            DateTime d = DateTime.Now;
+
+            d = new DateTime(d.Year, d.Month, d.Day);
+
+            return d;
+        }
         public static DateTime getDateTimeYesterday()
         {
             DateTime d = DateTime.Now.AddDays(-1);

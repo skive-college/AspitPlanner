@@ -11,9 +11,35 @@ namespace AspitPlanner.Helpers
 {
     public class SQLDB
     {
-        private static readonly string conString = ConfigurationManager.ConnectionStrings["DBCon"].ConnectionString;
+        //private static readonly string con = "DBCon";
+        private static readonly string con = "Local";
+        private static readonly string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
 
-        
+        public static void CreateStudentForToday(List<Student> students)
+        {
+            SqlConnection cnn = new SqlConnection(conString);
+            cnn.Open();
+            foreach (Student s in students)
+            {
+                SqlCommand cmd;
+                String sql = "Insert into Presents values(@Date,@sId,@m1,@m2,@m3,@m4)";
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("Date", Util.getDateTime());
+                cmd.Parameters.AddWithValue("sId",s.ID);
+                cmd.Parameters.AddWithValue("m1", 0);
+                cmd.Parameters.AddWithValue("m2", 0);
+                cmd.Parameters.AddWithValue("m3", 0);
+                cmd.Parameters.AddWithValue("m4", 0);
+            }
+        }
+
+        private static Appointment getAppStud(int id)
+        {
+            SqlConnection cnn = new SqlConnection(conString);
+            cnn.Open();
+            SqlCommand cmd;
+            String sql = "SELECT * FROM Presents p, Students s where p.StudentID = @StudentID AND p.StudentID = s.ID";
+        }
         public static List<ChartValue> GetDifrences(int sID, DateTime? fra, DateTime? til)
         {
             List<ChartValue> retur = new List<ChartValue>();
@@ -243,5 +269,7 @@ namespace AspitPlanner.Helpers
             }
             return retur;
         }
+
+
     }
 }
