@@ -24,21 +24,77 @@ namespace AspitPlanner.Helpers
                 SqlCommand cmd;
                 String sql = "Insert into Presents values(@Date,@sId,@m1,@m2,@m3,@m4)";
                 cmd = new SqlCommand(sql, cnn);
-                cmd.Parameters.AddWithValue("Date", Util.getDateTime());
+                DateTime today = Util.getDateTime();
+                cmd.Parameters.AddWithValue("Date", today);
                 cmd.Parameters.AddWithValue("sId",s.ID);
                 cmd.Parameters.AddWithValue("m1", 0);
                 cmd.Parameters.AddWithValue("m2", 0);
                 cmd.Parameters.AddWithValue("m3", 0);
                 cmd.Parameters.AddWithValue("m4", 0);
+                List<Appointment> app = getAppStud(s.ID);
+                if(app.Count != 0)
+                {
+                    foreach(Appointment a in app)
+                    {
+                        if(a.FromeDate <= today && today <= a.ToDate)
+                        {
+                            string[] moduler = a.Modules.Split(',');
+                            foreach (string st in moduler)
+                            {
+                                if (st == "M1")
+                                {
+                                    cmd.Parameters.AddWithValue("m1", a.RegistrationTypeID);
+                                }
+                                if (st == "M2")
+                                {
+                                    cmd.Parameters.AddWithValue("m2", a.RegistrationTypeID);
+                                }
+                                if (st == "M3")
+                                {
+                                    cmd.Parameters.AddWithValue("m3", a.RegistrationTypeID);
+                                }
+                                if (st == "M4")
+                                {
+                                    cmd.Parameters.AddWithValue("m4", a.RegistrationTypeID);
+                                }
+                            }
+                        }
+                    }
+                }
+                cmd.ExecuteNonQuery();
             }
         }
 
-        private static Appointment getAppStud(int id)
+        private static List<Appointment> getAppStud(int id)
         {
+
+            List<Appointment> retur = new List<Appointment>();
             SqlConnection cnn = new SqlConnection(conString);
             cnn.Open();
             SqlCommand cmd;
-            String sql = "SELECT * FROM Presents p, Students s where p.StudentID = @StudentID AND p.StudentID = s.ID";
+            String sql = "SELECT * FROM Appointments where StudentID = @id";
+            cmd = new SqlCommand(sql, cnn);
+            cmd.Parameters.AddWithValue("id", id);
+
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    Appointment a = new Appointment();
+                    a.ID = int.Parse(oReader["ID"].ToString());
+                    a.StudentID = int.Parse(oReader["StudentID"].ToString());
+                    a.FromeDate = DateTime.Parse(oReader["FromeDate"].ToString());
+                    a.ToDate = DateTime.Parse(oReader["ToDate"].ToString());
+                    a.Day = oReader["Day"].ToString();
+                    a.Modules = oReader["Modules"].ToString();
+                    a.Info = oReader["Info"].ToString();
+                    a.RegistrationTypeID = int.Parse(oReader["RegistrationTypeID"].ToString());
+
+                    retur.Add(a);
+                }
+            }
+
+            return retur;
         }
         public static List<ChartValue> GetDifrences(int sID, DateTime? fra, DateTime? til)
         {
