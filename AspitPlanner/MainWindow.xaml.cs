@@ -64,6 +64,11 @@ namespace AspitPlanner
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
+                    using(DBCon db = new DBCon())
+                    {
+                        SQLDB.CreateStudentForToday(db.Students.ToList());
+                    }
+                    
                 }
                 else
                 {
