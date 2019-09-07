@@ -23,53 +23,58 @@ namespace AspitPlanner.Helpers
                 cnn.Open();
                 foreach (Student s in students)
                 {
-                    SqlCommand cmd;
-                    String sql = "Insert into Presents values(@Date,@sId,@m1,@m2,@m3,@m4)";
-                    cmd = new SqlCommand(sql, cnn);
-                    DateTime today = Util.getDateTime();
-                    cmd.Parameters.AddWithValue("Date", today);
-                    cmd.Parameters.AddWithValue("sId", s.ID);
-                    
-                    List<Appointment> app = getAppStud(s.ID);
-                    if (app.Count != 0)
+                    if (s.Aktiv == true)
                     {
-                        foreach (Appointment a in app)
+
+
+                        SqlCommand cmd;
+                        String sql = "Insert into Presents values(@Date,@sId,@m1,@m2,@m3,@m4)";
+                        cmd = new SqlCommand(sql, cnn);
+                        DateTime today = Util.getDateTime();
+                        cmd.Parameters.AddWithValue("Date", today);
+                        cmd.Parameters.AddWithValue("sId", s.ID);
+
+                        List<Appointment> app = getAppStud(s.ID);
+                        if (app.Count != 0)
                         {
-                            if (a.FromeDate <= today && today <= a.ToDate)
+                            foreach (Appointment a in app)
                             {
-                                string[] moduler = a.Modules.Split(',');
-                                foreach (string st in moduler)
+                                if (a.FromeDate <= today && today <= a.ToDate)
                                 {
-                                    if (st == "M1")
+                                    string[] moduler = a.Modules.Split(',');
+                                    foreach (string st in moduler)
                                     {
-                                        cmd.Parameters.AddWithValue("m1", a.RegistrationTypeID);
-                                    }
-                                    
-                                    if (st == "M2")
-                                    {
-                                        cmd.Parameters.AddWithValue("m2", a.RegistrationTypeID);
-                                    }
-                                    if (st == "M3")
-                                    {
-                                        cmd.Parameters.AddWithValue("m3", a.RegistrationTypeID);
-                                    }
-                                    if (st == "M4")
-                                    {
-                                        cmd.Parameters.AddWithValue("m4", a.RegistrationTypeID);
+                                        if (st == "M1")
+                                        {
+                                            cmd.Parameters.AddWithValue("m1", a.RegistrationTypeID);
+                                        }
+
+                                        if (st == "M2")
+                                        {
+                                            cmd.Parameters.AddWithValue("m2", a.RegistrationTypeID);
+                                        }
+                                        if (st == "M3")
+                                        {
+                                            cmd.Parameters.AddWithValue("m3", a.RegistrationTypeID);
+                                        }
+                                        if (st == "M4")
+                                        {
+                                            cmd.Parameters.AddWithValue("m4", a.RegistrationTypeID);
+                                        }
                                     }
                                 }
                             }
                         }
+                        if (!cmd.Parameters.Contains("m1"))
+                            cmd.Parameters.AddWithValue("m1", 0);
+                        if (!cmd.Parameters.Contains("m2"))
+                            cmd.Parameters.AddWithValue("m2", 0);
+                        if (!cmd.Parameters.Contains("m3"))
+                            cmd.Parameters.AddWithValue("m3", 0);
+                        if (!cmd.Parameters.Contains("m4"))
+                            cmd.Parameters.AddWithValue("m4", 0);
+                        cmd.ExecuteNonQuery();
                     }
-                    if(!cmd.Parameters.Contains("m1"))
-                        cmd.Parameters.AddWithValue("m1", 0);
-                    if (!cmd.Parameters.Contains("m2"))
-                        cmd.Parameters.AddWithValue("m2", 0);
-                    if (!cmd.Parameters.Contains("m3"))
-                        cmd.Parameters.AddWithValue("m3", 0);
-                    if (!cmd.Parameters.Contains("m4"))
-                        cmd.Parameters.AddWithValue("m4", 0);
-                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)

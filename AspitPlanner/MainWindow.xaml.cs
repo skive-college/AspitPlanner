@@ -60,7 +60,7 @@ namespace AspitPlanner
                     this.Close();
                 }
                 LoadContent();
-                if(notHoliday && notFridayFri)
+                if(notHoliday && notFridayFri && DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
@@ -74,7 +74,7 @@ namespace AspitPlanner
                 {
                     MainContent.Children.Add(st);
                     setTitle("Statestik");
-                    setStatus("Eleverne har ferie så det er ikke muligt at registrere");
+                    setStatus("Eleverne har fri så det er ikke muligt at registrere");
                 }
                 List<string> manglerIGår = SQLDB.getNotPressent(Util.getDateTimeYesterday());
                 if(manglerIGår.Count > 0)
