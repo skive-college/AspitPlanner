@@ -25,8 +25,6 @@ namespace AspitPlanner.Helpers
                 {
                     if (s.Aktiv == true)
                     {
-
-
                         SqlCommand cmd;
                         String sql = "Insert into Presents values(@Date,@sId,@m1,@m2,@m3,@m4)";
                         cmd = new SqlCommand(sql, cnn);
@@ -81,6 +79,26 @@ namespace AspitPlanner.Helpers
             {
                 Console.WriteLine(ex.ToString());
                 
+            }
+        }
+
+        public static void SetInactiv(Student s)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Update Students SET Aktiv='false' WHERE ID = @ID ";
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("ID", s.ID);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
             }
         }
 

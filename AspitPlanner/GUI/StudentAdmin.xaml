@@ -20,6 +20,8 @@
                                     Width="150" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="Hold" 
                                     Width="150" DisplayMemberBinding="{Binding Team}"/>
+                        <GridViewColumn Header="Aktiv" 
+                                    Width="150" DisplayMemberBinding="{Binding Aktiv}"/>
                     </GridView>
                     </ListView.View>
             </ListView>
@@ -38,6 +40,7 @@
             <TextBlock Text="Nyt hold"/>
             <TextBox x:Name="txtNewTeam" Width="200"/>
             <Button x:Name="create" Content="Opret" Width="100" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="cmbCreate_Click"/>
+            <Button x:Name="cmdInactiv" Content="færdig/ikke aktiv" Width="100" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdInactiv_Click"/>
         </StackPanel>
             
     </Grid>

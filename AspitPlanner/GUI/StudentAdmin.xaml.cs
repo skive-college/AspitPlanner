@@ -100,5 +100,16 @@ namespace AspitPlanner.GUI
         {
 
         }
+
+        private void CmdInactiv_Click(object sender, RoutedEventArgs e)
+        {
+            if(lwStudent.SelectedIndex != -1)
+            {
+                Student s = lwStudent.SelectedItem as Student;
+                SQLDB.SetInactiv(s);
+                clear();
+                load();
+            }
+        }
     }
 }

@@ -278,24 +278,26 @@ namespace AspitPlanner.Helpers
 
         public List<Student> getNotPressent(DateTime today)
         {
+            //todo: flyt til DBSQL
             List<Student> retur = new List<Student>();
 
             var quary = from pre in Presents
                             join stu in Students on pre.StudentID equals stu.ID
                             join ty in Types on pre.Model1 equals ty.ID
-                            where pre.Date.Equals(today) && ty.TypeName == "Ikke set"
+                            where pre.Date.Equals(today) && ty.TypeName == "Ikke set" && stu.Aktiv == true
                         select stu;
             var idag = from pre in Presents where pre.Date.Equals(today) select pre.StudentID;
-            var quary2 = Students.Where(x => !idag.Contains(x.ID));
+            var quary2 = Students.Where(x => !idag.Contains(x.ID) && x.Aktiv == true);
             var quary3 = from pre in Presents
                         join stu in Students on pre.StudentID equals stu.ID
-                        where pre.Date.Equals(today) && pre.Model1 == 0
-                        select stu;
+                        where pre.Date.Equals(today) && pre.Model1 == 0 && stu.Aktiv == true
+                         select stu;
 
             retur = quary.ToList();
             foreach(Student s in quary2)
             {
-                retur.Add(s);
+                retur.Add(s);                
+                
             }
             foreach (Student s in quary3)
             {
