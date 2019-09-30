@@ -11,8 +11,8 @@ namespace AspitPlanner.Helpers
 {
     public class SQLDB
     {
-        //private static readonly string con = "DBCon";
-        private static readonly string con = "Local";
+        private static readonly string con = "DBCon";
+        //private static readonly string con = "Local";
         private static readonly string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
 
         public static void CreateStudentForToday(List<Student> students)
@@ -37,7 +37,7 @@ namespace AspitPlanner.Helpers
                         {
                             foreach (Appointment a in app)
                             {
-                                if (a.FromeDate <= today && today <= a.ToDate)
+                                if (a.FromeDate <= today && today <= a.ToDate && a.Day.Contains(today.DayOfWeek.ToString()))
                                 {
                                     string[] moduler = a.Modules.Split(',');
                                     foreach (string st in moduler)
@@ -71,7 +71,15 @@ namespace AspitPlanner.Helpers
                             cmd.Parameters.AddWithValue("m3", 0);
                         if (!cmd.Parameters.Contains("m4"))
                             cmd.Parameters.AddWithValue("m4", 0);
-                        cmd.ExecuteNonQuery();
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+
+                            
+                        }
                     }
                 }
             }

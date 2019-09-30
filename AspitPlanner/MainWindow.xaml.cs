@@ -64,11 +64,10 @@ namespace AspitPlanner
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
-                    using(DBCon db = new DBCon())
-                    {
-                        SQLDB.CreateStudentForToday(db.Students.ToList());
-                    }
-                    
+                    Thread thread = new Thread(new ThreadStart(WorkThreadFunction));
+                    thread.Start();
+
+
                 }
                 else
                 {
@@ -95,7 +94,21 @@ namespace AspitPlanner
 
         }
 
-
+        public void WorkThreadFunction()
+        {
+            try
+            {
+                using (DBCon db = new DBCon())
+                {
+                    
+                    SQLDB.CreateStudentForToday(db.Students.ToList());
+                }
+            }
+            catch (Exception ex)
+            {
+                // log errors
+            }
+        }
         private void LoadContent()
         {
             rg = new RegGUI();

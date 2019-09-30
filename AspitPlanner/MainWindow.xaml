@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AspitPlanner"
         mc:Ignorable="d"
-        Title="Aspit Planner" Height="490" Width="800" ResizeMode="NoResize">
+        Title="Aspit Planner" Height="490" Width="800" ResizeMode="CanMinimize">
     <DockPanel >
         <Menu x:Name="MainMenu" Height="25" DockPanel.Dock="Top" Background="LightGreen">
             
