@@ -303,7 +303,7 @@ namespace AspitPlanner.Helpers
             {
                 retur.Add(s);
             }
-            return retur;
+            return retur.OrderBy(s => s.Name).ToList();
             
         }
 

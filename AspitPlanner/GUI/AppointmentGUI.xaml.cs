@@ -33,7 +33,7 @@ namespace AspitPlanner.GUI
         {
             using (DBCon db = new DBCon())
             {
-                CBStudent.DataContext = db.Students.ToList();
+                CBStudent.DataContext = db.Students.OrderBy(s => s.Name).ToList();
             }
         }
 

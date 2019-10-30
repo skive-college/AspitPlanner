@@ -69,6 +69,7 @@ namespace AspitPlanner.Helpers
                     case 5: brush = new SolidColorBrush(Colors.LightGreen); break;
                     case 6: brush = new SolidColorBrush(Colors.DarkKhaki); break;
                     case 7: brush = new SolidColorBrush(Colors.Yellow); break;
+                    case 9: brush = new SolidColorBrush(Colors.OrangeRed); break;
                     default: brush = new SolidColorBrush(Colors.Black); break;
                 }
                 style.Setters.Add(new Setter() { Property = Control.BackgroundProperty, Value = brush });

@@ -106,6 +106,7 @@
     <Compile Include="GUI\HolidayGUI.xaml.cs">
       <DependentUpon>HolidayGUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ProgramFinder.cs" />
     <Compile Include="Helpers\SQLDB.cs" />
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="Migrations\201908051124378_added_aktiv_elev.cs" />
@@ -118,6 +119,7 @@
     </Compile>
     <Compile Include="Models\ChartValue.cs" />
     <Compile Include="Models\Holiday.cs" />
+    <Compile Include="Models\Program.cs" />
     <Compile Include="Models\regType.cs" />
     <Compile Include="Models\StudentStatistic.cs" />
     <Page Include="GUI\AppointmentGUI.xaml">

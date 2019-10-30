@@ -48,7 +48,7 @@ namespace AspitPlanner.GUI
         {
             using (DBCon db = new DBCon())
             {
-                CBStudentApp.DataContext = db.Students.ToList();
+                CBStudentApp.DataContext = db.Students.OrderBy(s => s.Name).ToList();
             }
         }
         private void CBStudentApp_SelectionChanged(object sender, SelectionChangedEventArgs e)

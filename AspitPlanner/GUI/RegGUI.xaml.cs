@@ -291,7 +291,7 @@ namespace AspitPlanner.GUI
                     }
                     else
                     {
-                        creatNew();
+                        //creatNew();
                         
                     }
                     if(!registered)

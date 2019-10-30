@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -146,7 +147,7 @@ namespace AspitPlanner
                         menu.Items.Add(Reg);
 
                         MenuItem Manglede = new MenuItem();
-                        Manglede.Header = "Manglede elever";
+                        Manglede.Header = "Manglende elever";
                         Manglede.Click += PLRegGUI_Click;
                         menu.Items.Add(Manglede);
                     }
@@ -184,13 +185,50 @@ namespace AspitPlanner
             menu.Items.Add(Aftaler);
 
             MenuItem Statestik = new MenuItem();
-            Statestik.Header = "Statestik";
+            Statestik.Header = "Statistik";
             Statestik.Click += StatisticGUI_Click;
             menu.Items.Add(Statestik);
 
             MainMenu.Items.Add(menu);
+            CreateToolBox();
         }
+        List<Program> progs = new List<Program>();
+        private void CreateToolBox()
+        {
+            progs = ProgramFinder.findAll();
+            MenuItem menu = new MenuItem();
+            menu.Header = "Tools";
+            foreach(Program p in progs)
+            {
+                MenuItem m = new MenuItem();
+                m.Header = p.Navn;
+                m.Click += ToolMenu_Click;
+                menu.Items.Add(m);
+            }
 
+            MainMenu.Items.Add(menu);
+        }
+        private void ToolMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                string navn = (sender as MenuItem).Header.ToString();
+                Program prog = progs.Find(p => p.Navn == navn);
+                ProcessStartInfo ps = new ProcessStartInfo("cmd.exe", "/c " + prog.Navn);
+                ps.WorkingDirectory = prog.Sti;
+                ps.CreateNoWindow = true;
+                ps.UseShellExecute = false;
+
+                Process.Start(ps);
+            }
+            catch (Exception)
+            {
+
+                
+            }
+            
+        }
         private void Users_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
