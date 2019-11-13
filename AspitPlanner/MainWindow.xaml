@@ -10,7 +10,7 @@
         <Menu x:Name="MainMenu" Height="25" DockPanel.Dock="Top" Background="LightGreen">
             
         </Menu>
-        <StatusBar Height="25"  DockPanel.Dock="Bottom" Background="LightGreen">
+        <StatusBar Height="25" DockPanel.Dock="Bottom" Background="LightGreen">
             <StatusBarItem>
                 <TextBox Margin="0"  Name="lblStatus" Background="Transparent"
                  BorderThickness="0"
