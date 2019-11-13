@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -65,7 +66,10 @@ namespace AspitPlanner
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
-                    Thread thread = new Thread(new ThreadStart(WorkThreadFunction));
+                    ThreadStart starter = WorkThreadFunction;
+                    
+                    Thread thread = new Thread(starter) { IsBackground = true };
+                    
                     thread.Start();
 
 
@@ -195,18 +199,26 @@ namespace AspitPlanner
         List<Program> progs = new List<Program>();
         private void CreateToolBox()
         {
-            progs = ProgramFinder.findAll();
-            MenuItem menu = new MenuItem();
-            menu.Header = "Tools";
-            foreach(Program p in progs)
+            try
             {
-                MenuItem m = new MenuItem();
-                m.Header = p.Navn;
-                m.Click += ToolMenu_Click;
-                menu.Items.Add(m);
-            }
+                progs = ProgramFinder.findAll();
+                MenuItem menu = new MenuItem();
+                menu.Header = "Tools";
+                foreach (Program p in progs)
+                {
+                    MenuItem m = new MenuItem();
+                    m.Header = p.Navn.Split('.')[0];
+                    m.Click += ToolMenu_Click;
+                    menu.Items.Add(m);
+                }
 
-            MainMenu.Items.Add(menu);
+                MainMenu.Items.Add(menu);
+            }
+            
+            catch (Exception ex)
+            {
+                FileHandler.Error(ex);
+            }
         }
         private void ToolMenu_Click(object sender, RoutedEventArgs e)
         {

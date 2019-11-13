@@ -11,6 +11,7 @@ namespace AspitPlanner.Helpers
 {
     public class SQLDB
     {
+        //private static readonly string con = "Test";
         private static readonly string con = "DBCon";
         //private static readonly string con = "Local";
         private static readonly string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
@@ -75,9 +76,16 @@ namespace AspitPlanner.Helpers
                         {
                             cmd.ExecuteNonQuery();
                         }
+                        catch (SqlException sqlEx)
+                        {
+                            if (!sqlEx.Message.StartsWith("Violation of PRIMARY KEY constraint"))
+                            {
+                                FileHandler.Error(sqlEx);
+                            }
+                        }
                         catch (Exception ex)
                         {
-
+                            FileHandler.Error(ex);
                             
                         }
                     }

@@ -159,35 +159,7 @@ namespace AspitPlanner.GUI
 
             }
         }
-        private void creatNew()
-        {
-            using (DBCon db = new DBCon())
-            {
-                Present p = new Present();
-                p.Date = getDateTime();
-                p.StudentID = (Elever.SelectedValue as Student).ID;
-
-
-                if (CBModul1.SelectedIndex != -1)
-                {
-                    p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
-                }
-                if (CBModul2.SelectedIndex != -1)
-                {
-                    p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
-                }
-                if (CBModul3.SelectedIndex != -1)
-                {
-                    p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
-                }
-                if (CBModul4.SelectedIndex != -1)
-                {
-                    p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
-                }
-                db.Presents.Add(p);
-                db.SaveChanges();
-            }
-        }
+        
 
         private DateTime getDateTime()
         {
