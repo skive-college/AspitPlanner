@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Aspit Planner" Height="490" Width="800" ResizeMode="CanMinimize">
     <DockPanel >
-        <Menu x:Name="MainMenu" Height="25" DockPanel.Dock="Top" Background="LightGreen">
+        <Menu x:Name="MainMenu"  Height="25" DockPanel.Dock="Top" Background="LightGreen">
             
         </Menu>
         <StatusBar Height="25" DockPanel.Dock="Bottom" Background="LightGreen">
