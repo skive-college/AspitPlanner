@@ -62,7 +62,8 @@ namespace AspitPlanner
                     this.Close();
                 }
                 LoadContent();
-                if(notHoliday && notFridayFri && DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+                CreateToolBox();
+                if (notHoliday && notFridayFri && DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
@@ -194,7 +195,7 @@ namespace AspitPlanner
             menu.Items.Add(Statestik);
 
             MainMenu.Items.Add(menu);
-            CreateToolBox();
+            
         }
         List<Program> progs = new List<Program>();
         private void CreateToolBox()
@@ -226,7 +227,7 @@ namespace AspitPlanner
             try
             {
                 string navn = (sender as MenuItem).Header.ToString();
-                Program prog = progs.Find(p => p.Navn == navn);
+                Program prog = progs.Find(p => p.Navn == navn + ".exe");
                 ProcessStartInfo ps = new ProcessStartInfo("cmd.exe", "/c " + prog.Navn);
                 ps.WorkingDirectory = prog.Sti;
                 ps.CreateNoWindow = true;
@@ -234,10 +235,10 @@ namespace AspitPlanner
 
                 Process.Start(ps);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                
+                FileHandler.Error(ex);
             }
             
         }
