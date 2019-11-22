@@ -237,7 +237,6 @@ namespace AspitPlanner
             }
             catch (Exception ex)
             {
-
                 FileHandler.Error(ex);
             }
             
