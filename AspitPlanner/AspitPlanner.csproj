@@ -106,6 +106,9 @@
     <Compile Include="GUI\HolidayGUI.xaml.cs">
       <DependentUpon>HolidayGUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\NytPasswordGUI.xaml.cs">
+      <DependentUpon>NytPasswordGUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\ProgramFinder.cs" />
     <Compile Include="Helpers\SQLDB.cs" />
     <Compile Include="Helpers\Util.cs" />
@@ -139,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\LoginGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\NytPasswordGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -43,20 +43,20 @@ namespace AspitPlanner.Helpers
                                     string[] moduler = a.Modules.Split(',');
                                     foreach (string st in moduler)
                                     {
-                                        if (st == "M1")
+                                        if (st == "M1" && !cmd.Parameters.Contains("m1"))
                                         {
                                             cmd.Parameters.AddWithValue("m1", a.RegistrationTypeID);
                                         }
 
-                                        if (st == "M2")
+                                        if (st == "M2" && !cmd.Parameters.Contains("m2"))
                                         {
                                             cmd.Parameters.AddWithValue("m2", a.RegistrationTypeID);
                                         }
-                                        if (st == "M3")
+                                        if (st == "M3" && !cmd.Parameters.Contains("m3"))
                                         {
                                             cmd.Parameters.AddWithValue("m3", a.RegistrationTypeID);
                                         }
-                                        if (st == "M4")
+                                        if (st == "M4" && !cmd.Parameters.Contains("m4"))
                                         {
                                             cmd.Parameters.AddWithValue("m4", a.RegistrationTypeID);
                                         }
@@ -95,6 +95,29 @@ namespace AspitPlanner.Helpers
             {
                 Console.WriteLine(ex.ToString());
                 
+            }
+        }
+
+        public static bool UpdateUserPassword(string name, string password)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Update Users SET Password = @password WHERE Usernane = @name ";
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("name", name);
+                cmd.Parameters.AddWithValue("password", password);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+                return false;
             }
         }
 

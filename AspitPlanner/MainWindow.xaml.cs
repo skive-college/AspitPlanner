@@ -107,7 +107,7 @@ namespace AspitPlanner
                 using (DBCon db = new DBCon())
                 {
                     
-                    SQLDB.CreateStudentForToday(db.Students.ToList());
+                    SQLDB.CreateStudentForToday(db.Students.Where(s => s.Aktiv == true).ToList());
                 }
             }
             catch (Exception ex)
@@ -184,6 +184,7 @@ namespace AspitPlanner
                 holiday.Click += Holiday_Click;
                 menu.Items.Add(holiday);
             }
+            
             MenuItem Aftaler = new MenuItem();
             Aftaler.Header = "Aftaler administration";
             Aftaler.Click += Appointment_Click;
@@ -195,8 +196,20 @@ namespace AspitPlanner
             menu.Items.Add(Statestik);
 
             MainMenu.Items.Add(menu);
-            
+
+            MenuItem skiftPassword = new MenuItem();
+            skiftPassword.Header = "skift Password";
+            skiftPassword.Click += SkiftPassword_Click;
+            menu.Items.Add(skiftPassword);
+
         }
+
+        private void SkiftPassword_Click(object sender, RoutedEventArgs e)
+        {
+            NytPasswordGUI ng = new NytPasswordGUI(current.Usernane);
+            ng.ShowDialog();
+        }
+
         List<Program> progs = new List<Program>();
         private void CreateToolBox()
         {

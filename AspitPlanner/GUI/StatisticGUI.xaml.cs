@@ -55,7 +55,7 @@ namespace AspitPlanner.GUI
         {
             using (DBCon db = new DBCon())
             {
-                cbSElev.DataContext = db.Students.OrderBy(s => s.Name).ToList();
+                cbSElev.DataContext = db.Students.Where(s => s.Aktiv == true).OrderBy(s => s.Name).ToList();
                 seek();
             }
         }
