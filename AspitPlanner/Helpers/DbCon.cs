@@ -250,7 +250,7 @@ namespace AspitPlanner.Helpers
             using (DBCon db = new DBCon())
             {
                 var quarry = from s in Students
-                             where s.Team == Team
+                             where s.Team == Team && s.Aktiv == true
                              select s;
 
                 liste = quarry.ToList();
