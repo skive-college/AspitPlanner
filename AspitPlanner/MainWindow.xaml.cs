@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,8 +46,10 @@ namespace AspitPlanner
         {
             try
             {
-                
                 InitializeComponent();
+
+                NetworkChange.NetworkAddressChanged += new
+                NetworkAddressChangedEventHandler(AddressChangedCallback);
                 lbStatus = lblStatus;
                 LoginGUI Login = new LoginGUI();
                 Login.ShowDialog();
@@ -98,6 +102,34 @@ namespace AspitPlanner
                 FileHandler.Error(ex);
             }
 
+        }
+
+        private void AddressChangedCallback(object sender, EventArgs e)
+        {
+            
+            foreach (var netI in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (netI.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
+                    (netI.NetworkInterfaceType != NetworkInterfaceType.Ethernet ||
+                     netI.OperationalStatus != OperationalStatus.Up)) continue;
+                foreach (var uniIpAddrInfo in netI.GetIPProperties().UnicastAddresses.Where(x => netI.GetIPProperties().GatewayAddresses.Count > 0))
+                {
+
+                    if (uniIpAddrInfo.Address.AddressFamily == AddressFamily.InterNetwork && uniIpAddrInfo.AddressPreferredLifetime != uint.MaxValue)
+                    {
+                        if(uniIpAddrInfo.Address.ToString().StartsWith("192.168.78."))
+                        {
+                            SQLDB.switchCon(Connect.Intern);
+                            DBCon.switchCon(Connect.Intern);
+                        }
+                        else
+                        {
+                            SQLDB.switchCon(Connect.Extern);
+                            DBCon.switchCon(Connect.Extern);
+                        }
+                    }
+                }
+            }
         }
 
         public void WorkThreadFunction()
@@ -327,5 +359,7 @@ namespace AspitPlanner
         {
             lbStatus.Text = msg;
         }
+
+        
     }
 }

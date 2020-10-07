@@ -12,7 +12,8 @@ namespace AspitPlanner.Helpers
     {
         public static List<Program> findAll()
         {
-            string sti = @"O:\Aspit\Underviser\Tekniske filer\Kjeldtest";
+            //string sti = @"O:\Aspit\Underviser\Tekniske filer\Kjeldtest";
+            string sti = @"U:\AspIT\AspITOnly\RO\PlannerProgrammer";
 
             List<Program> programmer = EnumerateFiles(sti, true, ".exe").ToList();
 

@@ -67,7 +67,7 @@ namespace AspitPlanner.GUI
         {
             using (DBCon db = new DBCon())
             {
-                lwStudent.DataContext = db.Students.ToList();
+                lwStudent.DataContext = db.Students.ToList().OrderBy(x => x.Team);
             }
             loadTeams();
         }

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -12,10 +14,14 @@ namespace AspitPlanner.Helpers
 {
     public class DBCon : DbContext
     {
-        private static readonly string con = "DBCon";
+        private static string con = "DBCon";
         //private static readonly string con = "Local";
 
-        public DBCon() : base(ConfigurationManager.ConnectionStrings[con].ConnectionString) { }
+        public DBCon() : base(ConfigurationManager.ConnectionStrings[con].ConnectionString) 
+        {
+            
+        }
+        
         
         public DbSet<Student> Students { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -24,6 +30,21 @@ namespace AspitPlanner.Helpers
         public DbSet<Models.RegistrationType> Types { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> Roles { get; set; }
+
+        public static void switchCon(Connect c)
+        {
+            if (c == Connect.Intern)
+            {
+                con = "DBConInternal";
+                
+            }
+            else if (c == Connect.Extern)
+            {
+                con = "DBCon";
+                
+            }
+        }
+
         public DbSet <ModulNote> ModulNotes { get; set; }
 
         public DbSet<Holiday> Holidays { get; set; }
@@ -275,6 +296,8 @@ namespace AspitPlanner.Helpers
             }
             return p;            
         }
+
+        
 
         public List<Student> getNotPressent(DateTime today)
         {

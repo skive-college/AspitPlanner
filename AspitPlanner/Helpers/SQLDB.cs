@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,9 @@ namespace AspitPlanner.Helpers
     public class SQLDB
     {
         //private static readonly string con = "Test";
-        private static readonly string con = "DBCon";
+        private static string con = "DBCon";
         //private static readonly string con = "Local";
-        private static readonly string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+        private static string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
 
         public static void CreateStudentForToday(List<Student> students)
         {
@@ -98,6 +99,28 @@ namespace AspitPlanner.Helpers
             }
         }
 
+        public static void updateAppointment(AppointmentStudent apstud, DateTime? date)
+        {
+            SqlConnection cnn = new SqlConnection(conString);
+            cnn.Open();
+
+            SqlCommand cmd;
+            String sql = "Update Appointments set ToDate = @date Where ID = @ID";
+
+            cmd = new SqlCommand(sql, cnn);
+            cmd.Parameters.AddWithValue("ID", apstud.ID);
+            if(date == null)
+                cmd.Parameters.AddWithValue("date", Util.getDateTime());
+            else
+            {
+
+                DateTime d = (DateTime)date;
+                cmd.Parameters.AddWithValue("date",  new DateTime(d.Year, d.Month, d.Day));
+            }
+                
+            cmd.ExecuteNonQuery();
+        }
+
         public static bool UpdateUserPassword(string name, string password)
         {
             try
@@ -143,7 +166,6 @@ namespace AspitPlanner.Helpers
 
         private static List<Appointment> getAppStud(int id)
         {
-
             List<Appointment> retur = new List<Appointment>();
             SqlConnection cnn = new SqlConnection(conString);
             cnn.Open();
@@ -246,6 +268,7 @@ namespace AspitPlanner.Helpers
             retur.Add(new ChartValue { ID = 4, Navn = "Mødt aktiv", Procent = mødtudenInaktiv });
             return retur;
         }
+
 
         public static void deleteAppointment(int iD)
         {
@@ -388,9 +411,9 @@ namespace AspitPlanner.Helpers
                 while (oReader.Read())
                 {
                     string s = "";
-                    s += oReader["Name"].ToString() + " ";
-                    s += oReader["Team"].ToString() + " ";
                     s += oReader["Date"].ToString() + " ";
+                    s += oReader["Name"].ToString() + " ";
+                    s += oReader["Team"].ToString() + " "; 
                     s += " m1 = " + oReader["Model1"].ToString();
                     s += " m2 = " + oReader["Model2"].ToString();
                     s += " m3 = " + oReader["Model3"].ToString();
@@ -401,7 +424,26 @@ namespace AspitPlanner.Helpers
             }
             return retur;
         }
+        
+        public static void switchCon(Connect c)
+        {
+            if(c == Connect.Intern)
+            {
+                con = "DBConInternal";
+                conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+            }
+            else if(c == Connect.Extern)
+            {
+                con = "DBCon";
+                conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+            }
+        }
+        
 
-
+    }
+    public enum Connect
+    {
+        Extern,
+        Intern
     }
 }

@@ -30,7 +30,11 @@
             <DataGrid x:Name="RegistrationsGrid" Height="300" ItemsSource="{Binding}" Margin="0 0 0 10">
             
             </DataGrid>
-            <Button x:Name="cmdSlet" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Content="Slet" Click="CmdSlet_Click"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="cmdSlet" Style="{StaticResource standartButton}"  Content="Slet" Click="CmdSlet_Click"/>
+                <DatePicker x:Name="dpStopDato" Width="150"/>
+                <Button x:Name="cmdStop" Style="{StaticResource standartButton}"  Content="Stop Aftale" Click="cmdStop_Click"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

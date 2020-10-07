@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Annotations;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -232,6 +233,7 @@ namespace AspitPlanner.GUI
                 using (DBCon db = new DBCon())
                 {
                     Present p = db.getPressent(getDateTime(), studentID);
+                    txtNoteTilDag.Text = getNote(getDateTime(), studentID);
                     if(p != null)
                     {
                         
@@ -275,6 +277,18 @@ namespace AspitPlanner.GUI
             
         }
 
+        private string getNote(DateTime time, int sID)
+        {
+            string retur = "";
+            using(DBCon db = new DBCon())
+            {
+
+                ModulNote mn = db.ModulNotes.Where(x => x.StudentID == sID &&  x.Date == time).FirstOrDefault();
+                if (mn != null)
+                    retur = mn.Note;
+            }
+            return retur;
+        }
         private void TxtNoteTilDag_LostFocus(object sender, RoutedEventArgs e)
         {
             updateStudent();

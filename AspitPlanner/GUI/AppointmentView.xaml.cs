@@ -37,10 +37,20 @@ namespace AspitPlanner.GUI
 
         private void load()
         {
-            using(DBCon db = new DBCon())
+            if (CBStudentApp.SelectedIndex != -1)
             {
-
-                RegistrationsGrid.DataContext = db.getAllPresents(-1);
+                using (DBCon db = new DBCon())
+                {
+                    Student s = CBStudentApp.SelectedValue as Student;
+                    RegistrationsGrid.DataContext = db.getAllPresents(s.ID);
+                }
+            }
+            else
+            {
+                using (DBCon db = new DBCon())
+                {
+                    RegistrationsGrid.DataContext = db.getAllPresents(-1);
+                }
             }
         }
 
@@ -84,5 +94,23 @@ namespace AspitPlanner.GUI
             }
             
         }
+
+        private void cmdStop_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("er du sikker på du vil Stoppe denne aftale", "info", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
+            {
+                if (RegistrationsGrid.SelectedIndex != -1)
+                {
+                    AppointmentStudent apstud = RegistrationsGrid.SelectedValue as AppointmentStudent;
+                    
+                    SQLDB.updateAppointment(apstud, dpStopDato.SelectedDate);
+                    dpStopDato.SelectedDate = null;
+                    load();
+                }
+            }
+        }
+
+        
     }
 }
