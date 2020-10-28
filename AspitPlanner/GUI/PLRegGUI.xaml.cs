@@ -116,28 +116,7 @@ namespace AspitPlanner.GUI
                             CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
                         }
                     }
-                    if (p != null)
-                    {
-                        if (CBModul1.SelectedIndex != -1)
-                        {
-                            p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
-                        }
-                        if (CBModul2.SelectedIndex != -1)
-                        {
-                            p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
-                        }
-                        if (CBModul3.SelectedIndex != -1)
-                        {
-                            p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
-                        }
-                        if (CBModul4.SelectedIndex != -1)
-                        {
-                            p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
-                        }
-                        db.Presents.AddOrUpdate(p);
-                        db.SaveChanges();
-                        MainWindow.setStatus((Elever.SelectedValue as Student).Name + " opdateret");
-                    }
+                    updateStudent();
 
                 }
 
@@ -208,6 +187,7 @@ namespace AspitPlanner.GUI
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
             CBModul4.SelectedIndex = -1;
+            txtNoteTilDag.Text = "";
             
         }
         private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -276,6 +256,87 @@ namespace AspitPlanner.GUI
         {
             load();
         }
+        private string getNote(DateTime time, int sID)
+        {
+            string retur = "";
+            using (DBCon db = new DBCon())
+            {
 
+                ModulNote mn = db.ModulNotes.Where(x => x.StudentID == sID && x.Date == time).FirstOrDefault();
+                if (mn != null)
+                    retur = mn.Note;
+            }
+            return retur;
+        }
+
+        private void updateStudent()
+        {
+            if (Elever.SelectedIndex != -1)
+            {
+                using (DBCon db = new DBCon())
+                {
+                    DateTime today = getDateTime();
+
+                    Student student = (Elever.SelectedValue as Student);
+                    try
+                    {
+                        Present p = db.getPressent(today, student.ID);
+                        if (p != null)
+                        {
+                            if (CBModul1.SelectedIndex != -1)
+                            {
+                                p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
+                            }
+                            if (CBModul2.SelectedIndex != -1)
+                            {
+                                p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
+                            }
+                            if (CBModul3.SelectedIndex != -1)
+                            {
+                                p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
+                            }
+                            if (CBModul4.SelectedIndex != -1)
+                            {
+                                p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
+                            }
+                            try
+                            {
+                                if (txtNoteTilDag.Text != "")
+                                {
+                                    ModulNote mn = new ModulNote();
+                                    mn.Date = p.Date;
+                                    mn.StudentID = p.StudentID;
+                                    mn.Note = txtNoteTilDag.Text;
+                                    db.ModulNotes.AddOrUpdate(mn);
+                                    db.SaveChanges();
+
+                                }
+                                db.Presents.AddOrUpdate(p);
+                                db.SaveChanges();
+                                MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
+                            }
+                            catch (Exception ex)
+                            {
+                                FileHandler.Error(ex);
+                                FileHandler.Backup(p);
+                                MainWindow.setStatus("Noget gik galt Backup taget og mail sent til sys admin");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        FileHandler.Error(ex);
+                        MainWindow.setStatus("Noget gik galt");
+                    }
+
+                }
+
+
+            }
+        }
+        private void TxtNoteTilDag_LostFocus(object sender, RoutedEventArgs e)
+        {
+            updateStudent();
+        }
     }
 }
