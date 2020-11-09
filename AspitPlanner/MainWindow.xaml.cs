@@ -48,8 +48,7 @@ namespace AspitPlanner
             {
                 InitializeComponent();
 
-                NetworkChange.NetworkAddressChanged += new
-                NetworkAddressChangedEventHandler(AddressChangedCallback);
+                
                 lbStatus = lblStatus;
                 LoginGUI Login = new LoginGUI();
                 Login.ShowDialog();
@@ -85,7 +84,7 @@ namespace AspitPlanner
                     setTitle("Statestik");
                     setStatus("Eleverne har fri så det er ikke muligt at registrere");
                 }
-                List<string> manglerIGår = SQLDB.getNotPressent(Util.getDateTimeYesterday());
+                List<string> manglerIGår = SQLDB.GetMissingRegs(Util.getDateTime());
                 if(manglerIGår.Count > 0)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -104,43 +103,14 @@ namespace AspitPlanner
 
         }
 
-        private void AddressChangedCallback(object sender, EventArgs e)
-        {
-            
-            foreach (var netI in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                if (netI.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
-                    (netI.NetworkInterfaceType != NetworkInterfaceType.Ethernet ||
-                     netI.OperationalStatus != OperationalStatus.Up)) continue;
-                foreach (var uniIpAddrInfo in netI.GetIPProperties().UnicastAddresses.Where(x => netI.GetIPProperties().GatewayAddresses.Count > 0))
-                {
-
-                    if (uniIpAddrInfo.Address.AddressFamily == AddressFamily.InterNetwork && uniIpAddrInfo.AddressPreferredLifetime != uint.MaxValue)
-                    {
-                        if(uniIpAddrInfo.Address.ToString().StartsWith("192.168.78."))
-                        {
-                            SQLDB.switchCon(Connect.Intern);
-                            DBCon.switchCon(Connect.Intern);
-                        }
-                        else
-                        {
-                            SQLDB.switchCon(Connect.Extern);
-                            DBCon.switchCon(Connect.Extern);
-                        }
-                    }
-                }
-            }
-        }
+        
 
         public void WorkThreadFunction()
         {
             try
             {
-                using (DBCon db = new DBCon())
-                {
-                    
-                    SQLDB.CreateStudentForToday(db.Students.Where(s => s.Aktiv == true).ToList());
-                }
+                SQLDB.CreateStudentForToday(SQLDB.GetStudents());
+                
             }
             catch (Exception ex)
             {
@@ -170,29 +140,27 @@ namespace AspitPlanner
             
             if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
-                using (DBCon db = new DBCon())
+                
+                notHoliday = SQLDB.notHoliday();
+                notFridayFri = !Util.validerFredagLigeUge(DateTime.Now);
+                if (notHoliday && notFridayFri)
                 {
+                    MenuItem Reg = new MenuItem();
 
-                    notHoliday = db.notHoliday();
-                    notFridayFri = !Util.validerFredagLigeUge(DateTime.Now);
-                    if (notHoliday && notFridayFri)
-                    {
-                        MenuItem Reg = new MenuItem();
+                    Reg.Header = "Registrere";
+                    Reg.Click += RegGUI_Click;
+                    menu.Items.Add(Reg);
 
-                        Reg.Header = "Registrere";
-                        Reg.Click += RegGUI_Click;
-                        menu.Items.Add(Reg);
-
-                        MenuItem Manglede = new MenuItem();
-                        Manglede.Header = "Manglende elever";
-                        Manglede.Click += PLRegGUI_Click;
-                        menu.Items.Add(Manglede);
-                    }
-                    else
-                    {
-                        setStatus("Eleverne har fri eller ferie så det er ikke muligt at registrere");
-                    }
+                    MenuItem Manglede = new MenuItem();
+                    Manglede.Header = "Manglende elever";
+                    Manglede.Click += PLRegGUI_Click;
+                    menu.Items.Add(Manglede);
                 }
+                else
+                {
+                    setStatus("Eleverne har fri eller ferie så det er ikke muligt at registrere");
+                }
+                
             }
             if (current.UserRole == 1)
             {

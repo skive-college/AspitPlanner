@@ -39,37 +39,31 @@ namespace AspitPlanner.GUI
         {
             if (CBStudentApp.SelectedIndex != -1)
             {
-                using (DBCon db = new DBCon())
-                {
-                    Student s = CBStudentApp.SelectedValue as Student;
-                    RegistrationsGrid.DataContext = db.getAllPresents(s.ID);
-                }
+                
+                Student s = CBStudentApp.SelectedValue as Student;
+                RegistrationsGrid.DataContext = SQLDB.getAllPresents(s.ID);
+                
             }
             else
             {
-                using (DBCon db = new DBCon())
-                {
-                    RegistrationsGrid.DataContext = db.getAllPresents(-1);
-                }
+                
+                RegistrationsGrid.DataContext = SQLDB.getAllPresents(-1);
+                
             }
         }
 
         private void loadStudents()
         {
-            using (DBCon db = new DBCon())
-            {
-                CBStudentApp.DataContext = db.Students.OrderBy(s => s.Name).ToList();
-            }
+            CBStudentApp.DataContext = SQLDB.GetStudents();            
         }
         private void CBStudentApp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(CBStudentApp.SelectedIndex != -1)
             {
-                using (DBCon db = new DBCon())
-                {
-                    Student s = CBStudentApp.SelectedValue as Student;
-                    RegistrationsGrid.DataContext = db.getAllPresents(s.ID);
-                }
+
+                ; 
+                Student s = CBStudentApp.SelectedValue as Student;
+                RegistrationsGrid.DataContext = SQLDB.getAllPresents(s.ID);
             }
         }
 

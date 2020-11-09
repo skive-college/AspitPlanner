@@ -31,10 +31,8 @@ namespace AspitPlanner.GUI
 
         public void load()
         {
-            using (DBCon db = new DBCon())
-            {
-                CBStudent.DataContext = db.Students.OrderBy(s => s.Name).ToList();
-            }
+            CBStudent.DataContext = SQLDB.GetStudents();
+            
         }
 
         private void CmdCreate_Click(object sender, RoutedEventArgs e)
@@ -52,18 +50,15 @@ namespace AspitPlanner.GUI
                 a.Modules = getModules();
                 
 
-                using (DBCon db = new DBCon())
-                {
-                    string typenavn = "";
-                    if (Fri.IsChecked == true)
-                        typenavn = "fri";
-                    else if (VFU.IsChecked == true)
-                        typenavn = "vfu";
-                    a.RegistrationTypeID = db.Types.Where(x => x.TypeName == typenavn).FirstOrDefault().ID;
-                    db.Appointments.Add(a);
-                    db.SaveChanges();
-                    MainWindow.setStatus("aftale på " + (CBStudent.SelectedItem as Student).Name + " oprettet");
-                }
+                string typenavn = "";
+                if (Fri.IsChecked == true)
+                    typenavn = "fri";
+                else if (VFU.IsChecked == true)
+                    typenavn = "vfu";
+                a.RegistrationTypeID = SQLDB.getTypeID(typenavn);
+                SQLDB.addAppointment(a);
+                MainWindow.setStatus("aftale på " + (CBStudent.SelectedItem as Student).Name + " oprettet");
+                
                 textRange.Text = "";
                 clear();
             }

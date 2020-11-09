@@ -30,49 +30,46 @@ namespace AspitPlanner.GUI
 
         private void validate()
         {
-            
-            using (DBCon db = new DBCon())
+            User us = new User();
+            if (txtName.Text != "" && txtPassword.Password != "")
             {
-                User us = new User();
-                if (txtName.Text != "" && txtPassword.Password != "")
-                {
-                    us.Usernane = txtName.Text;
+                us.Usernane = txtName.Text;
 
-                    us.Password = txtPassword.Password;
-                }
-                try
+                us.Password = txtPassword.Password;
+            }
+            try
+            {
+                u = SQLDB.GetUser(us);
+                if(u != null && u.Password == "1234")
                 {
-                    u = (db.Users.Where(x => x.Usernane == us.Usernane && x.Password == us.Password)).FirstOrDefault();
-                    if(u != null && u.Password == "1234")
+                    DialogPassword dialog = new DialogPassword();
+                    if (dialog.ShowDialog() == true)
                     {
-                        DialogPassword dialog = new DialogPassword();
-                        if (dialog.ShowDialog() == true)
-                        {
-                            var user = db.Users.SingleOrDefault(dbu => dbu.Usernane == u.Usernane);
-                            user.Password = dialog.Password; ;
-                            db.SaveChanges();
-                        }
+                            
+                        u.Password = dialog.Password;
+                        SQLDB.UpdateUserPassword(u.Usernane,u.Password);
                     }
                 }
-                catch (Exception ex)
-                {
-
-                    FileHandler.Error(ex);
-                }
-
-                if(u!= null)
-                {
-                    DialogResult = true;
-                }
-                else
-                {
-                    txtPassword.Password = "";
-                    txtWrong.Text = "Forkert login";
-                    txtName.SelectAll();
-                    txtName.Focus();
-
-                }
             }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+
+            if(u!= null)
+            {
+                DialogResult = true;
+            }
+            else
+            {
+                txtPassword.Password = "";
+                txtWrong.Text = "Forkert login";
+                txtName.SelectAll();
+                txtName.Focus();
+
+            }
+            
         }
 
         public User GetUser()

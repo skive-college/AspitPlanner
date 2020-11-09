@@ -32,10 +32,8 @@ namespace AspitPlanner.GUI
         public void load()
         {
             Clear();
-            using (DBCon db = new DBCon())
-            {
-                CbType.DataContext = db.Categorys.ToList();
-            }
+            CbType.DataContext = SQLDB.GetCategory();
+            
             
         }
         private void Clear()
@@ -51,11 +49,7 @@ namespace AspitPlanner.GUI
                 Category c = new Category();
                 c.CategoryName = txtKatNavn.Text;
 
-                using(DBCon db = new DBCon())
-                {
-                    db.Categorys.Add(c);
-                    db.SaveChanges();
-                }
+                SQLDB.addCategory(c);
             }
             load();
         }
@@ -70,11 +64,7 @@ namespace AspitPlanner.GUI
                 int cat = (CbType.SelectedValue as Category).ID;
 
                 t.CatID = cat;
-                using (DBCon db = new DBCon())
-                {
-                    db.Types.Add(t);
-                    db.SaveChanges();
-                }
+                SQLDB.AddType(t);
             }
 
         }

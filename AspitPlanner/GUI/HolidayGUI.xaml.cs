@@ -32,23 +32,18 @@ namespace AspitPlanner.GUI
             if(dpFrom.Text != "" && dpToo.Text != "")
             {
                 Holiday h = new Holiday() { From = (DateTime)dpFrom.SelectedDate, Too = (DateTime)dpToo.SelectedDate };
-                using(DBCon db = new DBCon())
-                {
-                    db.Holidays.Add(h);
-                    db.SaveChanges();
-                    MainWindow.setStatus("Ferie oprettet");
-                    load();
-                }
+                
+                SQLDB.AddHoliday(h);
+                MainWindow.setStatus("Ferie oprettet");
+                load();
             }
             
         }
 
         public void load()
         {
-            using(DBCon db = new DBCon())
-            {
-                holidayList.DataContext = db.Holidays.ToList();
-            }
+            holidayList.DataContext = SQLDB.GetHolidays();
+            
             
         }
 
@@ -57,13 +52,8 @@ namespace AspitPlanner.GUI
             if(holidayList.SelectedIndex != -1)
             {
                 Holiday h = holidayList.SelectedValue as Holiday;
-                using(DBCon db = new DBCon())
-                {
-                    db.Holidays.Attach(h);
-                    db.Holidays.Remove(h);
-                    db.SaveChanges();
-                    load();
-                }
+                SQLDB.RemoveHoliday(h);
+                load();
             }
         }
     }

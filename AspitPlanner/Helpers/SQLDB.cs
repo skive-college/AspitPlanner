@@ -25,6 +25,7 @@ namespace AspitPlanner.Helpers
                 cnn.Open();
                 foreach (Student s in students)
                 {
+                    
                     if (s.Aktiv == true)
                     {
                         SqlCommand cmd;
@@ -76,6 +77,7 @@ namespace AspitPlanner.Helpers
                         try
                         {
                             cmd.ExecuteNonQuery();
+                            
                         }
                         catch (SqlException sqlEx)
                         {
@@ -90,12 +92,106 @@ namespace AspitPlanner.Helpers
                             
                         }
                     }
+                    
                 }
+                cnn.Close();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 
+            }
+        }
+
+
+        public static List<UserRole> GetUserRoles()
+        {
+            List<UserRole> retur = new List<UserRole>();
+            SqlConnection cnn = new SqlConnection(conString);
+            cnn.Open();
+            SqlCommand cmd;
+            String sql = "SELECT * FROM UserRoles";
+            cmd = new SqlCommand(sql, cnn);
+
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    retur.Add(new UserRole()
+                    {
+                        ID = int.Parse(oReader["ID"].ToString()),
+                        Name = oReader["Name"].ToString()
+
+                    });
+                }
+            }
+            cnn.Close();
+            return retur;
+        }
+
+        public static void AddHoliday(Holiday h)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+                String sql = "Insert into Holidays values(@From,@Too)";
+                SqlCommand cmd = new SqlCommand(sql, cnn);
+                DateTime today = Util.getDateTime();
+                cmd.Parameters.AddWithValue("From", h.From);
+                cmd.Parameters.AddWithValue("Too", h.Too);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+        public static void AddUser(User u)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+                String sql = "Insert into Users values(@Name,@Password,@Role)";
+                SqlCommand cmd = new SqlCommand(sql, cnn);
+                DateTime today = Util.getDateTime();
+                cmd.Parameters.AddWithValue("Name", u.Usernane);
+                cmd.Parameters.AddWithValue("Password", u.Password);
+                cmd.Parameters.AddWithValue("Role", u.UserRole);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+        public static void addStudent(Student s)
+        {
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+                String sql = "Insert into Students values(@Name,@Team,@Aktiv)";
+                SqlCommand cmd = new SqlCommand(sql, cnn);
+                DateTime today = Util.getDateTime(); 
+                cmd.Parameters.AddWithValue("Name", s.Name);
+                cmd.Parameters.AddWithValue("Team", s.Team);
+                cmd.Parameters.AddWithValue("Aktiv", true);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
             }
         }
 
@@ -119,6 +215,7 @@ namespace AspitPlanner.Helpers
             }
                 
             cmd.ExecuteNonQuery();
+            cnn.Close();
         }
 
         public static bool UpdateUserPassword(string name, string password)
@@ -134,6 +231,7 @@ namespace AspitPlanner.Helpers
                 cmd.Parameters.AddWithValue("name", name);
                 cmd.Parameters.AddWithValue("password", password);
                 cmd.ExecuteNonQuery();
+                cnn.Close();
                 return true;
             }
             catch (Exception ex)
@@ -142,6 +240,31 @@ namespace AspitPlanner.Helpers
                 FileHandler.Error(ex);
                 return false;
             }
+        }
+
+        public static ModulNote GetModuleNotes(int sID, DateTime time)
+        {
+            ModulNote retur = new ModulNote();
+            retur.Note = "";
+            retur.StudentID = sID;
+            retur.Date = time;
+            SqlConnection cnn = new SqlConnection(conString);
+            cnn.Open();
+            SqlCommand cmd;
+            String sql = "SELECT * FROM ModulNotes where StudentID = @id And Date = @time";
+            cmd = new SqlCommand(sql, cnn);
+            cmd.Parameters.AddWithValue("id", sID);
+            cmd.Parameters.AddWithValue("time", time);
+
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    retur.Note = oReader["Note"].ToString();
+                }
+            }
+            cnn.Close();
+            return retur;
         }
 
         public static void SetInactiv(Student s)
@@ -156,6 +279,34 @@ namespace AspitPlanner.Helpers
                 cmd = new SqlCommand(sql, cnn);
                 cmd.Parameters.AddWithValue("ID", s.ID);
                 cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+        public static void AddOrUpdateModulNote(ModulNote mn)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+                SqlCommand cmd;
+                String sql = "Insert Into ModulNotes Values(@date,@Sid,@note)";
+                ModulNote note = GetModuleNotes(mn.StudentID, mn.Date);
+                if (note.Note != "")
+                {
+                    sql = "Update ModulNotes set Note = @note where StudentId = @Sid And date = @date";
+                }
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("date", mn.Date);
+                cmd.Parameters.AddWithValue("Sid", mn.StudentID);
+                cmd.Parameters.AddWithValue("note", mn.Note);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
             }
             catch (Exception ex)
             {
@@ -191,7 +342,7 @@ namespace AspitPlanner.Helpers
                     retur.Add(a);
                 }
             }
-
+            cnn.Close();
             return retur;
         }
         public static List<ChartValue> GetDifrences(int sID, DateTime? fra, DateTime? til)
@@ -266,9 +417,11 @@ namespace AspitPlanner.Helpers
             retur.Add(new ChartValue { ID = 2, Navn = "Justeret Fravær", Procent = udenfri });
             retur.Add(new ChartValue { ID = 3, Navn = "Mødt", Procent = mødt });
             retur.Add(new ChartValue { ID = 4, Navn = "Mødt aktiv", Procent = mødtudenInaktiv });
+            cnn.Close();
             return retur;
         }
 
+        
 
         public static void deleteAppointment(int iD)
         {
@@ -281,6 +434,7 @@ namespace AspitPlanner.Helpers
             cmd = new SqlCommand(sql, cnn);
             cmd.Parameters.AddWithValue("ID", iD);
             cmd.ExecuteNonQuery();
+            cnn.Close();
         }
 
         public static List<ChartValue> getData(int sID, DateTime? fra, DateTime? til)
@@ -338,11 +492,12 @@ namespace AspitPlanner.Helpers
             {
                 retur.Add(new ChartValue { ID = regtypes[i].ID, Navn = regtypes[i].TypeName, Procent = counts[i] });
             }
+            cnn.Close();
             return retur;
         }
 
 
-        private static List<regType> getAllTypes()
+        public static List<regType> getAllTypes()
         {
             List<regType> retur = new List<regType>();
             SqlConnection cnn = new SqlConnection(conString);
@@ -368,6 +523,33 @@ namespace AspitPlanner.Helpers
                 }
 
             }
+            cnn.Close();
+            return retur;
+        }
+
+        public static int getTypeID(String Name)
+        {
+            int retur = -1;
+            SqlConnection cnn = new SqlConnection(conString);
+
+            cnn.Open();
+
+            SqlCommand cmd;
+            String sql = "SELECT * FROM RegistrationTypes where TypeName = @Name";
+
+            cmd = new SqlCommand(sql, cnn);
+            cmd.Parameters.AddWithValue("Name", Name);
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    retur = int.Parse(oReader["ID"].ToString());
+
+                    
+                }
+
+            }
+            cnn.Close();
             return retur;
         }
 
@@ -391,59 +573,663 @@ namespace AspitPlanner.Helpers
                 }
 
             }
+            cnn.Close();
             return retur;
         }
 
-        public static List<string> getNotPressent(DateTime _date)
+        public static List<string> GetMissingRegs(DateTime _date)
         {
             List<string> retur = new List<string>();
+            try
+            {
+                int id = getTypeID("Ikke set");
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "select * from Presents p, students s where p.studentID = s.ID And (Model1 in (0, @id) OR Model2 in (0, @id) OR Model3 in (0, @id) OR Model4 in (0, @id) ) AND Date < @Date";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("Date", _date);
+                cmd.Parameters.AddWithValue("id", id);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        string s = "";
+                        s += oReader["Date"].ToString() + " ";
+                        s += oReader["Name"].ToString() + " ";
+                        s += oReader["Team"].ToString() + " ";
+                        s += " m1 = " + oReader["Model1"].ToString();
+                        s += " m2 = " + oReader["Model2"].ToString();
+                        s += " m3 = " + oReader["Model3"].ToString();
+                        s += " m4 = " + oReader["Model4"].ToString();
+                        retur.Add(s);
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+            return retur;
+        }
+       
+        public static List<Student> GetStudents()
+        {
+            List<Student> retur = new List<Student>();
             SqlConnection cnn = new SqlConnection(conString);
 
             cnn.Open();
 
             SqlCommand cmd;
-            String sql = "select * from Presents p, students s where p.studentID = s.ID And (Model1 = 0 OR Model2 = 0 OR Model3 = 0 OR Model4 = 0 ) AND Date <= @Date";
+            String sql = "SELECT * FROM Students where Aktiv = 1 Order by Name";
 
             cmd = new SqlCommand(sql, cnn);
-            cmd.Parameters.AddWithValue("Date", _date);
             using (SqlDataReader oReader = cmd.ExecuteReader())
             {
                 while (oReader.Read())
                 {
-                    string s = "";
-                    s += oReader["Date"].ToString() + " ";
-                    s += oReader["Name"].ToString() + " ";
-                    s += oReader["Team"].ToString() + " "; 
-                    s += " m1 = " + oReader["Model1"].ToString();
-                    s += " m2 = " + oReader["Model2"].ToString();
-                    s += " m3 = " + oReader["Model3"].ToString();
-                    s += " m4 = " + oReader["Model4"].ToString();
-                    retur.Add(s);
+                    retur.Add(
+                        new Student
+                        {
+                            ID = int.Parse(oReader["ID"].ToString()),
+                            Name = oReader["Name"].ToString(),
+                            Team = oReader["Team"].ToString(),
+                            Aktiv = (bool)oReader["Aktiv"]
+
+                        });
                 }
 
             }
+            cnn.Close();
             return retur;
         }
-        
-        public static void switchCon(Connect c)
+
+        public static List<Appointment> GetAppointments()
         {
-            if(c == Connect.Intern)
+            List<Appointment> retur = new List<Appointment>();
+            try
             {
-                con = "DBConInternal";
-                conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT * FROM Appointments where StudentId IN (select ID from Students where Aktiv = 1)";
+
+                cmd = new SqlCommand(sql, cnn);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur.Add(
+                            new Appointment
+                            {
+                                ID = int.Parse(oReader["ID"].ToString()),
+                                StudentID = int.Parse(oReader["StudentID"].ToString()),
+                                FromeDate = DateTime.Parse(oReader["FromeDate"].ToString()),
+                                ToDate = DateTime.Parse(oReader["ToDate"].ToString()),
+                                Day = oReader["Day"].ToString(),
+                                Modules = oReader["Modules"].ToString(),
+                                Info = oReader["Info"].ToString(),
+                                RegistrationTypeID = int.Parse(oReader["RegistrationTypeID"].ToString())
+
+                            });
+                    }
+
+                }
+                cnn.Close();
             }
-            else if(c == Connect.Extern)
+            catch (Exception ex)
             {
-                con = "DBCon";
-                conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+                FileHandler.Error(ex);
+            }
+            return retur;
+        }
+        public static void addAppointment(Appointment a)
+        {
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+                String sql = "Insert into Appointments values(@StudentID,@FromeDate,@ToDate,@Day,@Modules,@Info,@RegistrationTypeID)";
+                SqlCommand cmd = new SqlCommand(sql, cnn);
+                DateTime today = Util.getDateTime();
+                cmd.Parameters.AddWithValue("StudentID", a.StudentID);
+                cmd.Parameters.AddWithValue("FromeDate", a.FromeDate);
+                cmd.Parameters.AddWithValue("ToDate", a.ToDate);
+                cmd.Parameters.AddWithValue("Day", a.Day);
+                cmd.Parameters.AddWithValue("Modules", a.Modules);
+                cmd.Parameters.AddWithValue("Info", a.Info);
+                cmd.Parameters.AddWithValue("RegistrationTypeID", a.RegistrationTypeID);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
             }
         }
-        
 
+        public static List<Category> GetCategory()
+        {
+            List<Category> retur = new List<Category>();
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT * FROM Categories";
+
+                cmd = new SqlCommand(sql, cnn);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur.Add(
+                            new Category
+                            {
+                                ID = int.Parse(oReader["ID"].ToString()),
+                                CategoryName = oReader["CategoryName"].ToString()
+
+                            });
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+            
+            return retur;
+        }
+        public static void addCategory(Category c)
+        {
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+                String sql = "Insert into Categories values(@CategoryName)";
+                SqlCommand cmd = new SqlCommand(sql, cnn);
+                DateTime today = Util.getDateTime();
+                cmd.Parameters.AddWithValue("CategoryName", c.CategoryName);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+
+        public static List<AbsentType> GetAbcentTypes()
+        {
+            List<AbsentType> retur = new List<AbsentType>();
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT t.ID, TypeName,categoryName FROM Categories c, Registrationtypes t where c.id = t.catID Order by c.id desc";
+
+                cmd = new SqlCommand(sql, cnn);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur.Add(
+                            new AbsentType
+                            {
+                                ID = int.Parse(oReader["ID"].ToString()),
+                                TypeName = oReader["TypeName"].ToString(),
+                                CatName = oReader["categoryName"].ToString()
+
+                            });
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+
+           
+            return retur;
+
+        }
+
+        public static Present getPressent(DateTime today, int studentID)
+        {
+            Present p = null;
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT * from Presents where Date = @today and @StudentID = StudentId";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("StudentID", studentID);
+                cmd.Parameters.AddWithValue("today", today);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        p = new Present()
+                        {
+                            Date = DateTime.Parse(oReader["Date"].ToString()),
+                            Model1 = int.Parse(oReader["Model1"].ToString()),
+                            Model2 = int.Parse(oReader["Model2"].ToString()),
+                            Model3 = int.Parse(oReader["Model3"].ToString()),
+                            Model4 = int.Parse(oReader["Model4"].ToString()),
+                            StudentID = int.Parse(oReader["StudentID"].ToString())
+                        };
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+
+            
+            return p;
+        }
+
+        private static List<Present> getPresents()
+        {
+            List<Present> retur = new List<Present>();
+            SqlConnection cnn = new SqlConnection(conString);
+
+            cnn.Open();
+
+            SqlCommand cmd;
+            String sql = "SELECT * FROM Presents";
+
+            cmd = new SqlCommand(sql, cnn);
+            using (SqlDataReader oReader = cmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    retur.Add(
+                        new Present
+                        {
+                            Date = DateTime.Parse(oReader["Date"].ToString()),
+                            Model1 = int.Parse(oReader["Model1"].ToString()),
+                            Model2 = int.Parse(oReader["Model2"].ToString()),
+                            Model3 = int.Parse(oReader["Model3"].ToString()),
+                            Model4 = int.Parse(oReader["Model4"].ToString()),
+                            StudentID = int.Parse(oReader["StudentID"].ToString())
+
+                        });
+                }
+
+            }
+            cnn.Close();
+            return retur;
+        }
+
+        public static List<Student> getNotPresent(DateTime today)
+        {
+            
+            List<Student> retur = new List<Student>();
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Select * from Students s, Presents p where s.ID = p.StudentID And s.Aktiv = 1 AND Date >= @Date AND(Model1 = 0 Or Model1 in(Select ID From RegistrationTypes Where TypeName = 'Ikke set'))";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("date", today);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur.Add(new Student() { 
+                            ID = int.Parse(oReader["ID"].ToString()),
+                            Name = oReader["Name"].ToString(),
+                            Team = oReader["Team"].ToString(),
+                            Aktiv = (bool)oReader["Aktiv"]
+                        });
+                            
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch(Exception ex)
+            {
+                FileHandler.Error(ex);
+            }
+            
+            return retur;
+        }
+
+        public static void AddPresent(Present p)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "update Presents Set Model1 = @Model1, Model2 = @Model2, Model3 = @Model3, Model4 = @Model4 Where StudentID = @StudentID and Date = @Date";
+                
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("StudentID", p.StudentID);
+                cmd.Parameters.AddWithValue("Date", p.Date);
+                cmd.Parameters.AddWithValue("Model1", p.Model1);
+                cmd.Parameters.AddWithValue("Model2", p.Model2);
+                cmd.Parameters.AddWithValue("Model3", p.Model3);
+                cmd.Parameters.AddWithValue("Model4", p.Model4);
+
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+        public static void AddType(RegistrationType t)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Insert Into RegistrationTypes Values(@Name,@CatID)";
+
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("Name", t.TypeName);
+                cmd.Parameters.AddWithValue("CatID", t.CatID);
+
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+        public static User GetUser(User us)
+        {
+            User retur = null;
+
+            
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT * from Users where Usernane = @Usernane and @Password = Password";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("Usernane", us.Usernane);
+                cmd.Parameters.AddWithValue("Password", us.Password);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur = new User()
+                        {
+                           
+                            Usernane = oReader["Usernane"].ToString(),
+                            UserRole = int.Parse(oReader["UserRole"].ToString()),
+                            Password = oReader["Password"].ToString(),
+                        };
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+            return retur;
+        }
+        public static void RemoveHoliday(Holiday h)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Delete from Holidays where ID = @ID";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("ID", h.ID);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+        }
+
+        public static List<Holiday> GetHolidays()
+        {
+            List<Holiday> retur = new List<Holiday>();
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT * from Holidays";
+
+                cmd = new SqlCommand(sql, cnn);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur.Add( new Holiday()
+                        {
+
+                            From = DateTime.Parse(oReader["From"].ToString()),
+                            Too = DateTime.Parse(oReader["Too"].ToString()),
+                            ID = int.Parse(oReader["ID"].ToString())
+                        });
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+            return retur;
+        }
+
+
+        public static int AddUserRole(UserRole ur)
+        {
+            int ID = -1;
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Insert into UserRoles Values(@Name); SELECT SCOPE_IDENTITY()";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("Name", ur.Name);
+                ID = int.Parse(cmd.ExecuteScalar().ToString());
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+            return ID;
+        }
+
+        public static List<Student> GetHold()
+        {
+            List<Student> liste = new List<Student>();
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT Distinct(Team) from Students";
+
+                cmd = new SqlCommand(sql, cnn);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        liste.Add(new Student() { Team = oReader["Team"].ToString() });
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+
+            return liste;
+        }
+
+        public static bool notHoliday()
+        {
+
+            bool retur = true;
+            foreach (Holiday h in SQLDB.GetHolidays())
+            {
+                if (DateTime.Now >= h.From && DateTime.Now <= h.Too)
+                {
+                    retur = false;
+                    break;
+                }
+            }
+            return retur;
+        }
+
+
+        public static List<Student> GetStundentsOnTeam(string Team)
+        {
+            List<Student> liste = new List<Student>();
+
+            var quarry = from s in SQLDB.GetStudents()
+                         where s.Team == Team && s.Aktiv == true
+                         select s;
+
+            liste = quarry.ToList();
+
+            return liste;
+        }
+
+        public static int GetAftaleFri(int id)
+        {
+            int i = -1;
+            var quary = from ty in SQLDB.GetAbcentTypes()
+                        where ty.ID.Equals(id)
+                        select ty;
+
+
+            for (int ind = 0; ind < SQLDB.GetAbcentTypes().Count; ind++)
+            {
+                if (SQLDB.GetAbcentTypes()[ind].ID == (quary.FirstOrDefault()).ID)
+                {
+                    i = ind;
+                    break;
+                }
+
+            }
+
+
+            return i;
+        }
+
+        public static List<AppointmentStudent> getAllPresents(int studentID)
+        {
+            List<AppointmentStudent> retur = new List<AppointmentStudent>();
+            var quary = (from a in SQLDB.GetAppointments()
+                         join s in SQLDB.GetStudents() on a.StudentID equals s.ID
+                         select new AppointmentStudent
+                         {
+                             ID = a.ID,
+                             StudentID = s.ID,
+                             Name = s.Name,
+                             Team = s.Team,
+                             FromeDate = a.FromeDate,
+                             ToDate = a.ToDate,
+                             Day = a.Day,
+                             Modules = a.Modules,
+                             Info = a.Info
+                         })
+                               .ToList();
+
+            if (studentID != -1)
+            {
+                quary = quary.Where(aps => aps.StudentID == studentID).ToList();
+            }
+            retur = quary;
+
+            return retur;
+        }
     }
-    public enum Connect
-    {
-        Extern,
-        Intern
-    }
+    
 }

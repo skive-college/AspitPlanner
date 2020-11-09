@@ -36,25 +36,22 @@ namespace AspitPlanner.GUI
             {
                 try
                 {
-                    using (DBCon db = new DBCon())
+                      
+                    String Team;
+                    if (txtNewTeam.Text != "")
                     {
-                        String Team;
-                        if (txtNewTeam.Text != "")
-                        {
-                            Team = txtNewTeam.Text;
-                        }
-                        else
-                        {
-                            Team = (cbTeam.SelectedValue as Student).Team;
-                        }
-                        Student s = new Student() { Name = txtName.Text, Team = Team, Aktiv = true};
-
-              
-                        db.Students.Add(s);
-                        db.SaveChanges();
-                        clear();
-                        load();                        
+                        Team = txtNewTeam.Text;
                     }
+                    else
+                    {
+                        Team = (cbTeam.SelectedValue as Student).Team;
+                    }
+                    Student s = new Student() { Name = txtName.Text, Team = Team, Aktiv = true};
+
+                    SQLDB.addStudent(s);
+                    clear();
+                    load();                        
+                    
                 }
                 catch(Exception ex)
                 {
@@ -65,10 +62,7 @@ namespace AspitPlanner.GUI
 
         public void load()
         {
-            using (DBCon db = new DBCon())
-            {
-                lwStudent.DataContext = db.Students.ToList().OrderBy(x => x.Team);
-            }
+            lwStudent.DataContext = SQLDB.GetStudents();           
             loadTeams();
         }
 
@@ -81,14 +75,12 @@ namespace AspitPlanner.GUI
         }
         public void loadTeams()
         {
-            using (DBCon db = new DBCon())
-            {
-                List<Student> liste = db.Students.ToList();
-                var Teams = liste.GroupBy(test => test.Team)
-                       .Select(grp => grp.First())
-                       .ToList();
-                cbTeam.DataContext = Teams;
-            }
+            List<Student> liste = SQLDB.GetStudents();
+            var Teams = liste.GroupBy(test => test.Team)
+                    .Select(grp => grp.First())
+                    .ToList();
+            cbTeam.DataContext = Teams;
+            
         }
 
         private void LwStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)

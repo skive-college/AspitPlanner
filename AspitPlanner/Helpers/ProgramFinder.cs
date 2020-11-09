@@ -13,7 +13,9 @@ namespace AspitPlanner.Helpers
         public static List<Program> findAll()
         {
             //string sti = @"O:\Aspit\Underviser\Tekniske filer\Kjeldtest";
-            string sti = @"U:\AspIT\AspITOnly\RO\PlannerProgrammer";
+            //string sti = @"U:\AspIT\AspITOnly\RO\PlannerProgrammer";
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\')[1];
+            string sti = @"C:\Users\" + userName + @"\Skive College\AspIT - PlannerProgrammer";
 
             List<Program> programmer = EnumerateFiles(sti, true, ".exe").ToList();
 

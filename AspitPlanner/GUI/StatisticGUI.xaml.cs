@@ -53,11 +53,8 @@ namespace AspitPlanner.GUI
         }
         private void loadStudents()
         {
-            using (DBCon db = new DBCon())
-            {
-                cbSElev.DataContext = db.Students.Where(s => s.Aktiv == true).OrderBy(s => s.Name).ToList();
-                seek();
-            }
+            cbSElev.DataContext = SQLDB.GetStudents();
+            seek();
         }
 
       

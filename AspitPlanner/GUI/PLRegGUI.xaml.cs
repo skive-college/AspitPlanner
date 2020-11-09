@@ -2,7 +2,6 @@
 using AspitPlanner.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -33,19 +32,19 @@ namespace AspitPlanner.GUI
         
         public void load()
         {
-            using (DBCon db = new DBCon())
-            {
-                dpDag.SelectedDate = DateTime.Now;
-                CBHold.DataContext = db.GetHold();
-                CBModul1.DataContext = db.GetAbcentTypes();
-                CBModul2.DataContext = db.GetAbcentTypes();
-                CBModul3.DataContext = db.GetAbcentTypes();
-                CBModul4.DataContext = db.GetAbcentTypes();
-                
-                Elever.DataContext = db.getNotPressent(getDateTime());
+             
+            
+            dpDag.SelectedDate = DateTime.Now;
+            CBHold.DataContext = SQLDB.GetHold();
+            CBModul1.DataContext = SQLDB.GetAbcentTypes();
+            CBModul2.DataContext = SQLDB.GetAbcentTypes();
+            CBModul3.DataContext = SQLDB.GetAbcentTypes();
+            CBModul4.DataContext = SQLDB.GetAbcentTypes();
+
+            Elever.DataContext = SQLDB.getNotPresent(getDateTime());
                 //load apointmens på alle elever
 
-            }
+            
         }
 
         private void CBHold_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,17 +54,14 @@ namespace AspitPlanner.GUI
                 clear();
                 string Team = (CBHold.SelectedValue as Student).Team;
 
-                using (DBCon db = new DBCon())
-                {
-                    Elever.DataContext = db.GetStundentsOnTeam(Team);
-                }
+                Elever.DataContext = SQLDB.GetStundentsOnTeam(Team);
+                
             }
             else
             {
-                using (DBCon db = new DBCon())
-                {
-                    Elever.DataContext = db.getNotPressent(getDateTime());
-                }
+                 
+                Elever.DataContext = SQLDB.getNotPresent(getDateTime());
+               
             }
         }
 
@@ -80,46 +76,43 @@ namespace AspitPlanner.GUI
         {
             if (Elever.SelectedIndex != -1 && (sender as ComboBox).SelectedIndex != -1)
             {
-                using (DBCon db = new DBCon())
+                 
+                
+                DateTime today = getDateTime();
+                int studentID = (Elever.SelectedValue as Student).ID;
+                Present p = SQLDB.getPressent(today, studentID);
+
+                if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
                 {
-                    DateTime today = getDateTime();
-                    int studentID = (Elever.SelectedValue as Student).ID;
-                    Present p = db.getPressent(today, studentID);
-
-                    if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
+                    if (CBModul2.SelectedIndex == -1)
                     {
-                        if (CBModul2.SelectedIndex == -1)
-                        {
-                            CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
-                        if (CBModul3.SelectedIndex == -1)
-                        {
-                            CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
-                        if (CBModul4.SelectedIndex == -1)
-                        {
-                            CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
+                        CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
                     }
-                    else if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Udeblevet")
+                    if (CBModul3.SelectedIndex == -1)
                     {
-                        if (CBModul2.SelectedIndex == -1)
-                        {
-                            CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
-                        if (CBModul3.SelectedIndex == -1)
-                        {
-                            CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
-                        if (CBModul4.SelectedIndex == -1)
-                        {
-                            CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
-                        }
+                        CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
                     }
-                    updateStudent();
-
+                    if (CBModul4.SelectedIndex == -1)
+                    {
+                        CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
                 }
-
+                else if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Udeblevet")
+                {
+                    if (CBModul2.SelectedIndex == -1)
+                    {
+                        CBModul2.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
+                    if (CBModul3.SelectedIndex == -1)
+                    {
+                        CBModul3.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
+                    if (CBModul4.SelectedIndex == -1)
+                    {
+                        CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
+                    }
+                }
+                updateStudent();
 
             }
         }
@@ -138,42 +131,40 @@ namespace AspitPlanner.GUI
 
         private void loadApointments(int ElevID)
         {
-            using (DBCon db = new DBCon())
+            
+            DateTime today = getDateTime();
+            var quary = from a in SQLDB.GetAppointments()
+                        where a.StudentID.Equals(ElevID) && (a.FromeDate <= today) && a.ToDate >= today
+                        select a;
+
+            foreach (Appointment a in quary.ToList())
             {
-                DateTime today = getDateTime();
-                var quary = from a in db.Appointments
-                            where a.StudentID.Equals(ElevID) && (a.FromeDate <= today) && a.ToDate >= today
-                            select a;
-
-                foreach (Appointment a in quary.ToList())
+                if (a.Day.Contains(today.DayOfWeek.ToString()))
                 {
-                    if (a.Day.Contains(today.DayOfWeek.ToString()))
+                    string[] moduler = a.Modules.Split(',');
+
+                    int index = SQLDB.GetAftaleFri(a.RegistrationTypeID);
+                    foreach (string s in moduler)
                     {
-                        string[] moduler = a.Modules.Split(',');
-
-                        int index = db.GetAftaleFri(a.RegistrationTypeID);
-                        foreach (string s in moduler)
+                        if (s == "M1")
                         {
-                            if (s == "M1")
-                            {
-                                CBModul1.SelectedIndex = index;
+                            CBModul1.SelectedIndex = index;
 
-                            }
-                            if (s == "M2")
-                            {
-                                CBModul2.SelectedIndex = index;
+                        }
+                        if (s == "M2")
+                        {
+                            CBModul2.SelectedIndex = index;
 
-                            }
-                            if (s == "M3")
-                            {
-                                CBModul3.SelectedIndex = index;
+                        }
+                        if (s == "M3")
+                        {
+                            CBModul3.SelectedIndex = index;
 
-                            }
-                            if (s == "M4")
-                            {
-                                CBModul4.SelectedIndex = index;
+                        }
+                        if (s == "M4")
+                        {
+                            CBModul4.SelectedIndex = index;
 
-                            }
                         }
                     }
                 }
@@ -196,141 +187,125 @@ namespace AspitPlanner.GUI
             {
                 clear();
                 int studentID = (Elever.SelectedValue as Student).ID;
+                txtNoteTilDag.Text = SQLDB.GetModuleNotes(studentID, getDateTime()).Note;
                 bool registered = false;
-                using (DBCon db = new DBCon())
+                 
+                
+                Present p = SQLDB.getPressent(getDateTime(), studentID);
+                if (p != null)
                 {
-                    Present p = db.getPressent(getDateTime(), studentID);
-                    if (p != null)
+                    List<AbsentType> list = SQLDB.GetAbcentTypes();
+                    for (int i = 0; i < list.Count; i++)
                     {
-
-                        for (int i = 0; i < db.GetAbcentTypes().Count; i++)
+                        if (list[i].ID == p.Model1)
                         {
-                            if (db.GetAbcentTypes()[i].ID == p.Model1)
-                            {
-                                registered = true;
-                                CBModul1.SelectedIndex = i;
-                            }
-                            if (db.GetAbcentTypes()[i].ID == p.Model2)
-                            {
-                                registered = true;
-                                CBModul2.SelectedIndex = i;
-                            }
-                            if (db.GetAbcentTypes()[i].ID == p.Model3)
-                            {
-                                registered = true;
-                                CBModul3.SelectedIndex = i;
-                            }
-
-                            if (db.GetAbcentTypes()[i].ID == p.Model4)
-                            {
-                                registered = true;
-                                CBModul4.SelectedIndex = i;
-                            }
-
+                            registered = true;
+                            CBModul1.SelectedIndex = i;
                         }
-                    }
-                    else
-                    {
-                        //creatNew();
+                        if (list[i].ID == p.Model2)
+                        {
+                            registered = true;
+                            CBModul2.SelectedIndex = i;
+                        }
+                        if (list[i].ID == p.Model3)
+                        {
+                            registered = true;
+                            CBModul3.SelectedIndex = i;
+                        }
+
+                        if (list[i].ID == p.Model4)
+                        {
+                            registered = true;
+                            CBModul4.SelectedIndex = i;
+                        }
 
                     }
-                    if (!registered)
-                    {
-                        loadApointments(studentID);
-                    }
+
+                }
+                else
+                {
+                    //creatNew();
+
+                }
+                if (!registered)
+                {
+                    loadApointments(studentID);
                 }
             }
-
         }
 
         private void DpDag_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            using (DBCon db = new DBCon())
-            {
-                clear();
-                Elever.DataContext = db.getNotPressent(getDateTime());
-            }
+             
+            
+            clear();
+            Elever.DataContext = SQLDB.getNotPresent(getDateTime());
+            
         }
 
         private void CmdOpdater_Click(object sender, RoutedEventArgs e)
         {
             load();
         }
-        private string getNote(DateTime time, int sID)
-        {
-            string retur = "";
-            using (DBCon db = new DBCon())
-            {
-
-                ModulNote mn = db.ModulNotes.Where(x => x.StudentID == sID && x.Date == time).FirstOrDefault();
-                if (mn != null)
-                    retur = mn.Note;
-            }
-            return retur;
-        }
+        
 
         private void updateStudent()
         {
             if (Elever.SelectedIndex != -1)
             {
-                using (DBCon db = new DBCon())
+                 
+                
+                DateTime today = getDateTime();
+
+                Student student = (Elever.SelectedValue as Student);
+                try
                 {
-                    DateTime today = getDateTime();
-
-                    Student student = (Elever.SelectedValue as Student);
-                    try
+                    Present p = SQLDB.getPressent(today, student.ID);
+                    if (p != null)
                     {
-                        Present p = db.getPressent(today, student.ID);
-                        if (p != null)
+                        if (CBModul1.SelectedIndex != -1)
                         {
-                            if (CBModul1.SelectedIndex != -1)
+                            p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
+                        }
+                        if (CBModul2.SelectedIndex != -1)
+                        {
+                            p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
+                        }
+                        if (CBModul3.SelectedIndex != -1)
+                        {
+                            p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
+                        }
+                        if (CBModul4.SelectedIndex != -1)
+                        {
+                            p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
+                        }
+                        try
+                        {
+                            if (txtNoteTilDag.Text != "")
                             {
-                                p.Model1 = (CBModul1.SelectedValue as AbsentType).ID;
-                            }
-                            if (CBModul2.SelectedIndex != -1)
-                            {
-                                p.Model2 = (CBModul2.SelectedValue as AbsentType).ID;
-                            }
-                            if (CBModul3.SelectedIndex != -1)
-                            {
-                                p.Model3 = (CBModul3.SelectedValue as AbsentType).ID;
-                            }
-                            if (CBModul4.SelectedIndex != -1)
-                            {
-                                p.Model4 = (CBModul4.SelectedValue as AbsentType).ID;
-                            }
-                            try
-                            {
-                                if (txtNoteTilDag.Text != "")
-                                {
-                                    ModulNote mn = new ModulNote();
-                                    mn.Date = p.Date;
-                                    mn.StudentID = p.StudentID;
-                                    mn.Note = txtNoteTilDag.Text;
-                                    db.ModulNotes.AddOrUpdate(mn);
-                                    db.SaveChanges();
+                                ModulNote mn = new ModulNote();
+                                mn.Date = p.Date;
+                                mn.StudentID = p.StudentID;
+                                mn.Note = txtNoteTilDag.Text;
+                                SQLDB.AddOrUpdateModulNote(mn);
 
-                                }
-                                db.Presents.AddOrUpdate(p);
-                                db.SaveChanges();
-                                MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
                             }
-                            catch (Exception ex)
-                            {
-                                FileHandler.Error(ex);
-                                FileHandler.Backup(p);
-                                MainWindow.setStatus("Noget gik galt Backup taget og mail sent til sys admin");
-                            }
+                            SQLDB.AddPresent(p);
+                            MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
+                        }
+                        catch (Exception ex)
+                        {
+                            FileHandler.Error(ex);
+                            FileHandler.Backup(p);
+                            MainWindow.setStatus("Noget gik galt Backup taget og mail sent til sys admin");
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        FileHandler.Error(ex);
-                        MainWindow.setStatus("Noget gik galt");
-                    }
-
                 }
-
+                catch (Exception ex)
+                {
+                    FileHandler.Error(ex);
+                    MainWindow.setStatus("Noget gik galt");
+                }
 
             }
         }

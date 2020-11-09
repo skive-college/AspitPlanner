@@ -30,10 +30,8 @@ namespace AspitPlanner.GUI
 
         private void load()
         {
-            using(DBCon db = new DBCon())
-            {
-                cbRole.DataContext = db.Roles.ToList();
-            }
+            cbRole.DataContext = SQLDB.GetUserRoles();
+           
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
@@ -52,23 +50,17 @@ namespace AspitPlanner.GUI
                 else
                 {
                     // opret userRole og tag iDet
-                    using(DBCon db = new DBCon())
-                    {
-                        UserRole Ur = new UserRole();
-                        Ur.Name = txtNewRole.Text;
-                        db.Roles.Add(Ur);
-                        db.SaveChanges();
-                        u.UserRole = db.Roles.Where(x => x.Name == Ur.Name).FirstOrDefault().ID;
-                    }
+                    UserRole Ur = new UserRole();
+                    Ur.Name = txtNewRole.Text;
+                    u.UserRole = SQLDB.AddUserRole(Ur);                       
+                    
                 }
-                using (DBCon db = new DBCon())
-                {
-                    db.Users.Add(u);
-                    db.SaveChanges();
-                    Clear();
-                    MainWindow.setStatus($"Bruger {u.Usernane} er oprettet");
-                }
-            }
+                SQLDB.AddUser(u);
+                Clear();
+                load();
+                MainWindow.setStatus($"Bruger {u.Usernane} er oprettet");
+                
+        }
             
 
 

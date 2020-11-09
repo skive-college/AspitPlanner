@@ -53,12 +53,6 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1358.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
@@ -112,14 +106,6 @@
     <Compile Include="Helpers\ProgramFinder.cs" />
     <Compile Include="Helpers\SQLDB.cs" />
     <Compile Include="Helpers\Util.cs" />
-    <Compile Include="Migrations\201908051124378_added_aktiv_elev.cs" />
-    <Compile Include="Migrations\201908051124378_added_aktiv_elev.Designer.cs">
-      <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908051905194_add_holiday.cs" />
-    <Compile Include="Migrations\201908051905194_add_holiday.Designer.cs">
-      <DependentUpon>201908051905194_add_holiday.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\ChartValue.cs" />
     <Compile Include="Models\Holiday.cs" />
     <Compile Include="Models\Program.cs" />
@@ -211,52 +197,14 @@
     </Compile>
     <Compile Include="Helpers\FileHandler.cs" />
     <Compile Include="Helpers\MailSender.cs" />
-    <Compile Include="Migrations\201906240834504_Ua-added.cs" />
-    <Compile Include="Migrations\201906240834504_Ua-added.Designer.cs">
-      <DependentUpon>201906240834504_Ua-added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906240837213_fixpass-added.cs" />
-    <Compile Include="Migrations\201906240837213_fixpass-added.Designer.cs">
-      <DependentUpon>201906240837213_fixpass-added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906241106009_userrolls.cs" />
-    <Compile Include="Migrations\201906241106009_userrolls.Designer.cs">
-      <DependentUpon>201906241106009_userrolls.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906270833376_AppointmentUpdate.cs" />
-    <Compile Include="Migrations\201906270833376_AppointmentUpdate.Designer.cs">
-      <DependentUpon>201906270833376_AppointmentUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280853399_moduleNoteAdded.cs" />
-    <Compile Include="Migrations\201906280853399_moduleNoteAdded.Designer.cs">
-      <DependentUpon>201906280853399_moduleNoteAdded.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\AppointmentStudent.cs" />
-    <Compile Include="Migrations\201906170700189_Fixed_name.cs" />
-    <Compile Include="Migrations\201906170700189_Fixed_name.Designer.cs">
-      <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906171138169_fixed.cs" />
-    <Compile Include="Migrations\201906171138169_fixed.Designer.cs">
-      <DependentUpon>201906171138169_fixed.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\AbsentType.cs" />
-    <Compile Include="Helpers\DBCon.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201906110907390_init.cs" />
-    <Compile Include="Migrations\201906110907390_init.Designer.cs">
-      <DependentUpon>201906110907390_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906120855201_navn.cs" />
-    <Compile Include="Migrations\201906120855201_navn.Designer.cs">
-      <DependentUpon>201906120855201_navn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\ModulNote.cs" />
@@ -278,39 +226,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201906110907390_init.resx">
-      <DependentUpon>201906110907390_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906120855201_navn.resx">
-      <DependentUpon>201906120855201_navn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906170700189_Fixed_name.resx">
-      <DependentUpon>201906170700189_Fixed_name.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906171138169_fixed.resx">
-      <DependentUpon>201906171138169_fixed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906240834504_Ua-added.resx">
-      <DependentUpon>201906240834504_Ua-added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906240837213_fixpass-added.resx">
-      <DependentUpon>201906240837213_fixpass-added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906241106009_userrolls.resx">
-      <DependentUpon>201906241106009_userrolls.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906270833376_AppointmentUpdate.resx">
-      <DependentUpon>201906270833376_AppointmentUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280853399_moduleNoteAdded.resx">
-      <DependentUpon>201906280853399_moduleNoteAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908051124378_added_aktiv_elev.resx">
-      <DependentUpon>201908051124378_added_aktiv_elev.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908051905194_add_holiday.resx">
-      <DependentUpon>201908051905194_add_holiday.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="report.rdlc" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
