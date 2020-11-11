@@ -35,11 +35,12 @@ namespace AspitPlanner.GUI
              
             
             dpDag.SelectedDate = DateTime.Now;
-            CBHold.DataContext = SQLDB.GetHold();
-            CBModul1.DataContext = SQLDB.GetAbcentTypes();
-            CBModul2.DataContext = SQLDB.GetAbcentTypes();
-            CBModul3.DataContext = SQLDB.GetAbcentTypes();
-            CBModul4.DataContext = SQLDB.GetAbcentTypes();
+            CBHold.DataContext = SQLDB.GetHold(); 
+            List<AbsentType> list = SQLDB.GetAbcentTypes();
+            CBModul1.DataContext = list;
+            CBModul2.DataContext = list;
+            CBModul3.DataContext = list;
+            CBModul4.DataContext = list;
 
             Elever.DataContext = SQLDB.getNotPresent(getDateTime());
                 //load apointmens på alle elever
