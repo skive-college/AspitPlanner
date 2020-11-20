@@ -81,7 +81,7 @@ namespace AspitPlanner
                 else
                 {
                     MainContent.Children.Add(st);
-                    setTitle("Statestik");
+                    setTitle("Statistik");
                     setStatus("Eleverne har fri så det er ikke muligt at registrere");
                 }
                 List<string> manglerIGår = SQLDB.GetMissingRegs(Util.getDateTime());

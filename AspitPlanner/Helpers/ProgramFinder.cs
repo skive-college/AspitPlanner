@@ -15,8 +15,8 @@ namespace AspitPlanner.Helpers
             //string sti = @"O:\Aspit\Underviser\Tekniske filer\Kjeldtest";
             //string sti = @"U:\AspIT\AspITOnly\RO\PlannerProgrammer";
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\')[1];
-            string sti = @"C:\Users\" + userName + @"\Skive College\AspIT - PlannerProgrammer";
-
+            //string sti = @"C:\Users\" + userName + @"\Skive College\AspIT - PlannerProgrammer";
+            string sti = AppDomain.CurrentDomain.BaseDirectory+@"\progs";
             List<Program> programmer = EnumerateFiles(sti, true, ".exe").ToList();
 
             return programmer;

@@ -61,7 +61,7 @@ namespace AspitPlanner.GUI
             if(CBStudentApp.SelectedIndex != -1)
             {
 
-                ; 
+                 
                 Student s = CBStudentApp.SelectedValue as Student;
                 RegistrationsGrid.DataContext = SQLDB.getAllPresents(s.ID);
             }

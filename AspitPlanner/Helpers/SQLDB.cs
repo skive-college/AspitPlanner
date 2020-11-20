@@ -81,6 +81,7 @@ namespace AspitPlanner.Helpers
                         }
                         catch (SqlException sqlEx)
                         {
+                            //der for at fange alle andre fejl en primary key da den ikke er en fejl
                             if (!sqlEx.Message.StartsWith("Violation of PRIMARY KEY constraint"))
                             {
                                 FileHandler.Error(sqlEx);
@@ -622,31 +623,38 @@ namespace AspitPlanner.Helpers
         public static List<Student> GetStudents()
         {
             List<Student> retur = new List<Student>();
-            SqlConnection cnn = new SqlConnection(conString);
-
-            cnn.Open();
-
-            SqlCommand cmd;
-            String sql = "SELECT * FROM Students where Aktiv = 1 Order by Name";
-
-            cmd = new SqlCommand(sql, cnn);
-            using (SqlDataReader oReader = cmd.ExecuteReader())
+            try
             {
-                while (oReader.Read())
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "SELECT * FROM Students where Aktiv = 'true' Order by Name";
+
+                cmd = new SqlCommand(sql, cnn);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
                 {
-                    retur.Add(
-                        new Student
-                        {
-                            ID = int.Parse(oReader["ID"].ToString()),
-                            Name = oReader["Name"].ToString(),
-                            Team = oReader["Team"].ToString(),
-                            Aktiv = (bool)oReader["Aktiv"]
+                    while (oReader.Read())
+                    {
+                        retur.Add(
+                            new Student
+                            {
+                                ID = int.Parse(oReader["ID"].ToString()),
+                                Name = oReader["Name"].ToString(),
+                                Team = oReader["Team"].ToString(),
+                                Aktiv = (bool)oReader["Aktiv"]
 
-                        });
+                            });
+                    }
+
                 }
-
+                cnn.Close();
             }
-            cnn.Close();
+            catch (Exception ex)
+            {
+                FileHandler.Error(ex);
+            }
             return retur;
         }
 
@@ -908,7 +916,7 @@ namespace AspitPlanner.Helpers
                 cnn.Open();
 
                 SqlCommand cmd;
-                String sql = "Select * from Students s, Presents p where s.ID = p.StudentID And s.Aktiv = 1 AND Date >= @Date AND(Model1 = 0 Or Model1 in(Select ID From RegistrationTypes Where TypeName = 'Ikke set'))";
+                String sql = "Select * from Students s, Presents p where s.ID = p.StudentID And s.Aktiv = 1 AND Date >= @Date AND(Model1 = 0 Or Model1 in(Select ID From RegistrationTypes Where TypeName = 'Ikke set')) order by Name";
 
                 cmd = new SqlCommand(sql, cnn);
                 cmd.Parameters.AddWithValue("date", today);
