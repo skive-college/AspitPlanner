@@ -10,11 +10,7 @@ namespace AspitPlanner.Models
 {
     public class ModulNote
     {
-        [Key]
-        [Column(Order = 1)]
         public DateTime Date { get; set; }
-        [Key]
-        [Column(Order = 2)]
         public int StudentID { get; set; }
 
         public string Note { get; set; }

@@ -69,18 +69,6 @@
                     </DVC:PieSeries>
                 </DVC:Chart.Series>
             </DVC:Chart>
-            <DVC:Chart Name="frChart" Title=""  Grid.Column="1" Margin="0 10 0 0"
-                Background="LightSteelBlue">
-
-                <DVC:Chart.Series>
-                    <DVC:ColumnSeries Title=""
-                            IndependentValueBinding="{Binding Path=Navn}"
-                            DependentValueBinding="{Binding Path=Procent}"
-                            >
-
-                    </DVC:ColumnSeries>
-                </DVC:Chart.Series>
-            </DVC:Chart>
         </Grid>
 
     </Grid>

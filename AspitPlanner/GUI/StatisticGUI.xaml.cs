@@ -46,8 +46,6 @@ namespace AspitPlanner.GUI
 
             mcChart.Title = "";
             ((PieSeries)mcChart.Series[0]).ItemsSource = new List<ChartValue>();
-            frChart.Title = "";
-            ((ColumnSeries)frChart.Series[0]).ItemsSource = new List<ChartValue>();
 
 
         }
@@ -74,7 +72,7 @@ namespace AspitPlanner.GUI
                 
                 List<ChartValue> li = SQLDB.getData(student.ID,fraDato.SelectedDate,tilDato.SelectedDate);
 
-                List<ChartValue> fr = SQLDB.GetDifrences(student.ID, fraDato.SelectedDate, tilDato.SelectedDate);
+               
 
                 foreach (ChartValue cv in li)
                 {
@@ -85,9 +83,6 @@ namespace AspitPlanner.GUI
                 mcChart.Title = student.Name + " moduler ialt = " + antalModulerIalt;
                 mcChart.Palette = Util.MakePalette(li);
                 ((PieSeries)mcChart.Series[0]).ItemsSource = li;
-
-                frChart.Title = student.Name + " moduler ialt = " + antalModulerIalt;
-                ((ColumnSeries)frChart.Series[0]).ItemsSource = fr;
 
             }
 

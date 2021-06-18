@@ -14,8 +14,14 @@ namespace AspitPlanner.Helpers
     {
         //private static readonly string con = "Test";
         private static string con = "DBCon";
-        //private static readonly string con = "Local";
+        //private static string con = "DBConInternal";
         private static string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+
+        public static void SetConString(string Conection)
+        {
+            con = Conection;
+            conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+        }
 
         public static void CreateStudentForToday(List<Student> students)
         {
@@ -491,7 +497,13 @@ namespace AspitPlanner.Helpers
             }
             for (int i = 0; i < regtypes.Count; i++)
             {
-                retur.Add(new ChartValue { ID = regtypes[i].ID, Navn = regtypes[i].TypeName, Procent = counts[i] });
+                retur.Add(
+                    new ChartValue 
+                    { 
+                        ID = regtypes[i].ID, 
+                        Navn = regtypes[i].catName + " " + regtypes[i].TypeName, 
+                        Procent = counts[i] 
+                    });
             }
             cnn.Close();
             return retur;
@@ -506,7 +518,7 @@ namespace AspitPlanner.Helpers
             cnn.Open();
 
             SqlCommand cmd;
-            String sql = "SELECT * FROM RegistrationTypes";
+            String sql = "SELECT * FROM RegistrationTypes r, Categories c where CatID = c.ID";
 
             cmd = new SqlCommand(sql, cnn);
             using (SqlDataReader oReader = cmd.ExecuteReader())
@@ -518,7 +530,8 @@ namespace AspitPlanner.Helpers
                         {
                             ID = int.Parse(oReader["ID"].ToString()),
                             TypeName = oReader["TypeName"].ToString(),
-                            CatID = int.Parse(oReader["CatID"].ToString())
+                            CatID = int.Parse(oReader["CatID"].ToString()),
+                            catName = oReader["CategoryName"].ToString()
 
                         });
                 }
@@ -941,6 +954,47 @@ namespace AspitPlanner.Helpers
                 FileHandler.Error(ex);
             }
             
+            return retur;
+        }
+
+        public static List<Student> getNotPresentToday(DateTime today)
+        {
+
+            List<Student> retur = new List<Student>();
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(conString);
+
+                cnn.Open();
+
+                SqlCommand cmd;
+                String sql = "Select * from Students s, Presents p where s.ID = p.StudentID And s.Aktiv = 1 AND Date = @Date AND(Model1 = 0 Or Model1 in(Select ID From RegistrationTypes Where TypeName = 'Ikke set')) order by Name";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("date", today);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        retur.Add(new Student()
+                        {
+                            ID = int.Parse(oReader["ID"].ToString()),
+                            Name = oReader["Name"].ToString(),
+                            Team = oReader["Team"].ToString(),
+                            Aktiv = (bool)oReader["Aktiv"]
+                        });
+
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+                FileHandler.Error(ex);
+            }
+
             return retur;
         }
 

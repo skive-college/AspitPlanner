@@ -26,6 +26,7 @@ namespace AspitPlanner.GUI
         public LoginGUI()
         {
             InitializeComponent();
+            networkTester.TestNetwork();
         }
 
         private void validate()
