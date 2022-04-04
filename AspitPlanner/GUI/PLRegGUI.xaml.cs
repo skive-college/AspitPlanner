@@ -42,7 +42,7 @@ namespace AspitPlanner.GUI
             CBModul3.DataContext = list;
             CBModul4.DataContext = list;
 
-            Elever.DataContext = SQLDB.getNotPresent(getDateTime());
+            Elever.DataContext = SQLDB.getNotPresentToday(getDateTime());
                 //load apointmens på alle elever
 
             

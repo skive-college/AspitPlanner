@@ -45,6 +45,9 @@ namespace AspitPlanner
         bool notFridayFri = true;
         public MainWindow()
         {
+            NetworkChange.NetworkAddressChanged += new
+            NetworkAddressChangedEventHandler(AddressChangedCallback);
+            
             try
             {
                 InitializeComponent();
@@ -104,7 +107,10 @@ namespace AspitPlanner
 
         }
 
-        
+        private void AddressChangedCallback(object sender, EventArgs e)
+        {
+            networkTester.TestNetwork();
+        }
 
         public void WorkThreadFunction()
         {
