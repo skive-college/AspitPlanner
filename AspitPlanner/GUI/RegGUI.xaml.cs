@@ -2,6 +2,7 @@
 using AspitPlanner.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,9 @@ namespace AspitPlanner.GUI
             CBModul2.DataContext = list;
             CBModul3.DataContext = list;
             CBModul4.DataContext = list;
+            RegDatePicker.SelectedDateChanged -= RegDatePicker_SelectedDateChanged;
+            RegDatePicker.SelectedDate = DateTime.Now;
+            RegDatePicker.SelectedDateChanged += RegDatePicker_SelectedDateChanged;
 
             Elever.DataContext = SQLDB.GetStudents();
                 
@@ -48,7 +52,7 @@ namespace AspitPlanner.GUI
         {           
             if(CBHold.SelectedIndex != -1)
             {
-                clear();
+                UpdateModulePickers();
                 string Team = (CBHold.SelectedValue as Student).Team;
 
                 Elever.DataContext = SQLDB.GetStundentsOnTeam(Team);                
@@ -61,7 +65,7 @@ namespace AspitPlanner.GUI
 
         private void CmdClear_Click(object sender, RoutedEventArgs e)
         {
-            clear();
+            UpdateModulePickers();
             CBHold.SelectedIndex = -1;
         }
 
@@ -84,22 +88,28 @@ namespace AspitPlanner.GUI
                         CBModul4.SelectedIndex = (sender as ComboBox).SelectedIndex;
                     }
                 }            
-                updateStudent();
+                UpdateStudentPresents();
             }
 
         }
 
-        private void updateStudent()
+        private void UpdateStudentPresents()
         {
             if (Elever.SelectedIndex != -1)
             {
                  
-                DateTime today = getDateTime();
+                DateTime date = GetRegDate();
 
                 Student student = (Elever.SelectedValue as Student);
                 try
                 {
-                    Present p = SQLDB.getPressent(today, student.ID);
+                    Present p = SQLDB.GetPresent(date, student.ID);
+                    if (p == null && Util.ValidateIsSchoolday(GetRegDate()))
+                    {
+                        p = new Present { Date = date, StudentID = student.ID };
+                       SQLDB.AddPresent(p);
+                    }
+
                     if (p != null)
                     {
                         if (CBModul1.SelectedIndex != -1)
@@ -129,7 +139,7 @@ namespace AspitPlanner.GUI
                                 SQLDB.AddOrUpdateModulNote(mn);
 
                             }
-                            SQLDB.AddPresent(p);
+                            SQLDB.UpdatePresent(p);
                             MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
                         }
                         catch (Exception ex)
@@ -149,8 +159,14 @@ namespace AspitPlanner.GUI
         }
         
 
-        private DateTime getDateTime()
+        private DateTime GetRegDate()
         {
+            if (RegDatePicker?.SelectedDate != null)
+            {
+                DateTime selectedDate = RegDatePicker.SelectedDate.Value;
+                return new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day);
+            }
+
             DateTime d = DateTime.Now;
 
             d = new DateTime(d.Year, d.Month, d.Day);
@@ -160,7 +176,7 @@ namespace AspitPlanner.GUI
 
         private void loadApointments(int ElevID)
         {
-            DateTime today = getDateTime();
+            DateTime today = GetRegDate();
             var quary = from a in SQLDB.GetAppointments()
                         where a.StudentID.Equals(ElevID) && (a.FromeDate <= today) && a.ToDate >= today
                         select a;
@@ -199,24 +215,31 @@ namespace AspitPlanner.GUI
             }
         }
 
-        private void clear()
+        private void UpdateModulePickers()
         {
+            bool enableBox = Util.ValidateIsSchoolday(GetRegDate());
+            if (!enableBox)
+            {
+               enableBox = (bool)ActivateCheckBox.IsChecked;
+            }
             CBModul1.SelectedIndex = -1;
             CBModul2.SelectedIndex = -1;
             CBModul3.SelectedIndex = -1;
             CBModul4.SelectedIndex = -1;
+
+            CBModul1.IsEnabled = CBModul2.IsEnabled = CBModul3.IsEnabled = CBModul4.IsEnabled = enableBox;
             txtNoteTilDag.Text = "";
         }
         private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(Elever.SelectedIndex != -1)
             {
-                clear();                
+                UpdateModulePickers();                
                 int studentID = (Elever.SelectedValue as Student).ID;
                 bool registered = false;
                  
-                Present p = SQLDB.getPressent(getDateTime(), studentID);
-                txtNoteTilDag.Text = SQLDB.GetModuleNotes(studentID, getDateTime()).Note;
+                Present p = SQLDB.GetPresent(GetRegDate(), studentID);
+                txtNoteTilDag.Text = SQLDB.GetModuleNotes(studentID, GetRegDate()).Note;
                 if (p != null)
                 {
                     List<AbsentType> list = SQLDB.GetAbcentTypes();
@@ -261,7 +284,72 @@ namespace AspitPlanner.GUI
        
         private void TxtNoteTilDag_LostFocus(object sender, RoutedEventArgs e)
         {
-            updateStudent();
+            UpdateStudentPresents();
+        }
+
+        private void RegDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            bool isSchoolDay = Util.ValidateIsSchoolday(GetRegDate());
+            ActivateCheckBox.IsChecked = false;
+            ActivateRegistrationGroup.Visibility = !isSchoolDay ? Visibility.Visible : Visibility.Hidden;
+            UpdateModulePickers();
+            if (Elever.SelectedIndex != -1)
+            {
+                
+               
+                int studentID = (Elever.SelectedValue as Student).ID;
+                bool registered = false;
+                DateTime dt = GetRegDate();
+              
+
+                Present p = SQLDB.GetPresent(dt, studentID);
+
+                //Does not create a new module note
+                txtNoteTilDag.Text = SQLDB.GetModuleNotes(studentID, GetRegDate()).Note;
+                if (p != null)
+                {
+                    List<AbsentType> list = SQLDB.GetAbcentTypes();
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].ID == p.Model1)
+                        {
+                            registered = true;
+                            CBModul1.SelectedIndex = i;
+                        }
+                        if (list[i].ID == p.Model2)
+                        {
+                            registered = true;
+                            CBModul2.SelectedIndex = i;
+                        }
+                        if (list[i].ID == p.Model3)
+                        {
+                            registered = true;
+                            CBModul3.SelectedIndex = i;
+                        }
+
+                        if (list[i].ID == p.Model4)
+                        {
+                            registered = true;
+                            CBModul4.SelectedIndex = i;
+                        }
+
+                    }
+                }
+                else
+                {
+                    //creatNew();
+
+                }
+                if (!registered)
+                {
+                    loadApointments(studentID);
+                }
+            }
+        }
+
+        private void ActivateCheckbox_checkChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateModulePickers();
         }
     }
 }

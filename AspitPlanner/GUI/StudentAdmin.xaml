@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="white">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
@@ -25,6 +26,7 @@
                     </GridView>
                     </ListView.View>
             </ListView>
+            <Button IsEnabled="False" x:Name="cmdInactiv" Content="Deaktiver" Margin="0,5"  Click="CmdInactiv_Click"/>
         </StackPanel>
         <StackPanel Style="{StaticResource StackPanel}" Grid.Column="1" HorizontalAlignment="Left">
             <TextBlock Text="Navn"/>
@@ -40,8 +42,25 @@
             <TextBlock Text="Nyt hold"/>
             <TextBox x:Name="txtNewTeam" Width="200"/>
             <Button x:Name="create" Content="Opret" Width="100" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="cmbCreate_Click"/>
-            <Button x:Name="cmdInactiv" Content="færdig/ikke aktiv" Width="100" Style="{StaticResource standartButton}" HorizontalAlignment="Right" Click="CmdInactiv_Click"/>
+           
         </StackPanel>
-            
+        <StackPanel Grid.Column="2"  Style="{StaticResource StackPanel}">
+            <TextBlock  Text="Inaktive elever"></TextBlock>
+            <ListView Height="300" SelectionMode="Single" SelectionChanged="inactiveStudentsListView_SelectionChanged"  DockPanel.Dock="Bottom" x:Name="inactiveStudentsListView">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Navn" 
+                                    Width="150" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Hold" 
+                                    Width="150" DisplayMemberBinding="{Binding Team}"/>
+                        <GridViewColumn Header="Aktiv" 
+                                    Width="150" DisplayMemberBinding="{Binding Aktiv}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button Margin="0,5" IsEnabled="False" x:Name="SletButton" Content="Slet" Click="SletButton_Click"/>
+
+            <Button IsEnabled="False" x:Name="ActivateStudentButton" Content="Genaktiver" Click="ActivateStudentButton_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>

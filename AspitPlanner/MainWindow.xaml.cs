@@ -35,6 +35,7 @@ namespace AspitPlanner
         TypeAdmin ta;
         AppointmentGUI ap;
         PLRegGUI pl;
+        HistoryGUI historyGUI;
         String titel;
         statistic st;
         UserGUI ug;
@@ -84,7 +85,7 @@ namespace AspitPlanner
                     setTitle("Statistik");
                     setStatus("Eleverne har fri så det er ikke muligt at registrere");
                 }
-                List<string> manglerIGår = SQLDB.GetMissingRegs(Util.getDateTime());
+                List<string> manglerIGår = SQLDB.GetIncompleteRegistrationsDescriptions(Util.getDateTime());
                 if(manglerIGår.Count > 0)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -129,6 +130,7 @@ namespace AspitPlanner
             st = new statistic(this);
             ug = new UserGUI();
             hd = new HolidayGUI();
+            historyGUI = new HistoryGUI();
         }
        
         
@@ -137,19 +139,19 @@ namespace AspitPlanner
             MenuItem menu = new MenuItem();
             menu.Header = "Menu";
             menu.Height = 25;
-            
+
             if (DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
-                
+
                 notHoliday = SQLDB.notHoliday();
                 notFridayFri = !Util.validerFredagLigeUge(DateTime.Now);
-                if (notHoliday && notFridayFri)
+                if (notHoliday)//&& notFridayFri
                 {
-                    MenuItem Reg = new MenuItem();
+                    //MenuItem Reg = new MenuItem();
 
-                    Reg.Header = "Registrere";
-                    Reg.Click += RegGUI_Click;
-                    menu.Items.Add(Reg);
+                    //Reg.Header = "Registrere";
+                    //Reg.Click += RegGUI_Click;
+                    //menu.Items.Add(Reg);
 
                     MenuItem Manglede = new MenuItem();
                     Manglede.Header = "Manglende elever";
@@ -160,8 +162,9 @@ namespace AspitPlanner
                 {
                     setStatus("Eleverne har fri eller ferie så det er ikke muligt at registrere");
                 }
-                
+
             }
+
             if (current.UserRole == 1)
             {
                 MenuItem Type = new MenuItem();
@@ -202,7 +205,31 @@ namespace AspitPlanner
             skiftPassword.Click += SkiftPassword_Click;
             menu.Items.Add(skiftPassword);
 
+            //Add new
+            MenuItem registrering = new MenuItem();
+            registrering.Header = "Registrering";
+
+            MenuItem dagsRegistrering = new MenuItem();
+            dagsRegistrering.Header = "Registrering";
+            dagsRegistrering.Click += RegGUI_Click;
+            //    (sender, args) =>
+            //{
+            //    MainContent.Children.RemoveAt(0);
+            //    historyGUI.Load();
+            //    MainContent.Children.Add(historyGUI);
+            //    setTitle("Aftaler");
+            //};
+
+            MenuItem efterRegistrering = new MenuItem();
+            efterRegistrering.Header = "Efterregistrering";
+            efterRegistrering.Click += EfterRegistrering_click;
+           
+            registrering.Items.Add(dagsRegistrering);
+            registrering.Items.Add(efterRegistrering);
+            MainMenu.Items.Add(registrering);
         }
+
+       
 
         private void SkiftPassword_Click(object sender, RoutedEventArgs e)
         {
@@ -222,6 +249,14 @@ namespace AspitPlanner
                 {
                     MenuItem m = new MenuItem();
                     m.Header = p.Navn.Split('.')[0];
+                    if (((string)m.Header).ToLower() == "fraværdskalender")
+                    {
+                        m.Header = "Fraværskalender";
+                    }
+                    if (((string)m.Header).ToLower() == "kørselsskemagennerator")
+                    {
+                        m.Header = "Kørselsskema";
+                    }
                     m.Click += ToolMenu_Click;
                     menu.Items.Add(m);
                 }
@@ -240,7 +275,15 @@ namespace AspitPlanner
             try
             {
                 string navn = (sender as MenuItem).Header.ToString();
-                Program prog = progs.Find(p => p.Navn == navn + ".exe");
+                if (navn == "Kørselsskema")
+                {
+                    navn = "KørselsskemaGennerator";
+                }
+                else if(navn == "Fraværskalender")
+                {
+                    navn = "Fraværdskalender";
+                }
+                Program prog = progs.Find(p => p.Navn.ToLower() == navn.ToLower() + ".exe");
                 ProcessStartInfo ps = new ProcessStartInfo("cmd.exe", "/c " + prog.Navn);
                 ps.WorkingDirectory = prog.Sti;
                 ps.CreateNoWindow = true;
@@ -284,6 +327,13 @@ namespace AspitPlanner
             MainContent.Children.Add(ta);
             setTitle("Type admin");
         }
+        private void EfterRegistrering_click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Children.RemoveAt(0);
+            historyGUI.Load();
+            MainContent.Children.Add(historyGUI);
+            setTitle("Efterregistrering");
+        }
         private void Holiday_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Children.RemoveAt(0);
@@ -320,7 +370,7 @@ namespace AspitPlanner
             MainContent.Children.RemoveAt(0);
             st.Load();
             MainContent.Children.Add(st);
-            setTitle("Statestik");
+            setTitle("Statistik");
         }
 
         public static void setStatus(String msg)

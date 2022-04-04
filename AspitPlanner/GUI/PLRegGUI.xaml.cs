@@ -81,7 +81,7 @@ namespace AspitPlanner.GUI
                 
                 DateTime today = getDateTime();
                 int studentID = (Elever.SelectedValue as Student).ID;
-                Present p = SQLDB.getPressent(today, studentID);
+                Present p = SQLDB.GetPresent(today, studentID);
 
                 if (((sender as ComboBox).SelectedValue as AbsentType).TypeName == "Syg")
                 {
@@ -192,7 +192,7 @@ namespace AspitPlanner.GUI
                 bool registered = false;
                  
                 
-                Present p = SQLDB.getPressent(getDateTime(), studentID);
+                Present p = SQLDB.GetPresent(getDateTime(), studentID);
                 if (p != null)
                 {
                     List<AbsentType> list = SQLDB.GetAbcentTypes();
@@ -261,7 +261,7 @@ namespace AspitPlanner.GUI
                 Student student = (Elever.SelectedValue as Student);
                 try
                 {
-                    Present p = SQLDB.getPressent(today, student.ID);
+                    Present p = SQLDB.GetPresent(today, student.ID);
                     if (p != null)
                     {
                         if (CBModul1.SelectedIndex != -1)
@@ -291,7 +291,7 @@ namespace AspitPlanner.GUI
                                 SQLDB.AddOrUpdateModulNote(mn);
 
                             }
-                            SQLDB.AddPresent(p);
+                            SQLDB.UpdatePresent(p);
                             MainWindow.setStatus($"{student.Name} {student.Team} er opdateret");
                         }
                         catch (Exception ex)

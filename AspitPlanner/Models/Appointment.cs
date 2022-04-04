@@ -9,6 +9,9 @@ namespace AspitPlanner.Models
 {
     public class Appointment
     {
+        public static string TABLE_NAME = "Appointments";
+        public static string STUDENT_ID = "StudentId";
+
         public int ID { get; set; }
         
         public int StudentID { get; set; }

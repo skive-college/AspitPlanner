@@ -12,10 +12,11 @@ namespace AspitPlanner.Helpers
 {
     public class SQLDB
     {
-        //private static readonly string con = "Test";
-        private static string con = "DBCon";
-        //private static readonly string con = "Local";
-        private static string conString = ConfigurationManager.ConnectionStrings[con].ConnectionString;
+        private static string db = "Local";
+        // private static string db = "DBCon";
+        private static string conString = ConfigurationManager.ConnectionStrings[db].ConnectionString;
+
+
 
         public static void CreateStudentForToday(List<Student> students)
         {
@@ -25,7 +26,7 @@ namespace AspitPlanner.Helpers
                 cnn.Open();
                 foreach (Student s in students)
                 {
-                    
+
                     if (s.Aktiv == true)
                     {
                         SqlCommand cmd;
@@ -77,7 +78,7 @@ namespace AspitPlanner.Helpers
                         try
                         {
                             cmd.ExecuteNonQuery();
-                            
+
                         }
                         catch (SqlException sqlEx)
                         {
@@ -90,20 +91,99 @@ namespace AspitPlanner.Helpers
                         catch (Exception ex)
                         {
                             FileHandler.Error(ex);
-                            
+
                         }
                     }
-                    
+
                 }
                 cnn.Close();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                
+
             }
         }
 
+        internal static void ReActivateStudent(int iD)
+        {
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                connection.Open();
+                string idParam = "@IdParam";
+                string query = $"UPDATE {Student.TABLE_NAME} SET {Student.AKTIV} = 1 WHERE {Student.COLUMN_ID} = {idParam}";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue(idParam, iD);
+                    command.ExecuteNonQuery();
+                }
+                        
+            } 
+        }
+
+        internal static void DeleteStudentData(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(conString))
+                {
+                    connection.Open();
+                    string studentIdParam = "@Id";
+                    string deleteStudentQuery = $"DELETE FROM {ModulNote.TABLE_NAME} WHERE {ModulNote.STUDENT_ID} = {studentIdParam};" +
+                        $"DELETE FROM {Present.TABLE_NAME} WHERE {Present.STUDENT_ID} = {studentIdParam};" +
+                        $"DELETE FROM {Appointment.TABLE_NAME} WHERE {Appointment.STUDENT_ID} ={studentIdParam};" +
+                        $"DELETE FROM {Student.TABLE_NAME}  WHERE {Student.COLUMN_ID} = {studentIdParam};";
+                    using (SqlCommand command = new SqlCommand(deleteStudentQuery, connection))
+                    {
+                        command.Parameters.AddWithValue(studentIdParam, id);
+                        int res = command.ExecuteNonQuery();
+                        if (res > 0)
+                        {
+                            //Succes
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        internal static IList<Student> GetInactiveStudents()
+        {
+            IList<Student> students = new List<Student>();
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                connection.Open();
+                string query = $"SELECT * FROM {Student.TABLE_NAME} WHERE {Student.AKTIV} = 0";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            students.Add(Student.MapFromReader(reader));
+                        }
+                    }
+                }
+            }
+            return students;
+        }
+
+        internal static void AddOrUpdatePresent(Present model)
+        {
+            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                connection.Open();
+                string sql = $"UPDATE ";
+                using (SqlCommand command = new SqlCommand())
+                {
+
+                }
+            }
+        }
 
         public static List<UserRole> GetUserRoles()
         {
@@ -182,7 +262,7 @@ namespace AspitPlanner.Helpers
                 cnn.Open();
                 String sql = "Insert into Students values(@Name,@Team,@Aktiv)";
                 SqlCommand cmd = new SqlCommand(sql, cnn);
-                DateTime today = Util.getDateTime(); 
+                DateTime today = Util.getDateTime();
                 cmd.Parameters.AddWithValue("Name", s.Name);
                 cmd.Parameters.AddWithValue("Team", s.Team);
                 cmd.Parameters.AddWithValue("Aktiv", true);
@@ -206,15 +286,15 @@ namespace AspitPlanner.Helpers
 
             cmd = new SqlCommand(sql, cnn);
             cmd.Parameters.AddWithValue("ID", apstud.ID);
-            if(date == null)
+            if (date == null)
                 cmd.Parameters.AddWithValue("date", Util.getDateTime());
             else
             {
 
                 DateTime d = (DateTime)date;
-                cmd.Parameters.AddWithValue("date",  new DateTime(d.Year, d.Month, d.Day));
+                cmd.Parameters.AddWithValue("date", new DateTime(d.Year, d.Month, d.Day));
             }
-                
+
             cmd.ExecuteNonQuery();
             cnn.Close();
         }
@@ -246,7 +326,7 @@ namespace AspitPlanner.Helpers
         public static ModulNote GetModuleNotes(int sID, DateTime time)
         {
             ModulNote retur = new ModulNote();
-            retur.Note = "";
+            //retur.Note;
             retur.StudentID = sID;
             retur.Date = time;
             SqlConnection cnn = new SqlConnection(conString);
@@ -298,7 +378,7 @@ namespace AspitPlanner.Helpers
                 SqlCommand cmd;
                 String sql = "Insert Into ModulNotes Values(@date,@Sid,@note)";
                 ModulNote note = GetModuleNotes(mn.StudentID, mn.Date);
-                if (note.Note != "")
+                if (note.Note != null)
                 {
                     sql = "Update ModulNotes set Note = @note where StudentId = @Sid And date = @date";
                 }
@@ -422,7 +502,7 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
-        
+
 
         public static void deleteAppointment(int iD)
         {
@@ -431,7 +511,7 @@ namespace AspitPlanner.Helpers
 
             SqlCommand cmd;
             String sql = "Delete From Appointments Where ID = @ID";
-           
+
             cmd = new SqlCommand(sql, cnn);
             cmd.Parameters.AddWithValue("ID", iD);
             cmd.ExecuteNonQuery();
@@ -448,11 +528,11 @@ namespace AspitPlanner.Helpers
 
             SqlCommand cmd;
             String sql = "SELECT * FROM Presents p, Students s where p.StudentID = @StudentID AND p.StudentID = s.ID";
-            if(fra != null)
+            if (fra != null)
             {
                 sql += " AND Date >= @fra";
             }
-            if (til!= null)
+            if (til != null)
             {
                 sql += " AND Date <= @til";
             }
@@ -467,7 +547,7 @@ namespace AspitPlanner.Helpers
             {
                 cmd.Parameters.AddWithValue("til", til); ;
             }
-            
+
             int ialt = 0;
             using (SqlDataReader oReader = cmd.ExecuteReader())
             {
@@ -546,7 +626,7 @@ namespace AspitPlanner.Helpers
                 {
                     retur = int.Parse(oReader["ID"].ToString());
 
-                    
+
                 }
 
             }
@@ -578,7 +658,7 @@ namespace AspitPlanner.Helpers
             return retur;
         }
 
-        public static List<string> GetMissingRegs(DateTime _date)
+        public static List<string> GetIncompleteRegistrationsDescriptions(DateTime _date)
         {
             List<string> retur = new List<string>();
             try
@@ -619,7 +699,42 @@ namespace AspitPlanner.Helpers
             }
             return retur;
         }
-       
+
+        public static List<Present> GetIncompleteRegistrations(DateTime beforeDate)
+        {
+            List<Present> retur = new List<Present>();
+            try
+            {
+                int id = getTypeID("Ikke set");
+                SqlConnection cnn = new SqlConnection(conString);
+                cnn.Open();
+
+                SqlCommand cmd;
+                string sql = "select * from Presents p, students s where p.studentID = s.ID And (Model1 in (0, @id) OR Model2 in (0, @id) OR Model3 in (0, @id) OR Model4 in (0, @id) ) AND Date < @Date";
+
+                cmd = new SqlCommand(sql, cnn);
+                cmd.Parameters.AddWithValue("Date", beforeDate);
+                cmd.Parameters.AddWithValue("id", id);
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        Present present = Present.MapFromReader(oReader);
+                        Student student = Student.MapFromReader(oReader);
+                        present.StudentModel = student;
+                        retur.Add(present);
+                    }
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+
+                FileHandler.Error(ex);
+            }
+            return retur;
+        }
+
         public static List<Student> GetStudents()
         {
             List<Student> retur = new List<Student>();
@@ -760,7 +875,7 @@ namespace AspitPlanner.Helpers
 
                 FileHandler.Error(ex);
             }
-            
+
             return retur;
         }
         public static void addCategory(Category c)
@@ -822,12 +937,12 @@ namespace AspitPlanner.Helpers
                 FileHandler.Error(ex);
             }
 
-           
+
             return retur;
 
         }
 
-        public static Present getPressent(DateTime today, int studentID)
+        public static Present GetPresent(DateTime date, int studentID)
         {
             Present p = null;
 
@@ -838,11 +953,13 @@ namespace AspitPlanner.Helpers
                 cnn.Open();
 
                 SqlCommand cmd;
-                String sql = "SELECT * from Presents where Date = @today and @StudentID = StudentId";
+                string todayParam = "@today";
+                string studentIdParam = "@studentId";
+                string sql = $"SELECT * FROM {Present.TABLE_NAME} WHERE {Present.DATE} = {todayParam} AND {Present.STUDENT_ID} = {studentIdParam}";
 
                 cmd = new SqlCommand(sql, cnn);
-                cmd.Parameters.AddWithValue("StudentID", studentID);
-                cmd.Parameters.AddWithValue("today", today);
+                cmd.Parameters.AddWithValue(studentIdParam, studentID);
+                cmd.Parameters.AddWithValue(todayParam, date);
                 using (SqlDataReader oReader = cmd.ExecuteReader())
                 {
                     while (oReader.Read())
@@ -850,11 +967,11 @@ namespace AspitPlanner.Helpers
                         p = new Present()
                         {
                             Date = DateTime.Parse(oReader["Date"].ToString()),
-                            Model1 = int.Parse(oReader["Model1"].ToString()),
-                            Model2 = int.Parse(oReader["Model2"].ToString()),
-                            Model3 = int.Parse(oReader["Model3"].ToString()),
-                            Model4 = int.Parse(oReader["Model4"].ToString()),
-                            StudentID = int.Parse(oReader["StudentID"].ToString())
+                            Model1 = int.Parse(oReader[Present.MODULE_1].ToString()),
+                            Model2 = int.Parse(oReader[Present.MODULE_2].ToString()),
+                            Model3 = int.Parse(oReader[Present.MODULE_3].ToString()),
+                            Model4 = int.Parse(oReader[Present.MODULE_4].ToString()),
+                            StudentID = int.Parse(oReader[Present.STUDENT_ID].ToString())
                         };
                     }
 
@@ -867,7 +984,7 @@ namespace AspitPlanner.Helpers
                 FileHandler.Error(ex);
             }
 
-            
+
             return p;
         }
 
@@ -906,7 +1023,7 @@ namespace AspitPlanner.Helpers
 
         public static List<Student> getNotPresent(DateTime today)
         {
-            
+
             List<Student> retur = new List<Student>();
 
             try
@@ -924,27 +1041,61 @@ namespace AspitPlanner.Helpers
                 {
                     while (oReader.Read())
                     {
-                        retur.Add(new Student() { 
+                        retur.Add(new Student()
+                        {
                             ID = int.Parse(oReader["ID"].ToString()),
                             Name = oReader["Name"].ToString(),
                             Team = oReader["Team"].ToString(),
                             Aktiv = (bool)oReader["Aktiv"]
                         });
-                            
+
                     }
 
                 }
                 cnn.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 FileHandler.Error(ex);
             }
-            
+
             return retur;
         }
 
         public static void AddPresent(Present p)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(conString))
+                {
+                    connection.Open();
+                    string dateParam = "@Date";
+                    string modul1Param = "@Modul1";
+                    string modul2Param = "@Modul2";
+                    string modul3Param = "@Modul3";
+                    string modul4Param = "@Modul4";
+                    string studentIdParam = "@StudentId";
+                    string query = $"INSERT INTO {Present.TABLE_NAME} VALUES({dateParam},{studentIdParam},{modul1Param},{modul2Param},{modul3Param},{modul4Param})";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue(dateParam, p.Date);
+                        command.Parameters.AddWithValue(studentIdParam, p.StudentID);
+                        command.Parameters.AddWithValue(modul1Param, p.Model1);
+                        command.Parameters.AddWithValue(modul2Param, p.Model2);
+                        command.Parameters.AddWithValue(modul3Param, p.Model3);
+                        command.Parameters.AddWithValue(modul4Param, p.Model4);
+                        int res = command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                FileHandler.Error(ex);
+            }
+
+        }
+
+        public static void UpdatePresent(Present p)
         {
             try
             {
@@ -954,7 +1105,7 @@ namespace AspitPlanner.Helpers
 
                 SqlCommand cmd;
                 String sql = "update Presents Set Model1 = @Model1, Model2 = @Model2, Model3 = @Model3, Model4 = @Model4 Where StudentID = @StudentID and Date = @Date";
-                
+
 
                 cmd = new SqlCommand(sql, cnn);
                 cmd.Parameters.AddWithValue("StudentID", p.StudentID);
@@ -964,12 +1115,11 @@ namespace AspitPlanner.Helpers
                 cmd.Parameters.AddWithValue("Model3", p.Model3);
                 cmd.Parameters.AddWithValue("Model4", p.Model4);
 
-                cmd.ExecuteNonQuery();
+                int res = cmd.ExecuteNonQuery();
                 cnn.Close();
             }
             catch (Exception ex)
             {
-
                 FileHandler.Error(ex);
             }
         }
@@ -1004,7 +1154,7 @@ namespace AspitPlanner.Helpers
         {
             User retur = null;
 
-            
+
             try
             {
                 SqlConnection cnn = new SqlConnection(conString);
@@ -1023,7 +1173,7 @@ namespace AspitPlanner.Helpers
                     {
                         retur = new User()
                         {
-                           
+
                             Usernane = oReader["Usernane"].ToString(),
                             UserRole = int.Parse(oReader["UserRole"].ToString()),
                             Password = oReader["Password"].ToString(),
@@ -1081,7 +1231,7 @@ namespace AspitPlanner.Helpers
                 {
                     while (oReader.Read())
                     {
-                        retur.Add( new Holiday()
+                        retur.Add(new Holiday()
                         {
 
                             From = DateTime.Parse(oReader["From"].ToString()),
@@ -1239,5 +1389,5 @@ namespace AspitPlanner.Helpers
             return retur;
         }
     }
-    
+
 }

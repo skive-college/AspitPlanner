@@ -30,6 +30,13 @@ namespace AspitPlanner.GUI
             loadTeams();
         }
 
+        private void LoadInactiveStudents()
+        {
+            IList<Student> students = SQLDB.GetInactiveStudents();
+            inactiveStudentsListView.ItemsSource = null;
+            inactiveStudentsListView.ItemsSource = students;
+        }
+
         private void cmbCreate_Click(object sender, RoutedEventArgs e)
         {
             if (txtName.Text != "")
@@ -62,7 +69,8 @@ namespace AspitPlanner.GUI
 
         public void load()
         {
-            lwStudent.DataContext = SQLDB.GetStudents();           
+            lwStudent.DataContext = SQLDB.GetStudents();
+            LoadInactiveStudents();
             loadTeams();
         }
 
@@ -85,7 +93,8 @@ namespace AspitPlanner.GUI
 
         private void LwStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            //SletButton.IsEnabled = inactiveStudentsListView.SelectedItem != null;
+            cmdInactiv.IsEnabled = lwStudent.SelectedItem != null;
         }
 
         private void CbTeam_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -100,6 +109,30 @@ namespace AspitPlanner.GUI
                 Student s = lwStudent.SelectedItem as Student;
                 SQLDB.SetInactiv(s);
                 clear();
+                load();
+            }
+        }
+
+        private void inactiveStudentsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SletButton.IsEnabled = inactiveStudentsListView.SelectedItem != null;
+            ActivateStudentButton.IsEnabled = inactiveStudentsListView.SelectedItem != null;
+        }
+
+        private void SletButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (inactiveStudentsListView.SelectedItem is Student s)
+            {
+                SQLDB.DeleteStudentData(s.ID);
+                load();
+            }
+        }
+
+        private void ActivateStudentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (inactiveStudentsListView.SelectedItem is Student s)
+            {
+                SQLDB.ReActivateStudent(s.ID);
                 load();
             }
         }

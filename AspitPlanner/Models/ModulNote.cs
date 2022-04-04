@@ -10,6 +10,9 @@ namespace AspitPlanner.Models
 {
     public class ModulNote
     {
+        public static string TABLE_NAME = "ModulNotes";
+        public static string STUDENT_ID = "StudentID";
+
         [Key]
         [Column(Order = 1)]
         public DateTime Date { get; set; }
