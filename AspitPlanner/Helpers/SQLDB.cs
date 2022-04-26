@@ -12,8 +12,8 @@ namespace AspitPlanner.Helpers
 {
     public class SQLDB
     {
-        private static string db = "Local";
-        // private static string db = "DBCon";
+        //private static string db = "Local";
+         private static string db = "DBCon";
         private static string conString = ConfigurationManager.ConnectionStrings[db].ConnectionString;
 
 

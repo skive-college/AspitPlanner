@@ -56,7 +56,7 @@ namespace AspitPlanner
                 lbStatus = lblStatus;
                 LoginGUI Login = new LoginGUI();
                 Login.ShowDialog();
-
+               // DateTime test = new DateTime(2022,4, 29);
                 setTitle("Registrering");
                 if (Login.DialogResult == true)
                 {
@@ -70,7 +70,7 @@ namespace AspitPlanner
                 }
                 LoadContent();
                 CreateToolBox();
-                if (notHoliday && notFridayFri && DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+                if (notHoliday && !Util.validerFredagLigeUge(DateTime.Now) && DateTime.Now.DayOfWeek != DayOfWeek.Saturday && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
                 {
                     setTitle("Registrering");
                     MainContent.Children.Add(rg);
@@ -109,7 +109,7 @@ namespace AspitPlanner
 
         private void AddressChangedCallback(object sender, EventArgs e)
         {
-            networkTester.TestNetwork();
+            //networkTester.TestNetwork();
         }
 
         public void WorkThreadFunction()

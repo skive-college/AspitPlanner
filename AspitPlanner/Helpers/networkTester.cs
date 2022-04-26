@@ -1,4 +1,4 @@
-﻿using Microsoft.WindowsAPICodePack.Net;
+﻿//using Microsoft.WindowsAPICodePack.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +10,25 @@ namespace AspitPlanner.Helpers
     public class networkTester
     {
         
-        public static void TestNetwork()
-        {
-            NetworkCollection networks = NetworkListManager.GetNetworks(NetworkConnectivityLevels.Connected);
-            Console.WriteLine("\t[NetworkConnections]");
+        //public static void TestNetwork()
+        //{
+        //    NetworkCollection networks = NetworkListManager.GetNetworks(NetworkConnectivityLevels.Connected);
+        //    Console.WriteLine("\t[NetworkConnections]");
 
-            foreach(Network n in networks)
-            {
-                if(n.Description.StartsWith("Aspit"))
-                {
-                    SQLDB.SetConString("DBConInternal");
-                }
-                else
-                {
-                    SQLDB.SetConString("DBCon");
-                }
+        //    foreach(Network n in networks)
+        //    {
+        //        if(n.Description.StartsWith("Aspit"))
+        //        {
+        //            SQLDB.SetConString("DBConInternal");
+        //        }
+        //        else
+        //        {
+        //            SQLDB.SetConString("DBCon");
+        //        }
 
-            }
+        //    }
             
             
-        }
+        //}
     }
 }
