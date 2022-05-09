@@ -28,6 +28,8 @@ namespace AspitPlanner.GUI
         {
             InitializeComponent();
             load();
+            UpdateModulePickers();
+           
         }
 
         public void load()
@@ -229,6 +231,8 @@ namespace AspitPlanner.GUI
 
             CBModul1.IsEnabled = CBModul2.IsEnabled = CBModul3.IsEnabled = CBModul4.IsEnabled = enableBox;
             txtNoteTilDag.Text = "";
+            ActivateCheckBox.IsChecked = false;
+            ActivateRegistrationGroup.Visibility = !enableBox ? Visibility.Hidden : Visibility.Visible;
         }
         private void Elever_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
